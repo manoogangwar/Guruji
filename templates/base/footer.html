@@ -1,0 +1,64 @@
+{% load static %}
+<footer class="text-center text-lg-start text-black " >
+    <!-- Grid container -->
+    <div class="container pt-4">
+        <!-- Section: Links -->
+        <section class="d-md-block d-none">
+            <div class="row">
+                <!-- Logo Column -->
+                <div class="col-lg-4 col-md-6 mb-4 mb-md-0 text-center text-md-start">
+                    <a href="/">
+                        <img src="{% static 'img/icon.png' %}" class="img-fluid w-50" alt="Haidakhandi Logo">
+                    </a>
+                </div>
+
+                <!-- Links Column 1 -->
+                <div class="col-lg-2 col-md-6 mb-4 mb-md-0">
+                    <h6 class="text-uppercase fw-bold">Community</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="{% url 'register' %}" class="text-black text-decoration-none f-Lt">Join Community</a></li>
+                        <li><a href="{% url 'login' %}" class="text-black text-decoration-none f-Lt">Login</a></li>
+                        <li><a href="{% url 'profile' %}" class="text-black text-decoration-none f-Lt">Settings & Privacy</a></li>
+                        <li><a href="/@{{user.username}}" class="text-black text-decoration-none f-Lt">My Account</a></li>
+                    </ul>
+                </div>
+
+                <!-- Links Column 2 -->
+                <div class="col-lg-2 col-md-6 mb-4 mb-md-0">
+                    <h6 class="text-uppercase fw-bold">Explore</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-black text-decoration-none f-Lt">Haidakhandi Map</a></li>
+                        <li><a href="{% url 'search' %}" class="text-black text-decoration-none f-Lt">Search Haidakhandi</a></li>
+                        <li><a href="#" class="text-black text-decoration-none f-Lt">Join Events</a></li>
+                        <li><a href="/#news-section" class="text-black text-decoration-none f-Lt">Highlights</a></li>
+                    </ul>
+                </div>
+
+
+                <!-- Links Column 3 -->
+                <div class="col-lg-4 col-md-6 mb-4 mb-md-0">
+                    <h6 class="text-uppercase fw-bold mb-3">Contact Us</h6>
+                    <ul class="list-unstyled">
+                        <p class="mb-2">Reach out for any queries or support, we’re here to assist you! contact us</a></p>
+                        <li class="mb-2" ><i class="bi bi-envelope-fill me-2"></i><a href="mailto:info@haidakhnaid.org" class="text-black text-decoration-none">info@hadakhandi.org</a></li>
+                    </ul>
+                </div>
+            </div>            
+        </section>
+
+        <hr class="mb-4 d-none d-md-block">
+
+        <!-- Section: Social media -->
+        
+    </div>
+
+    <!-- Copyright -->
+    <div class="text-center px-3 pb-2" >
+        <p class="mb-0 ">
+            Copyright &copy; 2025, haidakhandi.org. <br class="d-md-none d-block"> All Rights Reserved.
+        </p>
+    </div>
+
+   
+    
+</footer>

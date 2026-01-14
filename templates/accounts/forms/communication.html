@@ -1,0 +1,36 @@
+{% load widget_tweaks %}
+<form method="post" id="communication_preferences">
+    {% csrf_token %}
+    <div>
+        <div class="form-check form-switch">
+            {{ comm_form.email_notifications|add_class:"form-check-input" }}
+            <label class="custom-control-label" for="{{ comm_form.email_notifications.id_for_label }}">Send me email notifications</label>
+            {% for error in comm_form.email_notifications.errors %}<small class="text-danger">{{ error }}</small>{% endfor %}
+        </div>
+    </div>
+
+
+    <div>
+        <div class="form-check form-switch">
+            {{ comm_form.sms_notifications|add_class:"form-check-input" }}
+            <label class="custom-control-label" for="{{ comm_form.sms_notifications.id_for_label }}">Send me SMS alerts</label>
+            {% for error in comm_form.sms_notifications.errors %}<small class="text-danger">{{ error }}</small>{% endfor %}
+        </div>
+    </div>
+
+
+    <div class="form-check form-switch">
+        <label class="form-check-label" for="{{ comm_form.marketing_emails.id }}">Keep me updated with marketing emails</label>
+        {{ comm_form.marketing_emails|add_class:"form-check-input" }}
+        {% for error in comm_form.marketing_emails.errors %}<small class="text-danger">{{ error }}</small>{% endfor %}
+    </div>
+
+    <div class="d-flex justify-content-between align-items-center flex-wrap">
+        <div class="error-message"></div>
+        <div class="my-3">
+            <button type="submit" class="btn">Save</button>
+            <a data-click="v-pills-privacy-settings-tab" class="btn">Previous</a>
+            <a data-click="v-pills-signin-security-tab" class="btn">Next</a>
+        </div>
+    </div>
+</form>

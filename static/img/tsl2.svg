@@ -1,0 +1,18 @@
+<svg width="100%" height="100" viewBox="0 0 600 100" xmlns="http://www.w3.org/2000/svg">
+  <!-- Text for "Truth" -->
+  <text x="100" y="50" font-family="Kumbh Sans" font-size="24" fill="#D48A23" text-anchor="middle">Truth</text>
+  
+  <!-- First Diamond Shape -->
+  <rect x="180" y="40" width="5" height="5" fill="#8B1A1A" transform="rotate(45 185 45)" />
+  
+  <!-- Text for "Simplicity" -->
+  <text x="300" y="50" font-family="Kumbh Sans" font-size="24" fill="#D48A23" text-anchor="middle">Simplicity</text>
+  
+  <!-- Second Diamond Shape -->
+  <rect x="420" y="40" width="5" height="5" fill="#8B1A1A" transform="rotate(45 425 45)" />
+  
+  <!-- Text for "Love" -->
+  <text x="500" y="50" font-family="Kumbh Sans" font-size="24" fill="#D48A23" text-anchor="middle">
+    Love
+  </text>
+</svg>

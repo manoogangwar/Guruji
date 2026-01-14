@@ -1,0 +1,260 @@
+{% extends "base/base.html" %}
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" type="text/css" href="{% static 'evo-calendar/css/evo-calendar.css' %}"/>
+<link rel="stylesheet" type="text/css" href="{% static 'evo-calendar/css/evo-calendar.midnight-blue.css' %}"/>
+<style>
+  .event-card {
+      justify-content: space-between;
+      padding: 15px;
+      
+  }
+  
+  /* Left Section - Date */
+  .event-date {
+      font-size: 16px;
+      font-weight: bold;
+      text-align: center;
+      background-color: transparent;
+      color: black;
+  }
+
+  .event-day {
+      font-size: 24px;
+      font-weight: bold;
+  }
+
+  /* Middle Section - Event Title & Description */
+  .event-title {
+      font-size: 20px;
+      font-weight: bold;
+      color: #ab0302;
+  }
+
+  .event-description {
+      font-size: 14px;
+      color: #555;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+  }
+
+  /* Right Section - Thumbnail */
+  .event-thumbnail {
+      max-height: 250px;
+      object-fit: cover;
+      width: 100%;
+      object-position: center;
+      border-radius: 5px;
+  }
+
+  /* Add to Calendar Button */
+  .add-calendar-btn {
+      font-size: 12px;
+      padding: 5px 10px;
+  }
+.date{
+  color: #ab0302;
+}
+
+
+</style>
+
+{% endblock head %}
+  
+{% block body %}
+
+
+<div class="">
+    <div class="container section">
+      
+      
+      {% if upcoming_events %}
+      <div class="">
+        <h1 class="main-heading mt-md-5 smt-5">Upcoming Events</h1>
+        {% for event in upcoming_events %}
+        <div class="row event-card">
+            <!-- Left Section: Date -->
+            <div class="col-2 d-md-flex d-none align-items-start justify-content-center">
+               <div class="">
+                  <p class="text-center text-muted day fs-6">{{ event.date_start|date:"D" }}</p>
+                  <p class="text-center date fs-2">{{ event.date_start|date:"j" }}</p>
+               </div>
+            </div>
+            <div class="col-auto col-md-10">
+              <div class="row">
+                <!-- Middle Section: Event Details -->
+                <div class="col-12 col-md-8 flex-grow-1 order-2 order-md-1 event-details">
+                    <p class="event-full-date fs-3 mt-2 mt-md-0">{{ event.date_start|date:"F j, Y" }}</p>
+                    <h4 class="event-title mt-1">{{ event.event_name }}</h4>
+                    <p class="event-description">{{ event.description }}</p>
+                    <button class="btn btn-outline-primary btn-sm add-calendar-btn mt-2" onclick="addToCalendar('{{ event.event_name }}', '{{ event.date_start }}')">
+                        Add to Calendar
+                    </button>
+                    <a href="{% url 'join_event' event.event_slug %}" class="btn btn-outline-primary btn-sm add-calendar-btn mt-2" >
+                      View Details
+                    </a>
+                </div>
+                <!-- Right Section: Thumbnail -->
+                <div class="col-12 col-md-4 order-1 order-md-2">
+                    {% if event.thumbnail %}
+                    <img src="{{ event.thumbnail.url }}" alt="Event Thumbnail" class="event-thumbnail">
+                    {% else %}
+                    <img src="https://via.placeholder.com/80" alt="Default Thumbnail" class="event-thumbnail">
+                    {% endif %}
+                </div>
+              </div>
+            </div>
+        </div>
+        <hr>
+        {% empty %}
+        <p class="text-center">No Upcomming available.</p>
+        {% endfor %}
+      </div>
+        
+      {% endif %}
+        
+
+
+      <div class="row mt-4" style="row-gap: 10px;">         
+         <h1 class="main-heading mt-md-5 smt-5">Ongoing Events</h1>
+           {% if events %}
+              <div id="event-slider-inner">
+                {% for event in ongoing_events %}
+                  <div class="">
+                      <div class="d-flex justify-content-center">
+                          {% if event.thumbnail %}
+                            <a href="{% url 'join_event' event.event_slug %}" class="p-2 shadow-md rounded-2" style="background-color: #f5f0df;"><img src="{{event.thumbnail.url}}" class="shadow-md rounded-3" style="width: 260px;"></a>
+                          {% endif %}
+                      </div>
+                  </div>
+                {% endfor %}
+              </div>
+            {% else %}
+              <p class="text-center">No Upcoming Events</p>  
+            {% endif %}          
+       </div>
+       
+    
+        <!-- Calendar Section -->
+        <h1 class="main-heading mt-5">Events Calendar</h1>
+        <div class="mt-5">
+          <div class="row">
+              <div class="col-12 col-md-12">
+                <div id="calendar"></div>
+              </div>
+          </div>
+      </div>
+       
+    </div>
+</div>
+
+  
+
+{% endblock %}
+
+{% block script %}
+<script>
+  $(document).ready(()=>{
+    $('#event-slider-inner').slick({
+  centerMode: true,
+  centerPadding: '60px',
+  slidesToShow: 3,
+  autoplay: true,
+  autoplaySpeed: 2000,
+  responsive: [
+    {
+      breakpoint: 768,
+      settings: {
+        arrows: true,
+        centerMode: true,
+        centerPadding: '40px',
+        slidesToShow: 2
+      }
+    },
+    {
+      breakpoint: 480,
+      settings: {
+        arrows: false,
+        centerMode: false,
+        centerPadding: '40px',
+        slidesToShow: 1
+      }
+    }
+  ]
+});
+})
+</script>
+
+
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> -->
+<script src=" {% static 'evo-calendar/js/evo-calendar.js' %}"></script>
+<script>
+  function addToCalendar(title, date) {
+      const event = {
+          title: title,
+          start: new Date(date),
+          allDay: true
+      };
+
+      const googleCalendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(event.title)}&dates=${event.start.toISOString().replace(/-|:|\.\d+/g, "")}/${event.start.toISOString().replace(/-|:|\.\d+/g, "")}`;
+      
+      window.open(googleCalendarUrl, '_blank');
+  }
+</script>
+<script>
+// initialize your calendar, once the page's DOM is ready
+$(document).ready(function() {
+    $('#calendar').evoCalendar({
+        'sidebarToggler': false,
+        'sidebarToggler' : true,
+        'sidebarDisplayDefault': false,
+        'eventDisplayDefault': true,
+        'calendarEvents': [
+            {% for data in calendar_data %}
+              {
+                  id: '{{data.redirect}}?redirect={{forloop.counter}}', // Using the event_slug as the id
+                  name: '', // Event name
+                  description: ' {{data.event_title}}', // Event description
+                  date: '{{data.date}}', // Event date formatted for JavaScript
+                  type: 'event', // Static type, update if event type field exists
+                  color: '#ab0302', // Default color if not provided
+                  everyYear: true // Boolean for recurring events
+              } {% if not forloop.last %},{% endif %}
+            {% endfor %}
+        ]
+        
+    })
+})
+</script>
+
+<script>
+  // Wait for the DOM to fully load
+document.getElementById('calendar').addEventListener('click', function () {
+    // Select all event containers
+    const eventContainers = document.querySelectorAll('.event-container');
+    // Add click event listener to each container
+    // console.log(eventContainers)
+    eventContainers.forEach(function (container) {
+        container.addEventListener('click', function () {
+            // Get the data-event-index value
+            const eventIndex = this.getAttribute('data-event-index');
+            
+            if (eventIndex && eventIndex.slice(0,3)!= 'AAA') {
+                // Redirect to the desired URL
+                window.open(`${eventIndex}`, '_blank');
+            } else {
+                //console.error('Event index not found!');
+            }
+        });
+    });
+});
+
+</script>
+
+
+
+{% endblock script %}
+  

@@ -1,0 +1,63 @@
+{% load widget_tweaks %}
+<form method="post" id="privacy_form" class="me-3">
+    {% csrf_token %}
+    <div>
+        <div class="form-check form-switch">
+            {{ privacy_form.profile_visibility|add_class:"form-check-input" }}
+            <label class="custom-control-label" for="{{ privacy_form.profile_visibility.id_for_label }}">Include my profile in search results</label>
+            {% for error in privacy_form.profile_visibility.errors %}<small class="text-danger">{{ error }}</small>{% endfor %}
+        </div>
+    </div>
+    <div>
+        <div class="form-check form-switch">
+            {{ privacy_form.profile_picture_visibility|add_class:"form-check-input" }}
+            <label class="custom-control-label" for="{{ privacy_form.profile_picture_visibility.id_for_label }}">Allow others to see my profile picture</label>
+            {% for error in privacy_form.profile_picture_visibility.errors %}<small class="text-danger">{{ error }}</small>{% endfor %}
+        </div>
+    </div>
+    <div>
+        <div class="form-check form-switch">
+            {{ privacy_form.contact_info_visibility|add_class:"form-check-input" }}
+            <label class="custom-control-label" for="{{ privacy_form.contact_info_visibility.id_for_label }}">Allow others to view my phone number</label>
+            {% for error in privacy_form.contact_info_visibility.errors %}<small class="text-danger">{{ error }}</small>{% endfor %}
+        </div>
+    </div>
+    <div>
+        <div class="form-check form-switch">
+            {{ privacy_form.email_visibility|add_class:"form-check-input" }}
+            <label class="custom-control-label" for="{{ privacy_form.email_visibility.id_for_label }}">Allow others to view my email</label>
+            {% for error in privacy_form.email_visibility.errors %}<small class="text-danger">{{ error }}</small>{% endfor %}
+        </div>
+    </div>
+    <div>
+        <div class="form-check form-switch">
+            {{ privacy_form.address_visibility|add_class:"form-check-input" }}
+            <label class="custom-control-label" for="{{ privacy_form.address_visibility.id_for_label }}">Allow others to view my address</label>
+            {% for error in privacy_form.address_visibility.errors %}<small class="text-danger">{{ error }}</small>{% endfor %}
+        </div>
+    </div>
+    <div>
+        <div class="form-check form-switch">
+            {{ privacy_form.bio_visibility|add_class:"form-check-input" }}
+            <label class="custom-control-label" for="{{ privacy_form.bio_visibility.id_for_label }}">Share my bio with others</label>
+            {% for error in privacy_form.bio_visibility.errors %}<small class="text-danger">{{ error }}</small>{% endfor %}
+        </div>
+    </div>
+    <div>
+        <div class="form-check form-switch">
+            {{ privacy_form.visible_on_map|add_class:"form-check-input" }}
+            <label class="custom-control-label" for="{{ privacy_form.visible_on_map.id_for_label }}">Display my location on the map</label>
+            {% for error in privacy_form.visible_on_map.errors %}<small class="text-danger">{{ error }}</small>{% endfor %}
+        </div>
+    </div>
+    
+
+    <div class="d-flex justify-content-between align-items-center flex-wrap">
+        <div class="error-message"></div>
+        <div class="my-3">
+            <button type="submit" class="btn ">Save</button>
+            <a data-click="v-pills-volunteer-info-tab" class="btn">Previous</a>
+            <a data-click="v-pills-communication-preferences-tab" class="btn">Next</a>
+        </div>
+    </div>
+</form>

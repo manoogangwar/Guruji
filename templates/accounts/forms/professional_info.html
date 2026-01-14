@@ -1,0 +1,41 @@
+{% load widget_tweaks %}
+<form method="post" id="professional_form" class="me-3">
+    {% csrf_token %}
+    <div>
+        <div class="label">{{ professional_form.occupation.label }}</div>
+        {{ professional_form.occupation|add_class:"form-control" }}
+        {% for error in professional_form.occupation.errors %}<small class="text-danger">{{ error }}</small>{% endfor %}
+    </div>
+    <div>
+        <div class="label">{{ professional_form.occupation_detail.label }}</div>
+        {{ professional_form.occupation_detail|add_class:"form-control" }}
+        {% for error in professional_form.occupation_detail.errors %}<small class="text-danger">{{ error }}</small>{% endfor %}
+    </div>
+    
+    <div>
+        <div class="label">{{ professional_form.qualification.label }}</div>
+        {{ professional_form.qualification|add_class:"form-control" }}
+        {% for error in professional_form.qualification.errors %}<small class="text-danger">{{ error }}</small>{% endfor %}
+    </div>
+    
+    <div>
+        <div class="label">{{ professional_form.institution.label }}</div>
+        {{ professional_form.institution|add_class:"form-control" }}
+        {% for error in professional_form.institution.errors %}<small class="text-danger">{{ error }}</small>{% endfor %}
+    </div>
+    
+    <div>
+        <div class="label">{{ professional_form.working_organization.label }}</div>
+        {{ professional_form.working_organization|add_class:"form-control" }}
+        {% for error in professional_form.working_organization.errors %}<small class="text-danger">{{ error }}</small>{% endfor %}
+    </div>
+    
+    <div class="d-flex justify-content-between align-items-center flex-wrap">
+        <div class="error-message"></div>
+        <div class="my-3">
+            <button type="submit" class="btn">Save</button>
+            <a data-click="v-pills-member-profile-tab" class="btn">Previous</a>
+            <a data-click="v-pills-volunteer-info-tab" class="btn">Next</a>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,257 @@
+{% load static %}
+<!-- Bootstrap JS (with Popper.js for dropdowns) -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script> -->
+<header class="fixed-top">
+  <div class="nav-marquee mb-md-3">
+    <div class="marquee-wrapper">
+      <span>&emsp; <img height="20" src="{% static 'img/fabicon.webp' %}"> &emsp; Haidakhandi Community Network &emsp;
+        Find | Connect | Explore | Unite &emsp; <img height="20" src="{% static 'img/fabicon.webp' %}"> &emsp;
+        Haidakhandi Community Network &emsp; Find | Connect | Explore | Unite &emsp; <img height="20"
+          src="{% static 'img/fabicon.webp' %}"> &emsp;</span>
+      <span>Haidakhandi Community Network &emsp; Find | Connect | Explore | Unite &emsp; <img height="20"
+          src="{% static 'img/fabicon.webp' %}"> &emsp; Haidakhandi Community Network &emsp; Find | Connect | Explore |
+        Unite &emsp; <img height="20" src="{% static 'img/fabicon.webp' %}"> &emsp;</span>
+      <span> Haidakhandi Community Network &emsp; Find | Connect | Explore | Unite &emsp; <img height="20"
+          src="{% static 'img/fabicon.webp' %}"> &emsp; Haidakhandi Community Network &emsp; Find | Connect | Explore |
+        Unite &emsp; <img height="20" src="{% static 'img/fabicon.webp' %}"> &emsp;</span>
+    </div>
+  </div>
+
+  <div class="inner">
+    <a href="/"><img src="{% static 'img/icon.png' %}" class="nav-logo img-fluid"></a>
+    <nav class="d-flex flex-row gap-2 align-items-center">
+      <!-- search box---- -->
+      <form action="/search" class="mx-auto" id="navSearch">
+        <div class="search-container d-none d-lg-flex bg-white rounded py-1">
+          <div class="autocomplete">
+            <input type="text" class="form-control py-2 o rounded-start-2 border-0" name="l"
+              placeholder="Search by Name, Location, Profession" autocomplete="off">
+            <div class="suggestions" id="location-suggestionss"></div>
+          </div>
+          <!-- <div class="autocomplete vr" id="autocomplete-js">
+                    <input type="text" class="form-control t rounded-0 border-start border-0"  name="q" placeholder="Search by Name, Surname" autocomplete="off">
+                    <div class="suggestions" id="suggestionss"></div>
+                  </div> -->
+          <button class="btn btn-search thr fs-6 me-1" data-bs-toggle="modal" href="#exampleModalToggle"
+            type="submit">Search</button>
+          <!-- <button class="btn btn-search thr fs-6 me-1 d-lg-none" data-bs-toggle="modal" href="#exampleModalToggle" type="submit"><i class="bi bi-search"></i></button> -->
+        </div>
+      </form>
+      <!-- search box end----- -->
+
+      <div class="gtranslate_wrapper d-none d-md-block"></div>
+
+      <a class="nav-item d-none d-md-block" href="{% url 'news_list' %}">Explore</a>
+
+      <!-- <span class="nav-item d-none d-md-block custom-megamenu">
+              <a class="megamenu-link"><i class="bi bi-search"></i> Search</a>
+              <div class="megamenu">
+                <div class="megamenu-content h-100 p-4">
+                    <form action="{% url 'search' %}" method="get">
+                      <div class="container">
+                        <div class="input-group mb-3 input-group">
+                          <input type="text" class="form-control" name="l" placeholder="Serach by Location">
+                          <input type="text" type="search" name="q" placeholder="Search by Name, Surname" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2">
+                          <button class="btn btn-outline-secondary px-4" type="submit" id="button-addon2"><i class="bi bi-search"></i></button>
+                        </div>
+                      </div>
+                    </form>
+                </div>
+              </div>
+            </span>  -->
+
+      <!-- <a class="nav-item d-none d-md-block" href="{% url 'search' %}"><i class="bi bi-search"></i> Search</a> -->
+      <span class="d-none d-md-block">
+        {% if user.is_authenticated %}
+        <a id="nav-profile" data-bs-toggle="popover" type="button"
+          class="d-flex align-items-center bgprimary border-0 shadow-none" role="button">
+          <div class="position-relative nav-tooltip" style="width: 50px; height: 50px;" data-bs-toggle="tooltip"
+            data-bs-placement="left" data-bs-custom-class="custom-tooltip" title="Profile 70% completed">
+            <!-- Circular Progress Bar -->
+            <svg class="circular-progress" viewBox="0 0 100 100" style="transform: rotate(-90deg);">
+              <!-- Background Circle -->
+              <circle cx="50" cy="50" r="45" fill="none" stroke="#e6e6e6" stroke-width="5"></circle>
+              <!-- Progress Circle -->
+              <!--stroke-dashoffset=" 282.6 - (70 * 2.826 ) "-->
+              <circle cx="50" cy="50" r="45" fill="none" stroke="green" class="profile-circle-pregress" stroke-width="5"
+                stroke-dasharray="282.6" stroke-dashoffset="280" style="transition: stroke-dashoffset 1s ease;">
+              </circle>
+            </svg>
+            <!-- Profile Photo -->
+            {% if user.getProfilePhoto %}
+            <img src="{{ user.getProfilePhoto }}" alt="Profile" class="rounded-circle profile-image"
+              style="width: 40px; height: 40px; position: absolute; top: 5px; left: 5px;">
+            {% else %}
+            <div class="rounded-circle d-flex align-items-center justify-content-center"
+              style="width: 40px; height: 40px; background-color: lightgray; position: absolute; top: 5px; left: 5px;">
+              <i class="bi bi-person-fill" style="font-size: 20px; color: #790101"></i>
+            </div>
+            {% endif %}
+          </div>
+          <span class="bi bi-caret-down-fill ms-2"></span>
+        </a>
+        {% else %}
+        <a href="{% url 'register' %}" class="d-none d-md-inline">Join the community</a>
+        <a href="{% url 'login' %}" class="log">Login</a>
+        {% endif %}
+      </span>
+
+      <a class="bi-person-lines-fill d-md-none fs-1" data-bs-toggle="offcanvas" data-bs-target="#mobile_menu"
+        aria-controls="mobile_menu"></a>
+
+      <!-- profile pop-up card -->
+      <div hidden class="">
+        <div data-name="nav-popover-content" class="nav-pofile-popover" style="max-width: 300px;">
+          <div class="p-3">
+            <!-- User Profile Section -->
+            <div class="d-flex align-items-center">
+              {% if user.getProfilePhoto %}
+              <img src="{{ user.getProfilePhoto }}" alt="Profile" class="rounded-circle me-3 profile-image"
+                style="width: 60px; height: 60px;">
+              {% else %}
+              <div class="rounded-circle d-flex align-items-center justify-content-center me-3"
+                style="width: 60px; height: 60px; background-color: lightgray;">
+                <i class="bi bi-person-fill" style="font-size: 24px; color: #790101;"></i>
+              </div>
+              {% endif %}
+              <div>
+                <p style="color: #790101;">Bhole Baba Ki Jai !</p>
+                <p class="fw-bold mb-0 fs-6 ">{{ user.first_name }}</p>
+                <p class="text-muted mb-0 small ">{{ user.email | truncatechars:15}}</p>
+                {% if user.role %}
+                <p class="text-muted mb-0 small">{{ user.role }}</p>
+                {% endif %}
+              </div>
+            </div>
+            <hr class="dropdown-divider mt-3 mb-3">
+
+            <!-- Settings & Privacy -->
+            <div class="d-flex align-items-center gap-2 mb-2">
+              <i class="bi bi-gear fs-5"></i>
+              <a class="dropdown-item m-0 fs-6 f-Lt text-black" href="{% url 'profile' %}">Settings & Privacy</a>
+            </div>
+
+            <!-- My Account -->
+            <div class="d-flex align-items-center gap-2 mb-2">
+              <i class="bi bi-person fs-5"></i>
+              <a class="dropdown-item m-0 fs-6 f-Lt text-black text-truncate" href="/@{{user.username}}">My Account</a>
+            </div>
+
+            <!-- Log Out -->
+            <div class="d-flex align-items-center gap-2">
+              <i class="bi bi-box-arrow-right fs-5"></i>
+              <a class="dropdown-item m-0 fs-6 f-Lt text-black" href="{% url 'logout' %}">Log Out</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <!--end profile pop-up card -->
+    </nav>
+  </div>
+
+  <!-- Mobile Offcanvas -->
+  <div class="offcanvas offcanvas-end" tabindex="-1" data-bs-backdrop="false" id="mobile_menu"
+    aria-labelledby="mobile_menu_label">
+    <div class="offcanvas-header">
+      <h5 id="mobile_menu_label" class="notranslate">
+        <div class="gtranslate_wrapper"></div>
+      </h5>
+      <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+      <div>
+        <!-- User Profile Section -->
+        <div class="d-flex align-items-center">
+          {% if user.is_authenticated and user.getProfilePhoto %}
+          <img src="{{ user.getProfilePhoto }}" alt="Profile" class="rounded-circle me-3 profile-image"
+            style="width: 60px; height: 60px;">
+          {% else %}
+          <div class="rounded-circle d-flex align-items-center justify-content-center me-3"
+            style="width: 60px; height: 60px; background-color: lightgray;">
+            <i class="bi bi-person-fill" style="font-size: 24px; color: #790101;"></i>
+          </div>
+          {% endif %}
+          <div>
+            {% if user.is_authenticated %}
+            <p class="fw-bold mb-0 fs-6 text-truncate">{{ user.first_name }}</p>
+            <p class="text-muted mb-0 small text-truncate">{{ user.email }}</p>
+            {% if user.role %}
+            <p class="text-muted mb-0 small">{{ user.role }}</p>
+            {% endif %}
+            {% else %}
+            <a class="mb-0" href="{%  url 'login' %}">login</a>
+            <span> | </span><a href="{% url 'register' %}" class="d-md-inline">Join the community</a>
+            {% endif %}
+          </div>
+        </div>
+        <hr class="dropdown-divider mt-3 mb-3">
+
+
+        {% if user.is_authenticated %}
+        <!-- Settings & Privacy -->
+        <div class="d-flex align-items-center gap-2 mb-2">
+          <i class="bi bi-gear fs-5"></i>
+          <a class="dropdown-item m-0 fs-6 text-black" href="{% url 'profile' %}">Settings & Privacy</a>
+        </div>
+
+        <!-- My Account -->
+        <div class="d-flex align-items-center gap-2 mb-2">
+          <i class="bi bi-person fs-5"></i>
+          <a class="dropdown-item m-0 fs-6 text-black text-truncate" href="/@{{user.username}}">My Account</a>
+        </div>
+        {% else %}
+        <!-- Settings & Privacy -->
+        <div class="d-flex align-items-center gap-2 mb-2">
+          <i class="bi bi-person-add fs-5"></i>
+          <a class="dropdown-item m-0 fs-6 text-black" href="{% url 'register' %}">Join the community</a>
+        </div>
+
+        <!-- My Account -->
+        <div class="d-flex align-items-center gap-2 mb-2">
+          <i class="bi bi-box-arrow-in-right fs-5"></i>
+          <a class="dropdown-item m-0 fs-6 text-black" href="{% url 'login' %}">Login</a>
+        </div>
+        {% endif %}
+
+
+
+        <!-- News-->
+        <div class="d-flex align-items-center gap-2 mb-2">
+          <i class="bi bi-newspaper fs-5"></i>
+          <a class="dropdown-item m-0 fs-6 text-black" href="{% url 'news_list' %}">News & Updates</a>
+        </div>
+
+        <!-- Search-->
+        <div class="d-flex align-items-center gap-2 mb-2">
+          <i class="bi bi-search fs-5"></i>
+          <a class="dropdown-item m-0 fs-6 text-black" href="{% url 'search' %}">Search & Explore</a>
+        </div>
+
+       
+        {% if user.is_authenticated %}
+        <!-- Log Out -->
+        <div class="d-flex align-items-center gap-2 mb-2">
+          <i class="bi bi-box-arrow-right fs-5"></i>
+          <a class="dropdown-item m-0 fs-6 text-black" href="{% url 'logout' %}">Log Out</a>
+        </div>
+        {% endif %}
+
+        <div class="col-lg-4 col-md-6 mb-4 mb-md-0" style="margin-top: 14rem;">
+          <!-- <h6 class="text-uppercase fw-bold mb-3">Contact Us</h6> -->
+          <ul class="list-unstyled text-center">
+            <p class="mt-3 text-center">Reach out for any queries or support, we’re here to assist you!</p>
+            <li class=" text-center"><i class="bi bi-envelope-fill me-2"></i><a href="mailto:info@haidakhandi.org"
+                class="text-black text-decoration-none text-center">info@hadakhandi.org</a></li>
+          </ul>
+        </div>
+
+
+
+
+      </div>
+    </div>
+  </div>
+  <!-- Mobile Offcanvas End -->
+</header>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Email Template</title>
+  <style>
+    body {
+     
+      margin: 0;
+      padding: 0;
+      background-color: #ffffff;
+      color: #333;
+    }
+
+    .container {
+      max-width: 550px;
+      margin: 20px auto;
+      background-color: #ffffff;
+      padding: 20px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+    }
+
+   
+    .greeting-image {
+      max-height: 485px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
+    .greeting-text h4 {
+      margin: 0 0 15px;
+      font-size: 20px;
+      font-family: 'Jost', sans-serif;
+    }
+
+    .greeting-text p {
+      margin: 0 0 10px;
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    a {
+      color: #007bff;
+      text-decoration: none;
+    }
+  
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="row">
+         <!-- Image Section -->
+         <div class="col mobile" style="text-align: center; padding:10px;">
+          <img src="https://haidakhandi.org/static/img/email_baba_ji_image.png" alt="Greeting Image" class="greeting-image">
+        </div>
+      
+      <!-- Text Section -->
+      <div class="col">
+        <div class="greeting-text">
+          <h4>Dear {{user.first_name|default:'Haidakhandi'}},</h4>
+          <p>
+            Today is a special day, and we are thrilled to celebrate it with you!<br>
+            May your day be filled with joy, laughter, and cherished memories.
+          </p>
+          <p>
+            The Haidakhandi.org <strong style="font-style: italic;">wishes you a year ahead filled with success, health, and happiness!</strong>
+          </p>
+          <p><strong>Bhole Baba Ki Jai!</strong></p>
+          <p>
+            <img src="https://haidakhandi.org/static/img/email-logo.png" alt="" width="150px" height="80px"><br>
+            <a href="mailto:info@haidakhandi.org" style="color: rgb(28, 28, 28);">Team@haidakhandi.org</a><br>
+            <a href="https://haidakhandi.org/" style="color: rgb(28, 28, 28);">haidakhandi.org</a>
+          </p>
+        </div>
+      </div>
+     <p style="font-weight: 500; font-style: italic;">"{{teachings|random}}"</p>
+      
+    </div>
+  </div>
+</body>
+</html>
+
+
+  
+
+
+

@@ -1,0 +1,49 @@
+{% extends "base/base.html" %}
+{% load static %}
+{% block body %}
+
+  <!-- login section -->
+<section class="d-flex justify-content-center align-items-center h-100 login-section">
+  <div class="login-container d-flex overflow-hidden bg-body mt-3">
+    <div class="d-flex formoblie">
+        <img class="d-none d-md-block" src="{% static 'img/offerings/spritual.jpg' %}"/>
+          <div class="formView rounded-0" style="max-width: 90vw;">
+          <h3 class="main-heading">Login To Start Your Journey</h3>
+            {% for message in messages %}
+            <div class="alert alert-success" role="alert">
+              {{message}}
+            </div>
+            {% endfor %}
+                    
+
+            <div class='my-3 text-danger'>
+                {% for error in form.non_field_errors %}
+                  <small class='text-danger'>{{error}}</small>
+                {% endfor %}
+            </div>
+            <form method='POST'>
+                {% csrf_token %}
+              <div>
+                  <div class="label">Username/Email/Phone Number</div>
+                  <input type="text" class="form-control" name='username' value="{{form.username.value|default:''}}" placeholder="Username" required>
+                    {% for error in form.username.errors %}<small>{{error}}</small>{% endfor %}
+              </div>
+              <div>
+                <div class="label">Password</div>
+                  <input type="password" class="form-control" name='password' placeholder="Password" required>
+                  {% for error in form.password.errors %}<small>{{error}}</small>{% endfor %}
+              </div>                        
+              <div class="mt-2">
+                 <input type="checkbox"> <small>Remember me</small>
+              </div>
+              <button class="btn login-btn" type="submit">LOGIN</button>
+              <p class=" fw-light">Don't Have an Account? <a href="{% url 'register' %}">Register</a></p>
+              <p>Forgot Password ? <a href="{% url 'password_reset' %}">Reset Here</a></p>
+            </form>
+        </div>
+    </div>
+  </div>
+</section> 
+<!-- login end -->
+
+{% endblock body %}

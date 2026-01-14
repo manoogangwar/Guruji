@@ -1,0 +1,135 @@
+{% extends 'base/base.html' %} {% block head %}
+
+{% endblock head %} {% block body %}
+
+
+<div class="p-0 border rounded-3 offcanvas-container position-relative">
+    <!-- Mobile Menu Toggle Button (Visible only on mobile) -->
+    
+    
+    <div class="d-flex w-100">
+        
+       {% include 'job_portal/side_bar.html' with page="manage" %}
+        
+        <!-- Main Content Area -->
+        <div class="px-4 py-4 flex-grow-1 right-content">
+            <h2 class="mb-4 main-heading text-start">
+              <button
+                id="offcanvas-toggle-btn"
+                class="btn btn-primary btn-sm d-lg-none  top-0 start-0 m-1 z-10"
+                type="button"
+              >
+                <i class="bi bi-list me-1"></i>
+              </button>
+              Manage Jobs (Main Content)</h2>
+           
+            
+            <!-- Placeholder for Job Cards -->
+            <div class="row row-cols-1 row-cols-md-2 g-4">
+                {% for job in jobs %}
+        <div class="col-md-6 col-12">
+          <div class="job-card">
+            <div class="job-header">
+              {% if job.company.logo %}
+              <img
+                src="{{ job.company.logo_url }}"
+                alt="{{ job.company.name }}"
+                class="company-logo"
+              />
+              {% endif %}
+              <div>
+                <p class="mb-1 f-Rg">
+                  {{job.job_type|capfirst}} ({{job.working_type|capfirst}})
+                </p>
+                <p class="mb-0 text-muted">
+                  {{ job.company.name }} &middot; {{ job.location }}
+                </p>
+              </div>
+            </div>
+            <div class="job-body mt-3">
+              <p class="mb-1 f-Rg">{{ job.title }}</p>
+              <p>{{ job.description|truncatechars:80 }}</p>
+            </div>
+            <hr />
+            <small class="mt-2"
+              >Posted on -
+              <span class="text-muted">{{job.posted_at}}</span></small
+            ><br />
+            <small class=""
+              >Expire on -
+              <span class="text-muted"
+                >{{ job.expires_at|date:"M. j, Y" }}</span
+              ></small
+            >
+            <a
+              href="{% url 'edit_job' job.id %}"
+              class="btn btn-sm ms-auto w-100 mt-3"
+              >Edit</a
+            >
+          </div>
+        </div>
+        {% empty %}
+        <p>No jobs available.</p>
+        {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+     function setupInSectionOffcanvas() {
+        const sidebar = document.getElementById('sidebar-mobile');
+        const toggleBtn = document.getElementById('offcanvas-toggle-btn');
+        const closeBtn = document.getElementById('offcanvas-close-btn');
+        
+        const showSidebar = () => {
+             // Only show on small screens (Bootstrap's lg breakpoint is 992px)
+            if (window.innerWidth < 992) {
+                sidebar.classList.add('show');
+            }
+        };
+        const hideSidebar = () => sidebar.classList.remove('show');
+
+        // Toggle button handler
+        toggleBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (sidebar.classList.contains('show')) {
+                hideSidebar();
+            } else {
+                showSidebar();
+            }
+        });
+
+        // Close button handler
+        closeBtn.addEventListener('click', hideSidebar);
+        
+        // Added a more reliable click-outside-of-menu handler
+        document.addEventListener('click', (e) => {
+            // Check if sidebar is open AND click target is not the sidebar itself AND not the toggle button
+            if (sidebar.classList.contains('show') && !sidebar.contains(e.target) && e.target !== toggleBtn) {
+                hideSidebar();
+            }
+        });
+
+        // Handle link clicks inside the sidebar (mock navigation)
+        sidebar.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                // e.preventDefault();
+                console.log(`Navigating to action: ${link.textContent.trim()}`);
+                hideSidebar(); // Close menu after selection
+            });
+        });
+
+         // Ensure sidebar is hidden if screen is resized to desktop size while open
+        window.addEventListener('resize', () => {
+            if (window.innerWidth >= 992) {
+                hideSidebar();
+            }
+        });
+    }
+    
+    // --- Initialization ---
+    document.addEventListener('DOMContentLoaded', () => {
+        setupInSectionOffcanvas();
+    });
+</script>
+{% endblock body %}

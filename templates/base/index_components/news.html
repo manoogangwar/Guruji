@@ -1,0 +1,70 @@
+{% load static %}
+
+
+<div class="section container " id="news-section">  
+    <h1 class="main-heading mb-2">highlights</h1>
+    <p class="mb-4 text-muted text-center">Stay informed with our Latest Updates. Explore the newest events, announcements, and insights from our community!</p>
+    <!-- Desktop -->
+    <div class="d-none d-md-flex flex-wrap gap-3 justify-content-center">
+        {% for obj in news %}
+            <div>
+                <a href="{% url 'news_detail' obj.slug %}">
+                    <div class="card h-100 p-0" style="width: 17rem;">
+                        <img src="{{obj.image.url}}" class="card-img-top" >
+                        <div class="card-body">
+                            <small class="card-text text-muted ">
+                                <i class="bi bi-calendar3"></i> {{ obj.date_published }}
+                            </small>  
+                        <h6 class="card-text ">{{ obj.title }}</h6>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        
+        {% empty %}
+            <p class="text-muted text-center">No Latest Updates Here</p>
+        {% endfor %}
+    </div>
+
+    <div class="d-md-none">
+        <div id="newsMobileCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner " style="min-height: 350px;">
+                {% for obj in news %}
+                    <div class="carousel-item {% if forloop.first %} active{% endif %} ">
+                        <div class="d-flex justify-content-center h-100">
+                            <a href="{% url 'news_detail' obj.slug %}" class="">
+                                <div class="card h-100 p-0" style="width: 18rem;">
+                                    <img src="{{obj.image.url}}" class="card-img-top" >
+                                    <div class="card-body">
+                                        <p class="card-text text-muted">
+                                            <i class="bi bi-calendar3"></i> {{ obj.date_published }}
+                                        </p>  
+                                        <h6 class="card-text ">{{ obj.title }}</h6>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                {% endfor %}
+                
+            </div>
+            <button class="carousel-control-prev btn-close-white" type="button" data-bs-target="#newsMobileCarousel" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next btn-close-white" type="button" data-bs-target="#newsMobileCarousel" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+          </div>
+
+    </div>
+
+
+    {% if news %}
+    <div class="text-center mt-4">
+        <a href="{% url 'news_list' %}">View All</a>
+    </div>
+    {% endif %}
+</div>
+

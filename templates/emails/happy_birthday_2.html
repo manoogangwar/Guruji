@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday!</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
+        img {
+            max-height: 50px;
+            margin-bottom: 10px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            background: #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        .header {
+            background-color: #f5f0df;
+            color: #791815;
+            text-align: center;
+            padding: 20px;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        .body {
+            padding: 20px;
+            text-align: center;
+        }
+        .body p {
+            font-size: 18px;
+            color: #555;
+            margin: 0 0 20px;
+        }
+        .body .highlight {
+            font-weight: bold;
+            color: #791815;
+        }
+        .footer {
+            background-color: #f2f2f2;
+            padding: 10px;
+            text-align: center;
+            font-size: 14px;
+            color: #888;
+        }
+        .footer a {
+            color: #791815;
+            text-decoration: none;
+        }
+        .footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header Section -->
+        <div class="header">
+            <img src="https://haidakhandi.org/static/img/email-logo.png">
+            <h1>🎉 Happy Birthday, {{ user.first_name }}! 🎉</h1>
+        </div>
+
+        <!-- Body Section -->
+        <div class="body">
+            <p>Dear <span class="highlight">{{ user.first_name }}</span>,</p>
+            <p>Today is a special day, and we are thrilled to celebrate it with you! 🎂</p>
+            <p>
+                May your day be filled with joy, laughter, and cherished memories. 
+                The Haidakhandi.org team wishes you a year ahead filled with 
+                success, health, and happiness!
+            </p>
+            <p class="highlight">Bhole Baba Ki Jai!</p>
+            
+        </div>
+
+        <!-- Footer Section -->
+        <div class="footer">
+            <p>Thank you for being a part of the Haidakhandi.org.</p>
+            <p>
+                <a href="https://haidakhandi.org">Visit us for upcoming events and updates</a>.
+            </p>
+        </div>
+    </div>
+</body>
+</html>

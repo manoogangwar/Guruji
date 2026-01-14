@@ -1,0 +1,391 @@
+{% extends "base/base.html" %}
+{% load static %}
+{% load widget_tweaks %}
+{% block body %}
+
+<div class="my-3 w-100">
+    <div class="d-flex justify-content-center container">
+        <div class="main-container " id="complete-profile-notification">
+            <div class="alert alert-danger " role="alert">
+                Dear <span class="text-capitalize">{{ user.name }}</span> Ji, Bhole Baba Ki Jai!
+                 Welcome aboard! To serve you better, we kindly request you to complete your registration by providing the following details.
+                 
+              </div>
+        </div>
+    </div>
+    <div class="d-flex justify-content-center container">
+        <!-- Parent container with responsive layout -->
+        <div class="d-flex flex-column flex-md-row main-container">
+            <!-- Left column for Tabs -->
+            <div class="d-flex flex-row flex-md-column py-md-3 left-nav">
+                <div class="nav nav-pills d-flex overflow-auto overflow-md-hidden" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                    <a class="nav-link active bb-taupe pb-md-3" id="v-pills-personal-details-tab" data-bs-toggle="pill" href="#personal-details" role="tab">
+                        <i class="bi bi-person-fill"></i> <span data-bs-toggle="tooltip" class="custom-tooltip" data-bs-placement="left" title="pending">Personal Details</span>
+                    </a>
+                    <a class="nav-link bb-taupe py-md-3" id="v-pills-member-profile-tab" data-bs-toggle="pill" href="#member-profile" role="tab">
+                        <i class="bi bi-people-fill"></i> <span data-bs-toggle="tooltip" class="custom-tooltip" data-bs-placement="left" >Member Profile</span>
+                    </a>
+                    <a class="nav-link bb-taupe py-md-3" id="v-pills-professional-info-tab" data-bs-toggle="pill" href="#professional-info" role="tab">
+                        <i class="bi bi-briefcase"></i> <span data-bs-toggle="tooltip" class="custom-tooltip" data-bs-placement="left" >Professional Information</span>
+                    </a>
+                    <a class="nav-link bb-taupe py-md-3" id="v-pills-volunteer-info-tab" data-bs-toggle="pill" href="#volunteer-info" role="tab">
+                        <i class="bi bi-box2-heart"></i> <span data-bs-toggle="tooltip" class="custom-tooltip" data-bs-placement="left" >Spiritual Information</span>
+                    </a>
+                    <a class="nav-link bb-taupe py-md-3" id="v-pills-privacy-settings-tab" data-bs-toggle="pill" href="#privacy-settings" role="tab">
+                        <i class="bi bi-person-fill-lock"></i> <span data-bs-toggle="tooltip" class="custom-tooltip" data-bs-placement="left" >Privacy Settings</span>
+                    </a>
+                    <a class="nav-link bb-taupe py-md-3" id="v-pills-communication-preferences-tab" data-bs-toggle="pill" href="#communication-preferences" role="tab">
+                        <i class="bi bi-broadcast"></i><span data-bs-toggle="tooltip" class="custom-tooltip" data-bs-placement="left" >Communication Preferences</span>
+                    </a>
+                    <a class="nav-link bb-taupe py-md-3" id="v-pills-signin-security-tab" data-bs-toggle="pill" href="#signin-security" role="tab">
+                        <i class="bi bi-key"></i> <span data-bs-toggle="tooltip" class="custom-tooltip" data-bs-placement="left" >Sign in & Security</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Right column for Form Fields -->
+            <div class="col-12 col-md-9 bg-body p-3 pe-1 right-nav">
+                <div class="tab-content  position-relative h-100 overflow-y-auto " id="v-pills-tabContent">
+                    <!-- Personal Details Tab Content -->
+                    <div class="tab-pane fade show active position-absolute w-100" id="personal-details" role="tabpanel" aria-labelledby="v-pills-personal-details-tab" >
+                        {% include 'accounts/forms/personal_details.html' %}
+                    </div>
+
+                    <!-- Member Profile Tab Content -->
+                    <div class="tab-pane fade position-absolute w-100" id="member-profile" role="tabpanel" aria-labelledby="v-pills-member-profile-tab" >
+                        {% include 'accounts/forms/member_profile.html' %}
+                    </div>
+
+                    <!-- Professional Information Tab Content -->
+                    <div class="tab-pane fade position-absolute w-100" id="professional-info" role="tabpanel" aria-labelledby="v-pills-professional-info-tab" >
+                        {% include 'accounts/forms/professional_info.html' %}
+                    </div>
+
+                    <!-- Volunteer Spiritual Information Tab Content -->
+                    <div class="tab-pane fade position-absolute w-100" id="volunteer-info" role="tabpanel" aria-labelledby="v-pills-volunteer-info-tab" >
+                        {% include 'accounts/forms/volunteer_info.html' %}
+                    </div>
+
+                    <!-- Privacy Settings Tab Content -->
+                    <div class="tab-pane fade position-absolute w-100" id="privacy-settings" role="tabpanel" aria-labelledby="v-pills-privacy-settings-tab" >
+                        {% include 'accounts/forms/privacy.html' %}
+                    </div>
+
+                    <!-- Communication Preferences Tab Content -->
+                    <div class="tab-pane fade position-absolute w-100" id="communication-preferences" role="tabpanel" aria-labelledby="v-pills-communication-preferences-tab" >
+                        {% include 'accounts/forms/communication.html' %}
+                    </div>
+
+                    <!-- Signin and Security Tab Content -->
+                    <div class="tab-pane fade position-absolute w-100" id="signin-security" role="tabpanel" aria-labelledby="v-pills-signin-security-tab" >
+                        {% include 'accounts/forms/security.html' %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+ 
+
+{% endblock body %}
+
+{% block script %}
+<script>
+    document.addEventListener("DOMContentLoaded", ()=>{
+        profileCompletionCache = localStorage.getItem("profileCompletionCache",false);
+        console.log("thi si it ",profileCompletionCache)   
+        
+        if(profileCompletionCache){
+            profileCompletionCache = JSON.parse(profileCompletionCache)
+            if(profileCompletionCache['percentage'] >= 90){
+                document.getElementById('complete-profile-notification').style.display = 'none';
+            }
+        
+        }
+    })
+</script>
+<script src="{% static 'js/leaf.js' %}"></script>
+<script>
+// Set the marker if the location already exists
+{% if c_info.instance.latitude and c_info.instance.longitude %}
+    var existingLat = '{{ c_info.instance.latitude }}';
+    var existingLon = '{{ c_info.instance.longitude }}';
+    marker = L.marker([existingLat, existingLon],{icon:redicon}).addTo(map);
+    map.setView([existingLat, existingLon], 13);
+{% endif %}
+</script>
+<script src="{% static 'js/profileFormsValidaion.js' %}"></script>
+<script>
+
+ document.addEventListener("DOMContentLoaded", function () {
+    // Select all nav pills and form containers
+    const navPills = document.querySelectorAll(".nav-link");
+    const tabContentContainers = document.querySelectorAll(".tab-pane");
+    // Function to add a notification dot to a tab
+    function addNotificationDot(pill) {
+        let existingDot = pill.querySelector(".notification-dot");
+        if (!existingDot) {
+            let dot = document.createElement("span");
+            dot.classList.add("notification-dot");
+            pill.style.position = "relative";
+            pill.appendChild(dot);
+        }
+    }
+
+    // Function to remove a notification dot from a tab
+    function removeNotificationDot(pill) {
+        let existingDot = pill.querySelector(".notification-dot");
+        if (existingDot) {
+            existingDot.remove();
+        }
+    }
+
+    function addTooltip(pill){
+        // pill.setAttribute('data-bs-toggle', "tooltip");
+        // pill.setAttribute('data-bs-placement', "bottom");
+        pill.querySelector('span').setAttribute('data-bs-original-title', "Pending");
+
+    }
+    function removeTooltip(pill){
+        pill.querySelector('span').removeAttribute('data-bs-original-title');
+    }
+    // Function to check each form for empty fields
+    function checkForms() {
+    tabContentContainers.forEach((tabPane, index) => {
+        // Skip the forms with id 'xyx' and 'bca'
+        const formId = tabPane.querySelector("form")?.id;
+        if (formId === "password_change" || formId === "username_change" || formId === "email_change") {
+            return; // Skip this iteration
+        }
+
+        const formFields = tabPane.querySelectorAll("input, textarea, select");
+        let hasEmptyFields = false;
+
+        formFields.forEach((field) => {
+            // Exclude file fields and readonly fields
+            if (
+                field.type !== "file" && // Exclude file input fields
+                !field.readOnly && // Exclude readonly fields
+                !field.value.trim() &&// Check if the field is empty
+                field.name != 'middle_name' &&
+                field.type != 'search'
+            ) {
+                hasEmptyFields = true;
+            }
+        });
+
+        const correspondingPill = navPills[index];
+        if (hasEmptyFields) {
+            addNotificationDot(correspondingPill);
+            addTooltip(correspondingPill);
+        } else {
+            removeNotificationDot(correspondingPill);
+            removeTooltip(correspondingPill);
+        }
+    });
+}
+
+
+    // Remove notification dot when a pill is opened
+    navPills.forEach((pill, index) => {
+        pill.addEventListener("click", () => {
+            removeNotificationDot(pill);
+        });
+
+        // Additionally handle activation via keyboard
+        pill.addEventListener("keydown", (e) => {
+            if (e.key === "Enter" || e.key === " ") {
+                removeNotificationDot(pill);
+            }
+        });
+    });
+
+    // Initial check on page load
+    checkForms();
+
+    // Re-check forms on input change
+    tabContentContainers.forEach((tabPane) => {
+        tabPane.addEventListener("input", checkForms);
+    });
+});
+
+</script>
+
+<script>
+//next and previous button
+$("a[data-click]").on("click", function () {
+        const targetId = this.getAttribute("data-click"); // Get the ID from the data-click attribute
+        const targetElement = $(`#${targetId}`); // Select the element with the specified ID
+        if (targetElement.length) {
+            
+            targetElement[0].click()
+        }
+        
+    });
+</script>
+
+<script>
+   document.addEventListener('DOMContentLoaded', () => {
+    const imageInput = document.getElementById('{{ member_profile_form.profile_picture.id_for_label }}');
+    const imagePreview = document.getElementById('image-preview');
+    const uploadButton = document.getElementById('upload-button');
+    const openCropModalButton = document.getElementById('open-crop-modal');
+    const cropModal = new bootstrap.Modal(document.getElementById('cropModal'));
+    const existingImageField = document.getElementById('{{ member_profile_form.profile_picture.id_for_label }}'); // Form image input
+    let cropper;
+
+    // Handle file input change
+    imageInput.addEventListener('change', (event) => {
+        const file = event.target.files[0];
+
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                imagePreview.src = e.target.result;
+
+                // Enable "Preview & Edit" button
+                openCropModalButton.disabled = false;
+                // Initialize cropper when the modal is shown
+                openCropModalButton.addEventListener('click', () => {
+                    cropModal.show();
+                    setTimeout(() => {
+                        if (cropper) {
+                            cropper.destroy(); // Destroy any existing cropper instance
+                        }
+                        cropper = new Cropper(imagePreview, {
+                            aspectRatio: 1, // Square crop
+                            viewMode: 1,
+                        });
+                    }, 300); // Delay to ensure modal is fully loaded
+                });
+            };
+            reader.readAsDataURL(file);
+        }
+        if(file){
+            cropModal.show();
+            setTimeout(() => {
+                if (cropper) {
+                    cropper.destroy(); // Destroy any existing cropper instance
+                }
+                cropper = new Cropper(imagePreview, {
+                    aspectRatio: 1, // Square crop
+                    viewMode: 1,
+                });
+            }, 300); // D
+        }
+    });
+
+    // Handle upload button click
+    uploadButton.addEventListener('click', () => {
+        if (cropper) {
+            const canvas = cropper.getCroppedCanvas({
+                width: 300, // Output width
+                height: 300, // Output height
+            });
+
+            canvas.toBlob((blob) => {
+                // Create a File object from the cropped Blob
+                const croppedFile = new File([blob], "cropped-profile-picture.jpg", { type: "image/jpeg" });
+
+                // Append the cropped image to the existing image field
+                const dataTransfer = new DataTransfer();
+                dataTransfer.items.add(croppedFile);
+                existingImageField.files = dataTransfer.files;
+
+                // Hide the modal
+                cropModal.hide();
+            });
+        }
+    });
+});
+
+ </script>
+ 
+ <script>//Capture Image
+    document.addEventListener('DOMContentLoaded', () => {
+    const openCameraModalButton = document.getElementById('open-camera-modal');
+    const cameraModal = new bootstrap.Modal(document.getElementById('cameraModal'));
+    const video = document.getElementById('camera-stream');
+    const canvas = document.getElementById('camera-canvas');
+    const captureButton = document.getElementById('capture-image');
+    const retakeButton = document.getElementById('retake-image');
+    const saveCaptureButton = document.getElementById('save-capture');
+    const imageInput = document.getElementById('{{ member_profile_form.profile_picture.id_for_label }}');
+    
+    let stream;
+    
+    // Open Camera Modal and Start Camera
+    openCameraModalButton.addEventListener('click', async () => {
+        cameraModal.show();
+        try {
+            stream = await navigator.mediaDevices.getUserMedia({ video: true });
+            video.srcObject = stream;
+        } catch (error) {
+            alert('Unable to access camera: ' + error.message);
+        }
+    });
+
+   
+    // Capture Image
+    captureButton.addEventListener('click', () => {
+        const context = canvas.getContext('2d');
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+        // Show Save Button
+        saveCaptureButton.classList.remove('d-none');
+        canvas.classList.remove('d-none');
+        video.classList.add('d-none');
+        captureButton.classList.add('d-none')
+        retakeButton.classList.remove('d-none')
+
+    });
+
+    retakeButton.addEventListener('click',()=>{
+        saveCaptureButton.classList.add('d-none');
+        canvas.classList.add('d-none');
+        video.classList.remove('d-none');
+        captureButton.classList.remove('d-none')
+        retakeButton.classList.add('d-none')
+       
+    })
+    // Save Image to Input Field
+    saveCaptureButton.addEventListener('click', () => {
+        canvas.toBlob((blob) => {
+            const file = new File([blob], "captured-image.jpg", { type: "image/jpeg" });
+            const dataTransfer = new DataTransfer();
+            dataTransfer.items.add(file);
+            imageInput.files = dataTransfer.files;
+
+            alert('Image captured and added to upload field!');
+            cameraModal.hide();
+            stopStream();
+        });
+    });
+
+    // Stop the camera stream
+    cameraModal._element.addEventListener('hidden.bs.modal', stopStream);
+
+    function stopStream() {
+        if (stream) {
+            const tracks = stream.getTracks();
+            tracks.forEach((track) => track.stop());
+            stream = null;
+            video.srcObject = null;
+        }
+        canvas.classList.add('d-none');
+        video.classList.remove('d-none');
+        saveCaptureButton.classList.add('d-none');
+    }
+
+    
+
+
+});
+
+
+ </script>
+{% endblock script %}
+  

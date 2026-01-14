@@ -1,0 +1,41 @@
+{% load static %}
+
+<div class="d-block">
+    <div>
+        <div class="card mb-3" style="background: #f5f0df;"  >
+            <div class="row w-100">
+                <div class="col-auto d-flex align-items-center">
+                    <div class="d-flex justify-content-center p-2 text-truncate">
+                        {% if usr.member.profile_picture  %}
+                            <img src="{{ usr.member.profile_picture.url }}" style="height: 90px; width: 90px; padding: 3px; background: white" class="img-fluid rounded-circle" alt="...">
+                        {% else %} 
+                            <img src="{% static 'img/default_profile.jpg' %}" style="height: 90px; width: 90px; padding: 3px; background: white" class="img-fluid rounded-circle" alt="...">   
+                        {% endif %}
+                    </div>
+
+                </div>
+                <div class="col">
+                    <div class="card-body ps-0">
+                        <h5 class="card-title text-capitalize f-Rg ">{{usr.name}}</h5>
+                        <p class="card-text ">
+                            {% if usr.professional_info.occupation_detail %}
+                                {{ usr.professional_info.occupation_detail }}
+                            {% endif %}
+                        </p>
+                        <p class="card-text"><small class="text-muted"><i class="bi bi-geo-alt-fill"></i> 
+                            {% if usr.contact_info.city %}
+                                {{ usr.contact_info.city|default:'' }}, 
+                            {% endif %}    
+                            {{ usr.contact_info.country}}
+                        </small></p>
+                        
+                        <div class="card-text text-end">
+                            <a href="/@{{usr.username}}" class=" w-100">View</a>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

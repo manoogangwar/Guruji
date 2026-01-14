@@ -1,0 +1,78 @@
+{% load static %}
+
+
+<div class="section container " id="news-section">
+
+    <div class="">
+        <div class="row">
+            <div class="col-12 col-md-6">
+                <div class="card mb-3" style="background: #f5f0df;">
+                    <div class="d-flex p-4">
+                        <div class="p-2">
+                            <p class="card-text"><small style="color: #ab0302;"><i class="bi bi-geo-alt-fill"></i>India</small></p>
+                            <div class="d-flex justify-content-center text-truncate">
+                                {% if usr.member.profile_picture %}
+                                <img src="{{ usr.member.profile_picture.url }}"
+                                    style="height: 150px; width: 150px; padding: 3px; background: white"
+                                    class="img-fluid rounded-circle" alt="...">
+                                {% else %}
+                                <img src="{% static 'img/default_profile.jpg' %}"
+                                    style="height: 150px; width: 150px; padding: 3px; background: white"
+                                    class="img-fluid rounded-circle" alt="...">
+                                {% endif %}
+                            </div>
+                            
+                        </div>
+                        <div class="p-2">
+                            <div class="card-body pt-0">
+                                <h5 class="card-title text-capitalize f-Rg text-truncate">Rakesh Malhotra</h5>
+                                <p class="card-text text-truncate" > Music Teacher &nbsp;</p>
+                                <p><strong style="font-family: 'Audible Sans Bd';">Ask - </strong> I need a place to open my music class in Uttrakhand</p>
+                                <p><strong style="font-family: 'Audible Sans Bd';">Give - </strong> I can give free music classes to students</p>
+    
+                                <div class="card-text"><br>
+                                    <a href="/@{{usr.username}}" class="btn w-100 btn-sm">View</a>
+                                </div>
+    
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-12">
+                <div class="card mb-3" style="background: #f5f0df;">
+                    <div class="d-flex p-4">
+                        <div class="p-2">
+                            <p class="card-text"><small style="color: #ab0302;"><i class="bi bi-geo-alt-fill"></i>India</small></p>
+                            <div class="d-flex justify-content-center text-truncate">
+                                {% if usr.member.profile_picture %}
+                                <img src="{{ usr.member.profile_picture.url }}"
+                                    style="height: 150px; width: 150px; padding: 3px; background: white"
+                                    class="img-fluid rounded-circle" alt="...">
+                                {% else %}
+                                <img src="{% static 'img/default_profile.jpg' %}"
+                                    style="height: 150px; width: 150px; padding: 3px; background: white"
+                                    class="img-fluid rounded-circle" alt="...">
+                                {% endif %}
+                            </div>
+                            
+                        </div>
+                        <div class="p-2">
+                            <div class="card-body pt-0">
+                                <h5 class="card-title text-capitalize f-Rg text-truncate">Rakesh Malhotra</h5>
+                                <p class="card-text text-truncate" > Music Teacher &nbsp;</p>
+                                <p><strong style="font-family: 'Audible Sans Bd';">Ask - </strong> I need a place to open my music class in Uttrakhand</p>
+                                <p><strong style="font-family: 'Audible Sans Bd';">Give - </strong> I can give free music classes to students</p>
+    
+                                <div class="card-text"><br>
+                                    <a href="/@{{usr.username}}" class="btn w-100 btn-sm">View</a>
+                                </div>
+    
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

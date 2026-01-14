@@ -1,0 +1,266 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block head %}
+
+
+<style>
+    .hero-section {
+        background: url(/static/img/map-bg.jpg) no-repeat center center;
+    background-size: cover;
+    color: white;
+    padding: 50px 83px;
+    }
+    .hero-section h1 {
+        font-size: 3rem;
+    }
+
+  #contact {
+  background-color: #6a9ac400;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.contact-box {
+  width: clamp(200px, 100%, 1500px);
+    margin: 70px 50px;
+    display: flex
+;
+    flex-wrap: wrap;
+}
+
+.contact-links, .contact-form-wrapper {
+  width: 50%;
+  padding: 50px;
+}
+
+
+.contact-links {
+  background-color: #1f2e43;
+  background-image: url(/static/img/contact-bg.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-radius: 10px 0 0 10px;
+  display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-position: center;
+}
+.contact-links p{
+  color: white;
+  text-align: center;
+  font-size: 18px;
+  line-height: 28px;
+}
+
+.contact-form-wrapper {
+  background-color: #f6f0df;
+  border-radius: 0 10px 10px 0;
+}
+
+@media only screen and (max-width: 800px) {
+  .contact-links, .contact-form-wrapper {
+    width: 100%;
+  }
+  .contact-box {
+    width: 95%;
+    margin: 20px;
+  }
+  
+  .contact-links {
+    border-radius: 10px 10px 0 0;
+  }
+  
+  .contact-form-wrapper {
+    border-radius: 0 0 10px 10px;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .contact-box {
+    width: 95%;
+    margin: 20px;
+  }
+}
+
+h2 {
+  
+  color: #fff;
+  font-size: clamp(30px, 6vw, 60px);
+  letter-spacing: 2px;
+  text-align: center;
+  transform: scale(.95, 1);
+}
+
+
+.form-item {
+  position: relative;
+}
+
+
+.input, textarea {
+  width: 100%;
+  outline: 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  padding: 12px !important;
+  font-size: clamp(15px, 1.5vw, 18px);
+  background-color: transparent !important;
+}
+
+
+
+.submit-btn {
+  background-color: #fd917e;
+  filter: drop-shadow(2px 2px 3px #0003);
+  color: #fff;
+  font-family: "Poppins",sans-serif;
+  font-size: clamp(16px, 1.6vw, 18px);
+  display: block;
+  padding: 12px 20px;
+  margin: 2px auto;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  user-select: none;
+  transition: 0.2s;
+}
+
+.submit-btn:hover {
+  transform: scale(1.1, 1.1);
+}
+
+.submit-btn:active {
+  transform: scale(1.1, 1.1);
+  filter: sepia(0.5);
+}
+
+@media only screen and (max-width: 800px) {
+  h2 {
+    font-size: clamp(39px, 9vw, 43px);
+  }
+  p{
+    font-size: 15px;
+    line-height: 25px;
+  }
+}
+
+
+</style>
+{% endblock head %}
+{% block body %}
+
+ <!-- Hero Section -->
+ <div class="hero-section">
+    <h1>Contact Us</h1>
+    <p>We’re here to help! Reach out to us with your questions, suggestions, or feedback.</p>
+</div>
+
+<section id="contact">
+  <div class="contact-box">
+    <div class="contact-links">
+      <h2>CONTACT US</h2>
+      <p>For any of the following queries, please send an email to : <a href="mailto:info@haidakhandi.org" class="fs-5 text-white text-decoration-underline">info@haidakhandi.org</a></p>
+   
+    </div>
+    <div class="contact-form-wrapper">
+      <h2 class="main-heading text-start">Get in Touch</h2>
+        {% for message in messages %}
+            <div class="alert alert-success" role="alert">
+            {{message}}
+            </div>
+        {% endfor %}
+      <form method="post" id="contact-form" onsubmit="openEmail(event)">
+        {% csrf_token %}
+        <div class="form-item">
+          <div class="label">Full Name</div>
+         <input type="text" id="name" name="name" class="form-control input" placeholder="Your full name" required>
+        </div>
+        <div class="form-item">
+          <div class="label">Email Address</div>
+          <input type="email" id="email" name="email" class="form-control input" placeholder="Your email address" required>
+        </div>
+        <div class="form-item">
+          <div class="label">Subject</div>
+          <input type="text" id="subject" name="subject" class="form-control input" placeholder="Subject of your message">
+        </div>
+        <div class="form-item">
+          <div class="label">Message</div>
+          <textarea id="message" name="message" rows="5" class="form-control input" placeholder="Write your message here" required></textarea>
+        </div>
+        <div>
+          <input type="hidden" name="userid">
+          {{form.captcha}}
+          
+          {% for error in form.captcha.errors %}
+          <small class="text-danger">{{error}}</small>
+          {% endfor %}
+            
+        </div>
+        
+        <button class="btn login-btn mt-3" type="submit">Send Message</button>
+
+        <!-- Error Message Box -->
+        <div id="mail-error" class="mt-2 text-danger" style="display: none; margin-top: 15px;">
+          Unable to open your email client. Please send your message manually to <strong>info@haidakhandi.org</strong>.
+        </div>
+        <!-- {% if user.is_authenticated %}
+        {% else%}
+            <button class="btn login-btn bg-secondary border-0" disabled>Send Message</button>
+        {% endif %}  -->
+      </form>
+    </div>
+  </div>
+</section>
+
+
+
+
+{% endblock body %}
+
+{% block script %}
+<script>
+  function openEmail(event) {
+    event.preventDefault();
+
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const subject = document.getElementById('subject').value.trim() || 'Contact Form Message';
+    const message = document.getElementById('message').value.trim();
+
+    const body = `Name: ${name}%0D%0AEmail: ${email}%0D%0A%0D%0A${message}`;
+    const mailtoLink = `mailto:info@haidakhandi.org?subject=${encodeURIComponent(subject)}&body=${body}`;
+    //window.open(mailtoLink); 
+    window.location.href = mailtoLink;
+    // Fallback after 1.5 seconds if the user is still on the page
+    setTimeout(() => {
+      if (!document.hidden) {
+        console.log("there is some error")
+        document.getElementById('mail-error').style.display = 'block';
+      }
+    }, 1500);
+    
+  }
+
+  
+</script>
+<!-- <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const form = document.getElementById("contact-form");
+        const submitButton = form.querySelector("button[type='submit']");
+    
+        form.addEventListener("submit", function (event) {
+            // Disable the button
+            submitButton.disabled = true;
+    
+            // Add spinner and update button text
+            submitButton.innerHTML = `
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Sending...
+            `;
+        });
+    });
+</script> -->
+{% endblock %}

@@ -1,0 +1,84 @@
+{% extends 'base/base.html' %} {% block head %}
+<style>
+  .job-card {
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+  }
+  .company-logo {
+    width: 64px;
+    height: 64px;
+    object-fit: contain;
+    border-radius: 8px;
+  }
+  .job-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+  .job-body {
+    margin-top: 10px;
+  }
+  .apply-btn {
+    float: right;
+  }
+</style>
+{% endblock head %} {% block body %}
+
+<div class="container mt-5">
+  <div class="d-flex justify-content-between ">
+    <a href="{% url 'candidate' %}" class=""><i class="bi bi-arrow-left"></i> Back</a>
+    <a target="_blank" class=" ms-auto " onclick="navigator.share({
+            title:'{{job.title}}',
+            url:'{{job.external_url}}'
+          })"><i class="bi bi-share"></i> Share</a>
+  </div>
+
+</div>
+
+
+<div class="container py-5">
+
+    <!-- Job Header -->
+    <div class="card shadow-sm border-0 mb-4">
+        <div class="card-body">
+            <h1 class="main-heading text-start mb-1">{{ job.title }}</h1>
+            <h5 class="text-muted">{{ job.company.name }}</h5>
+            <p class="mb-2">
+                <span class="badge bg-primary text-capitalize">{{ job.job_type }}</span>
+                <span class="badge bg-secondary text-capitalize">{{ job.working_type }}</span>
+            </p>
+            <p class="text-muted mb-0">
+                📍 {{ job.location }}  
+                <br>
+                Posted on: {{ job.posted_at|date:"M j, Y" }}  
+                {% if job.expires_at %} 
+                <!-- | Expires: {{ job.expires_at|date:"M j, Y" }}  -->
+                {% endif %}
+            </p>
+        </div>
+    </div>
+
+    <!-- Job Description -->
+    <div class="card shadow-sm border-0 mb-4">
+        <div class="card-body">
+            <h4 class="mb-3">Job Description</h4>
+            <p>{{ job.description|linebreaks }}</p>
+        </div>
+    </div>
+
+    <!-- Apply Button -->
+    <div class="text-center">
+        <a href="{{ job.external_url }}" target="_blank" class="btn  px-5">
+            Apply Now
+        </a>
+    </div>
+
+</div>
+
+
+
+
+{% endblock body %}

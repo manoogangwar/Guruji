@@ -1,0 +1,163 @@
+{% load static %}
+
+<div style="background-color: #f5f0df;"> 
+<div class="container section text-center offerings-carousel" id="offerings" >
+  <h1 class="main-heading mb-2">Our Offerings</h1>
+     <p class="text-muted text-center mb-4">Join us and discover a range of offerings tailored for you. Explore opportunities, resources, and connections within our community!</p>
+  
+    <div class="row mx-auto my-auto justify-content-center">
+    <div id="recipeCarousel" class="carousel slide p-0" data-bs-ride="carousel" data-bs-interval="2000">
+      <div class="carousel-inner" role="listbox">
+        <div class="carousel-item active">
+          <div class="col-md-3 px-2 item ">
+            <figure class="snip1200">
+              <img src="{% static 'img/be-a-hadakhandi.png'%}" alt="sq-sample27" class="w-100" />
+              <figcaption>
+                <p class="p-2">I say, if your knees aren't green by the end of the day, you ought to seriously re-examine your life.</p>
+                <div class="heading">
+                  <h4>Join Haidakhandi.org</span></h4>
+                </div>
+              </figcaption>
+              <!-- <a href="#"></a> -->
+            </figure>
+          </div>
+        </div>
+
+        <div class="carousel-item">
+          <div class="col-md-3 px-2 item">
+            <figure class="snip1200 ">
+              <img src="{% static 'img/explore-spirituality.jpg'%}" alt="sq-sample31" />
+              <figcaption>
+                <p>Dive deep into spiritual practices, meditation, and teachings that align with ancient wisdom. Begin your journey to self-discovery.</p>
+                <div class="heading">
+                  <h4>Explore Spirituality</h4>
+                </div>
+              </figcaption>
+              <!-- <a href="#"></a> -->
+            </figure>
+          </div>
+        </div>
+
+        <div class="carousel-item">
+          <div class="col-md-3 px-2 item">
+            <figure class="snip1200">
+              <img src="{% static 'img/discover-shiva.jpg'%}" alt="sq-sample32" />
+              <figcaption>
+                <p>Understand the essence of Lord Shiva and his connection to Haidakhan. Experience divinity through worship and devotion.</p>
+                <div class="heading">
+                  <h4>Discover Shiva</h4>
+                </div>
+              </figcaption>
+              <!-- <a href="#"></a> -->
+            </figure>
+          </div>
+        </div>
+        
+        {% comment %}  
+        <div class="carousel-item">
+          <div class="col-md-3 px-2 item">
+            <figure class="snip1200">
+              <img src="{% static 'img/Volunteer.jpg'%}" alt="sq-sample32" />
+              <figcaption>
+                <p>Offer your time and skills to contribute to the growth of the Haidakhandi mission. Make a difference while serving others.</p>
+                <div class="heading">
+                  <h4>Volunteer</h4>
+                </div>
+              </figcaption>
+              <!-- <a href="#"></a> -->
+            </figure>
+          </div>
+        </div>
+        {% endcomment %}
+        <div class="carousel-item">
+          <div class="col-md-3 px-2 item">
+            <figure class="snip1200">
+              <img src="{% static 'img/event.jpg'%}" alt="sq-sample32" />
+              <figcaption>
+                <p>Participate in spiritual gatherings, ceremonies, and workshops that bring the Haidakhandi community together.
+                </p>
+                <div class="heading">
+                  <h4>Attend Events</h4>
+                </div>
+              </figcaption>
+              <!-- <a href="#"></a> -->
+            </figure>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <div class="col-md-3 px-2 item">
+            <figure class="snip1200">
+              <img src="{% static 'img/Recommend.jpg'%}" alt="sq-sample32" />
+              <figcaption>
+                <p>Reach a like-minded audience by advertising on our platform. Share your message with our growing spiritual community.
+                </p>
+                <div class="heading">
+                  <h4>Advertise with Us</h4>
+                </div>
+              </figcaption>
+              <!-- <a href="#"></a> -->
+            </figure>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <div class="col-md-3 px-2 item">
+            <figure class="snip1200">
+              <img src="{% static 'img/recommend-1.jpg'%}" alt="sq-sample32" />
+              <figcaption>
+                <p>Introduce someone to the teachings of Babaji and the Haidakhandi community. Help others start their spiritual journey.</p>
+                <div class="heading">
+                  <h4>Recommend Someone</h4>
+                </div>
+              </figcaption>
+              <!-- <a href="#"></a> -->
+            </figure>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <div class="col-md-3 px-2 item">
+            <figure class="snip1200">
+              <img src="{% static 'img/help.jpg'%}" alt="sq-sample32" />
+              <figcaption>
+                <p>Need assistance? Visit our Help Center for guidance on your journey and answers to common questions.</p>
+                <div class="heading">
+                  <h4>Help Center</h4>
+                </div>
+              </figcaption>
+              <!-- <a href="#"></a> -->
+            </figure>
+          </div>
+        </div>
+     
+
+      </div>
+      
+    </div>
+  </div>
+  <div class="d-flex justify-content-end gap-4 pe-5">
+    <a class="" href="#recipeCarousel" role="button" data-bs-slide="prev">
+      <i class="bi bi-arrow-left fs-3"></i>
+    </a>
+    <a class="" href="#recipeCarousel" role="button" data-bs-slide="next">
+      <i class="bi bi-arrow-right fs-3"></i>
+    </a>
+  </div>
+    		
+</div>
+</div>
+<script>
+  let offring_items = document.querySelectorAll('#offerings .carousel .carousel-item')
+
+  offring_items.forEach((el) => {
+    const minPerSlide = 4
+    let next = el.nextElementSibling
+    for (var i=1; i<minPerSlide; i++) {
+      if (!next) {
+          // wrap carousel by using first child
+          next = offring_items[0]
+      }
+      let cloneChild = next.cloneNode(true)
+      el.appendChild(cloneChild.children[0])
+      next = next.nextElementSibling
+  }
+  })
+</script>

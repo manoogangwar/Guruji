@@ -1,0 +1,52 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block body %}
+<div class="container py-5">
+    <!-- Header Section -->
+    <div class="row align-items-center mb-4">
+        <div class="col-md-6">
+            <h1 class="display-5">Help Center</h1>
+            <p class="lead">
+                Need assistance? Visit our Help Center for guidance on your journey and answers to common questions.
+            </p>
+            <a href="/help-center/faqs" class="btn btn-primary btn-lg mt-3">Visit FAQs</a>
+        </div>
+        <div class="col-md-6">
+            <img src="https://via.placeholder.com/500x300" alt="Help Center" class="img-fluid rounded shadow">
+        </div>
+    </div>
+
+    <hr>
+
+    <!-- Common Help Topics -->
+    <div class="row mt-4">
+        <h2 class="text-center mb-4">Common Help Topics</h2>
+        <div class="col-md-4 text-center">
+            <img src="https://via.placeholder.com/350x200" class="img-fluid rounded mb-3" alt="Account Assistance">
+            <h5>Account Assistance</h5>
+            <p>Get help with setting up your account, resetting passwords, and managing your profile.</p>
+            <a href="/help-center/account" class="btn btn-outline-primary btn-sm">Learn More</a>
+        </div>
+        <div class="col-md-4 text-center">
+            <img src="https://via.placeholder.com/350x200" class="img-fluid rounded mb-3" alt="Resource Help">
+            <h5>Resource Help</h5>
+            <p>Find guidance on accessing and downloading spiritual resources and eBooks.</p>
+            <a href="/help-center/resources" class="btn btn-outline-primary btn-sm">Learn More</a>
+        </div>
+        <div class="col-md-4 text-center">
+            <img src="https://via.placeholder.com/350x200" class="img-fluid rounded mb-3" alt="Event Assistance">
+            <h5>Event Assistance</h5>
+            <p>Learn how to register for events, workshops, and spiritual gatherings.</p>
+            <a href="/help-center/events" class="btn btn-outline-primary btn-sm">Learn More</a>
+        </div>
+    </div>
+
+    <!-- Contact Support -->
+    <div class="mt-5 text-center">
+        <h3>Still Need Help?</h3>
+        <p>Contact our support team for personalized assistance with your questions or issues.</p>
+        <a href="/help-center/contact" class="btn btn-outline-success btn-lg">Contact Support</a>
+    </div>
+</div>
+{% endblock body %}
+    

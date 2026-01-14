@@ -1,0 +1,29 @@
+
+{% extends 'base/base.html' %}
+{% load static %}
+{% block head %}
+
+{% endblock head %}
+    
+{% block body %}
+<div class="container py-5">
+    <div class="row">
+        {% for book in books %}
+            <div class="col-6 col-md-4">
+                <a href="">
+                    <div class="card bg-dark text-white">
+                        <img src="{{book.poster}}" class="card-img" alt="...">
+                    </div>
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock body %}
+
+{% block script %}
+
+{% endblock script %}
+    
+    
+    

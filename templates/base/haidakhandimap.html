@@ -1,0 +1,80 @@
+{% extends "base/base.html" %}
+{% load static %}
+{% block body %}
+<div class="hero-section text-left text-white p-5" style="background: url('{% static "img/map-bg.jpg" %}') no-repeat center; background-size: cover;">
+    <h1 class="display-4">Find Haidakhandi</h1>
+    <p class="lead">Explore the map to connect with Haidakhandi from around the globe.</p>
+</div>
+<div class="section">
+    
+    <!-- Map Section -->
+    <div class="map-container container ">
+        <!-- Overlay Info -->
+        <div class="map-overlay mb-4">
+            <h5 class="main-heading mb-2">About This Map</h5>
+            <p class="text-center mb-4">This map showcases the locations of Haidakhandis worldwide. Click on the pins to learn more about each individual.</p>
+            <p class="text-secondary"><i class="bi bi-info-circle me-2"></i> Zoom in or out to explore different regions.</p>
+        </div>
+    </div>
+    <div class="container">
+        <div id="map_div"></div>
+    </div>
+</div>
+
+{% endblock body %}
+{% block script %}
+<script>
+    // Initialize the map
+    var map = L.map('map_div').setView([20, 0], 2);
+
+    // Add OpenStreetMap tiles
+    L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
+        maxZoom: 40,
+        subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+        attribution : 'Map data © <a href="https://maps.google.com">Google</a> contributors'
+        }).addTo(map); 
+    
+    var redicon = L.icon({
+        iconUrl: '/static/img/icons/locationmarker.png',
+        iconSize: [80, 80]})
+
+    // Add search control
+    var geocoder = L.Control.Geocoder.nominatim();
+    var searchControl = L.Control.geocoder({
+        query: '',
+        placeholder: 'Search for a location...',
+        geocoder: geocoder
+    }).addTo(map);
+
+    
+    // Get the locations from the template context
+    var locations = {{ locations|safe }};
+    
+    // Add markers for all user locations
+    locations.forEach(function(location) {
+        var marker = L.marker([location.lat, location.lon],{icon:redicon})
+            .bindPopup(location.address)
+            .openPopup()
+        marker.addTo(map);
+    });
+
+    map.on('click', function(e) {
+        var lat = e.latlng.lat;
+        var lon = e.latlng.lng;
+
+        // Pan and zoom to the clicked location
+        map.setView([lat, lon], 13);
+    });
+
+    // Event listener for search control
+    searchControl.on('markgeocode', function(e) {
+        var lat = e.geocode.center.lat;
+        var lon = e.geocode.center.lng;
+
+        // Pan and zoom to the searched location
+        map.setView([lat, lon], 13);
+
+        return false;
+    });
+</script>
+{% endblock script %}

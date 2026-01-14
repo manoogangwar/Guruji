@@ -1,0 +1,60 @@
+
+
+{% load static %}
+
+<div class="new-about px-4 px-md-0">
+    <div class="section container d-flex justify-content-center">
+        <div class="row" style="max-width: 960px;">
+            <div class="col-12 col-md-12 content-container p-3 p-md-5 pb-md-0" >
+                <h1>Haidakhan Samaj Appeal</h1>
+                    
+
+                    <p>We are happy to share that Haidakhan Samaj is undertaking two important tasks: </p>
+                    <ol class="py-2">
+                        <li>1. Waterproofing the Nine Temples on the Gufa Side at Haidakhan </li>
+                        <li>2. Installing a new Kirloskar GenSet 125 KVA for Chilianaula</li>    
+                    </ol>
+
+                    <p>The total estimated expenditure is Rs. 20 lakhs.</p>
+                    <p>We humbly appeal to all Samaj members to generously contribute to these important tasks.</p>
+                    <br>
+                    Bhole Baba Ki Jai 🙏
+               
+            </div>
+            <div class="col-12 col-md-6 content-container p-3 p-md-5">
+                <div class="bank-details text-start">
+                    <div class="section-title fw-bold ">Bank Details</div>
+                    <p><strong style="font-family: 'Audible Sans Rg';">Account Name:</strong> HAIDAKHANDI SAMAJ <i style="cursor:pointer;" class="bi bi-copy float-end d-none d-md-block" onclick="copy(this,'HAIDAKHANDI SAMAJ')"> Copy</i></p>
+                    <p><strong style="font-family: 'Audible Sans Rg';">Name of Bank:</strong> STATE BANK OF INDIA <i style="cursor:pointer;" class="bi bi-copy float-end d-none d-md-block" onclick="copy(this,'STATE BANK OF INDIA')"> Copy</i></p>
+                    <p><strong style="font-family: 'Audible Sans Rg';">Account Number:</strong> 11178415310 <i style="cursor:pointer;" class="bi bi-copy float-end d-none d-md-block" onclick="copy(this,'11178415310')"> Copy</i></p>
+                    <p><strong style="font-family: 'Audible Sans Rg';">IFSC Code:</strong> SBIN0000646 <i style="cursor:pointer;" class="bi bi-copy float-end d-none d-md-block" onclick="copy(this,'SBIN0000646')"> Copy</i></p>
+                    <p><strong style="font-family: 'Audible Sans Rg';">Branch:</strong> HALDWANI <i style="cursor:pointer;" class="bi bi-copy float-end d-none d-md-block" onclick="copy(this,'HALDWANI')"> Copy</i></p>
+                </div>
+            </div>
+            <div class="col-12 col-md-6 p-0 bg-white">
+                <div class="donation-box text-center p-4">
+                    <div class="qr-code mb-3">
+                    <div class="section-title">Scan & Donate</div>
+                    <img src="{% static 'img/donation/qr-code.jpg' %}" height="200" alt="QR Code for Donation">
+                    <div class="text-center"><a style="margin-left: 20px;" href="upi://pay?pa=haidakhandisamajorg@sbi&pn=HAIDAKHANDI%20SAMAJ&mc=8675&tr=&tn=&am=&cu=INR&url=&mode=02&purpose=00&orgid=159002&sign=MEUCIQCdQehtkbAXP+fy6rN09NH8NSozWUM8fqNWTaBYJyKwOgIgKTplXZJmvP/rVu9hG0qnL1jnmiRwYpvTLyrFVh7Kcx4=" class="btn btn-sm">Open UPI App & Donate</a>    </div>
+                </div>
+                    
+                </div>
+            </div>
+            
+            
+        </div>
+    </div>
+</div>
+
+<script>
+    function copy(elem,text){
+        navigator.clipboard.writeText(text)
+        elem.classList.add('text-success')
+        elem.innerText = 'Copied'
+        setTimeout(()=>{
+            elem.classList.remove('text-success')
+            elem.innerText = 'Copy'
+        },3000)
+    }
+</script>

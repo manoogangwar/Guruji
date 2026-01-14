@@ -1,0 +1,297 @@
+
+{% extends "base/base.html" %}
+{% load static %}
+
+{% block head %}
+<script src="https://cdn.jsdelivr.net/npm/swiffy-slider@1.6.0/dist/js/swiffy-slider-extensions.min.js"></script>
+{% endblock head %}
+  
+{% block body %}
+
+
+
+
+<div class="section public-profile-view-section  d-flex justify-content-center ">
+    <div class="">
+      
+      <div class="card profile-card bgsecondary position-relative ">
+        <!-- <a class="position-absolute end-0 pe-4 pt-2 show-btn text-white d-none" href="#">See Related Profiles</a>
+        <div class="custom-offcanvas">
+          <div class="px-1 contents h-100">
+            <div class="p-3 pb-0">
+              <span class="close-btn"><i class="bi bi-x-lg"></i></span>
+              <div class="title"> Find Your Network </div>
+            </div>
+            <div class="mt-4 h-100 overflow-y-scroll">
+              <div class="px-2">
+                {% for ur in smilar_usr %}
+                  <a href="/@{{ur.username}}" class="rounded-3 p-3 w-100 mt-2 d-block" style="background: wheat;">{{ur.name}} | <span class="text-muted">{{ur.professional_info.occupation_detail}}</span> </a>
+                {% empty %}
+                    <p>No Result</p>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+        </div> -->
+        <div class="row g-0 ">
+              <!-- Profile Section -->
+              <div class="col-12 col-md-5 text-center p-4 profile-section position-relative" style='background:url("{% static 'img/profile_cover.jpg' %}");'>
+                
+                {% if user.username == usr.username %}
+                    <a class="bi bi-gear position-absolute top-0 end-0 p-3 d-block d-md-none text-white fs-3" href="{% url 'profile' %}"></a>  
+                {% endif %}
+                    
+                <div 
+                      class="profile-image rounded-circle mx-auto" 
+                      style="background-image: url(
+                          {% if usr.member.profile_picture %}
+                              {{ usr.member.profile_picture.url }}
+                          {% else %}
+                              {% static 'img/default_profile.jpg' %}
+                          {% endif %}
+                      );">
+                  </div>
+                  <h5 class="mt-3 mb-1 text-capitalize">
+                    {{ usr.name }} 
+                  </h5>
+                  <p class="text-white mb-1">@{{ usr.username }}</p>
+                  <a href="#" class="text-decoration-none">
+                      <i class="fas fa-external-link-alt"></i>
+                  </a>
+                  <!-- Account Claim Notice -->
+                  <div class="mt-4 d-md-none d-flex  justify-content-center gap-3">
+                        {% if usr.social_media_links.instagram_link %}
+                              <a href="https://instagram.com/{{ usr.social_media_links.instagram_link }}" target="_blank" class="fs-5" style="color: #fd5949 !important;">
+                                  <i class="bi bi-instagram"></i>
+                              </a>
+                           {% else %}
+                            <a class="text-white fs-5">
+                                <i class="bi bi-instagram"></i>
+                            </a>
+                          {% endif %}
+                          {% if usr.social_media_links.facebook_link %}
+                              <a href="{{ usr.social_media_links.facebook_link }}" target="_blank" class="text-white fs-5" style="color:#1877F2 !important;">
+                                  <i class="bi bi-facebook"></i>
+                              </a>
+                          {% else %}
+                            <a class="text-white fs-5">
+                                <i class="bi bi-facebook"></i>
+                            </a>
+                          {% endif %}
+                          
+                          {% if usr.social_media_links.linkedin_link %}
+                              <a href="{{ usr.social_media_links.linkedin_link }}" target="_blank" class="text-white fs-5" style="color: #0077B5 !important;">
+                                  <i class="bi bi-linkedin"></i>
+                              </a>
+                          {% else %}
+                            <a class="text-white fs-5">
+                                <i class="bi bi-linkedin"></i>
+                            </a>
+                          {% endif %}
+                          {% if usr.social_media_links.twitter_link %}
+                                <a href="https://x.com/{{ usr.social_media_links.twitter_link }}" target="_blank" class="text-white fs-5">
+                                    <i class="bi bi-twitter-x"></i>
+                                </a>
+                          {% else %}
+                                <a  class="text-white disabled fs-5">
+                                    <i class="bi bi-twitter-x"></i>
+                                </a>
+                          {% endif %}
+                    
+                  </div>
+                  
+              </div>
+  
+              <!-- Information Section -->
+              <div class="col-12 col-md-7 p-4 position-relative">
+                
+                {% if user.username == usr.username %}
+                    <a class="bi bi-gear position-absolute top-0 end-0 p-3 d-md-block d-none fs-5 text-secondary text-hover-primary" href="{% url 'profile' %}"></a>
+                {% endif %}
+                    
+                <h4 class="text-capitalize">{{usr.name}}</h4>
+                <div class="mt-2">
+                    <i class="bi bi-briefcase me-2"></i>
+                    <span>
+                        {% if usr.professional_info %}
+                            {% if usr.professional_info.occupation %}
+                                {{ usr.professional_info.occupation }}
+                                {% if usr.professional_info.occupation_detail %}
+                                    - {{ usr.professional_info.occupation_detail }}
+                                {% endif %}
+                            {% else %}
+                                Occupation details not provided
+                            {% endif %}
+                        {% else %}
+                            Occupation details not available
+                        {% endif %}
+                    </span>
+                </div>
+
+                <div class="mt-2">
+                    <i class="bi bi-envelope me-2"></i>
+                    <span>
+                        {% if usr.privacy_settings.email_visibility and usr.email %}
+                            <span href="mailto:{{ usr.email }}">{{ usr.email }}</span>
+                        {% else %}
+                         🔒 Exclusive Communication
+                        {% endif %}
+                    </span>
+                </div>
+
+                <div class="mt-2">
+                    <i class="bi bi-telephone me-2"></i>
+                    <span>
+                        {% if usr.privacy_settings.contact_info_visibility and usr.phone_number %}
+                            {{ usr.phone_prefix }}{{ usr.phone_number }}
+                        {% else %}
+                         🔒 Exclusive Communication
+                        {% endif %}
+                    </span>
+                </div>
+
+                <div class="mt-2">
+                    <i class="bi bi-geo-alt me-2"></i>
+                    <span>
+                        
+                            {% if usr.contact_info.address %}
+                                {% if usr.privacy_settings.address_visibility %}
+                                    {{ usr.contact_info.address }}
+                                    {% if usr.contact_info.city %}{{ usr.contact_info.city }}, {% endif %}
+                                {% endif %}
+                                {% if usr.contact_info.state %}{{ usr.contact_info.state }}, {% endif %}
+                                {{ usr.contact_info.country }}
+                            {% else %}
+                                Address not provided
+                            {% endif %}
+                       
+                       
+                    </span>    
+                </div>
+                
+                <div class="mt-2">
+                    <i class="bi bi-globe-central-south-asia me-2"></i>
+                    <span>
+                        {% if usr.privacy_settings.visible_on_map %}
+                            <a href="/map/u/{{usr.username}}" class="text-dark text-hover-primary">Locate me on map</a>
+                        {% else %}
+                         🔒 Exclusive Communication
+                        {% endif %}
+                    </span>
+                </div>
+
+                
+                {% if usr.volunteer_spiritual_information.providing %}
+                <div class="mt-2">
+                    <i class="bi  me-2"></i>
+                    <span><strong>My Give -</strong>{{usr.volunteer_spiritual_information.providing}}
+                    </span>
+                </div>
+                {% endif %}
+                
+                {% if usr.volunteer_spiritual_information.seeking %}
+                <div class="mt-2">
+                    <i class="bi  me-2"></i>
+                    <span>
+                        <strong>My Take -</strong>
+                        {{usr.volunteer_spiritual_information.seeking}}
+                    </span>
+                </div>
+                {% endif %}
+
+                  {% if usr.privacy_settings.bio_visibility and usr.member.bio %}
+                    <div class="mt-3"><i class="bi bi-quote"></i><span class="bio mb-3 text-muted fst-italic"> {{ usr.member.bio }} </span><span><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 4C3.73478 4 3.48043 4.10536 3.29289 4.29289C3.10536 4.48043 3 4.73478 3 5L3 7.442C3 7.70722 3.10536 7.96157 3.29289 8.14911C3.48043 8.33664 3.73478 8.442 4 8.442H5.388C5.388 8.79333 5.36733 9.14467 5.326 9.496C5.264 9.868 5.16067 10.1987 5.016 10.488C4.87133 10.7773 4.685 11.005 4.457 11.171C4.23033 11.357 3.941 11.45 3.589 11.45V13C4.16767 13 4.67433 12.876 5.109 12.628C5.54066 12.3831 5.91153 12.044 6.194 11.636C6.47839 11.1869 6.68779 10.6944 6.814 10.178C6.94162 9.60826 7.00402 9.02585 7 8.442V5C7 4.73478 6.89464 4.48043 6.70711 4.29289C6.51957 4.10536 6.26522 4 6 4L4 4ZM10 4C9.73478 4 9.48043 4.10536 9.29289 4.29289C9.10536 4.48043 9 4.73478 9 5V7.442C9 7.70722 9.10536 7.96157 9.29289 8.14911C9.48043 8.33664 9.73478 8.442 10 8.442H11.388C11.388 8.79333 11.3673 9.14467 11.326 9.496C11.2633 9.868 11.16 10.1987 11.016 10.488C10.8713 10.7773 10.685 11.005 10.457 11.171C10.2303 11.357 9.941 11.45 9.589 11.45V13C10.1677 13 10.6743 12.876 11.109 12.628C11.5407 12.3831 11.9115 12.044 12.194 11.636C12.4784 11.1869 12.6878 10.6944 12.814 10.178C12.9416 9.60826 13.004 9.02585 13 8.442L13 5C13 4.73478 12.8946 4.48043 12.7071 4.29289C12.5196 4.10536 12.2652 4 12 4H10Z" fill="black"/>
+                        </svg>
+                        </span>
+                    </div>
+                  {% endif %} 
+                  
+                  <div class="d-flex gap-4 my-4">
+                     {% if usr.privacy_settings.contact_info_visibility and usr.phone_number %}
+                      <a class="btn btn-sm w-100" href="tel:{{ usr.phone_prefix }}{{ usr.phone_number }}" target="_blank">Call</a>
+                     {% else %}
+                      <a class="btn btn-sm w-100 btn-secondary disabled"> 🔒 Call</a>
+                     {% endif %}
+                      {% if usr.privacy_settings.email_visibility and usr.email %}
+                        <a class="btn btn-sm w-100" href="mailto:{{usr.email}}" target="_blank">Mail</a>
+                      {% else %}
+                         <a class="btn btn-sm w-100 btn-secondary disabled"> 🔒 Mail</a>
+                      {% endif %}
+                </div>
+                  <!-- Social Links -->
+                  <div class="mt-4 d-none d-md-flex justify-content-center gap-3">
+                          {% if usr.social_media_links.instagram_link %}
+                              <a href="https://instagram.com/{{ usr.social_media_links.instagram_link }}" target="_blank" class="fs-5" style="color: #fd5949 !important;">
+                                  <i class="bi bi-instagram"></i>
+                              </a>
+                           {% else %}
+                            <a class="text-muted fs-5">
+                                <i class="bi bi-instagram"></i>
+                            </a>
+                          {% endif %}
+                          {% if usr.social_media_links.facebook_link %}
+                              <a href="{{ usr.social_media_links.facebook_link }}" target="_blank" class="fs-5" style="color:#1877F2 !important;">
+                                  <i class="bi bi-facebook"></i>
+                              </a>
+                          {% else %}
+                            <a class="text-muted fs-5">
+                                <i class="bi bi-facebook"></i>
+                            </a>
+                          {% endif %}
+                          
+                          {% if usr.social_media_links.linkedin_link %}
+                              <a href="{{ usr.social_media_links.linkedin_link }}" target="_blank" class="fs-5" style="color: #0077B5 !important;">
+                                  <i class="bi bi-linkedin"></i>
+                              </a>
+                          {% else %}
+                            <a class="text-muted fs-5">
+                                <i class="bi bi-linkedin"></i>
+                            </a>
+                          {% endif %}
+                          {% if usr.social_media_links.twitter_link %}
+                                <a href="https://x.com/{{ usr.social_media_links.twitter_link }}" target="_blank" class="text-dark fs-5">
+                                    <i class="bi bi-twitter-x"></i>
+                                </a>
+                          {% else %}
+                                <a  class="text-muted disabled fs-5">
+                                    <i class="bi bi-twitter-x"></i>
+                                </a>
+                          {% endif %}
+
+                    </div>
+
+                    <div class="mt-2">
+                        {% if not usr.password %}
+                            <div class="alert alert-warning ">
+                                <strong>Notice:</strong> This account doesn't seem to have an owner. If this is your account, please 
+                                <a href="mailto:info@haidakhandi.org?subject=Claim Account&body=Please help me claim my account: {{ usr.username }}" target="_blank">
+                                    contact the admin
+                                </a> to claim it.
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+              </div>
+          </div>
+      </div>
+    </div>
+  </div>
+<!-- We found similar Profiles Would you like to explore? -->
+ <!-- Yes! Show Me -->
+{% endblock body %}
+
+{% block script %}
+  <script>
+    document.querySelector('.close-btn').addEventListener('click', function () {
+    const offcanvas = document.querySelector('.custom-offcanvas');
+    offcanvas.classList.remove('show'); // Remove the 'show' class
+    });
+    document.querySelector('.show-btn').addEventListener('click', function (event) {
+    event.preventDefault()
+    const offcanvas = document.querySelector('.custom-offcanvas');
+    offcanvas.classList.add('show'); // Remove the 'show' class
+    });
+  </script>
+{% endblock script %}
+  

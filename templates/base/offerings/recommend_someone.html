@@ -1,0 +1,46 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block body %}
+<div class="container py-5">
+    <div class="row align-items-center mb-4">
+        <div class="col-md-6">
+            <h1 class="display-5">Recommend Someone</h1>
+            <p class="lead">
+                Introduce someone to the teachings of Babaji and the Haidakhandi community. Help others start their spiritual journey.
+            </p>
+            <a href="/contact-us" class="btn btn-primary btn-lg mt-3">Get Started</a>
+        </div>
+        <div class="col-md-6">
+            <img src="https://via.placeholder.com/500x300" alt="Recommend Someone" class="img-fluid rounded shadow">
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="row mt-4">
+        <h2 class="text-center mb-4">Why Recommend Someone?</h2>
+        <div class="col-md-4 text-center">
+            <img src="https://via.placeholder.com/350x200" class="img-fluid rounded mb-3" alt="Introduce Teachings">
+            <h5>Introduce Teachings</h5>
+            <p>Share the transformative wisdom of Babaji with your loved ones.</p>
+        </div>
+        <div class="col-md-4 text-center">
+            <img src="https://via.placeholder.com/350x200" class="img-fluid rounded mb-3" alt="Build Connections">
+            <h5>Build Connections</h5>
+            <p>Help others discover a spiritual path that fosters growth and unity.</p>
+        </div>
+        <div class="col-md-4 text-center">
+            <img src="https://via.placeholder.com/350x200" class="img-fluid rounded mb-3" alt="Join a Community">
+            <h5>Join a Community</h5>
+            <p>Encourage someone to become part of a supportive and inspiring group.</p>
+        </div>
+    </div>
+
+    <div class="mt-5 text-center">
+        <h3>How to Recommend?</h3>
+        <p>Provide the details of the person you’d like to recommend, and we’ll guide them on their spiritual journey.</p>
+        <a href="/recommend-someone-form" class="btn btn-outline-primary btn-lg">Recommend Now</a>
+    </div>
+</div>
+{% endblock body %}
+    

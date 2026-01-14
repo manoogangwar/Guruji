@@ -1,0 +1,82 @@
+{% extends 'base/base.html' %} {% block head %}
+<style>
+  .job-card {
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+  }
+  .company-logo {
+    width: 64px;
+    height: 64px;
+    object-fit: contain;
+    border-radius: 8px;
+  }
+  .job-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+  .job-body {
+    margin-top: 10px;
+  }
+  .apply-btn {
+    float: right;
+  }
+  .btn-reverse{
+    background: transparent;
+    color: #ab0202 !important;
+    border: 1px solid #ab0202;
+  }
+  .btn-reverse:hover{
+    color: white !important;
+  }
+
+</style>
+{% endblock head %} {% block body %}
+
+<div class="container mt-3 mt-md-5">
+ 
+  <h2 class="mb-4 main-heading text-start mt-5">Available Jobs</h2>
+  <div class="row">
+    {% for job in jobs %}
+    <div class="col-12 col-md-4">
+      <div class="job-card">
+        <div class="job-header">
+          {% if job.company.logo %}
+          <img
+            src="{{ job.company.logo_url }}"
+            alt="{{ job.company.name }}"
+            class="company-logo"
+          />
+          {% endif %}
+          <div>
+            <p class="mb-1 f-Rg">{{job.job_type|capfirst}} ({{job.working_type|capfirst}})</p>
+            <p class="mb-0 text-muted">
+              {{ job.company.name }} &middot; {{ job.location }}
+            </p>
+          </div>
+        </div>
+        <div class="job-body mt-3">
+          <p class="mb-1 f-Rg">{{ job.title }}</p>
+          <p>{{ job.description|truncatechars:80}}</p>
+        </div>
+        <div class="d-sm-flex gap-2">
+          <a href="{% url 'job_view' job.id %}"  class="btn btn-sm ms-auto w-100 mt-3">View</a>
+          <a target="_blank" class="btn btn-sm ms-auto w-100 mt-3" onclick="navigator.share({
+            title:'{{job.title}}',
+            url:'{{job.external_url}}'
+          })"><i class="bi bi-share"></i> Share</a>
+        </div>
+      </div>
+    </div>
+    {% empty %}
+    <p>No jobs available right now.</p>
+    {% endfor %}
+  </div>
+</div>
+
+
+
+{% endblock body %}

@@ -1,0 +1,64 @@
+{% extends 'base/base.html' %}
+{% load widget_tweaks %}
+
+{% block head %}
+{% endblock head %}
+    
+{% block body %}
+    
+    <div class="container py-4">
+        <h2 class="text-center">Create Event</h2>
+        <form method="post" enctype="multipart/form-data" class="mt-4">
+            {% csrf_token %}
+            
+            <div class="mb-3">
+                <label for="id_event_name" class="form-label">Event Name*</label>
+                {{ form.event_name|add_class:"form-control" }}
+            </div>
+            
+            <div class="mb-3">
+                <label for="id_description" class="form-label">Description*</label>
+                <small class="text-muted">
+                    please ensure your event description includes:
+
+                        About the event, 
+                        Location of the event, 
+                        Host of the event, 
+                        Date & time, 
+                        Contact person details.
+
+                </small>
+                {{ form.description|add_class:"form-control" }}
+            </div>
+            
+            <div class="mb-3">
+                <label for="id_pdf" class="form-label">Upload Poster*   </label>
+                <small class="text-muted">please ensure dimensions of image 1280px × 640px</small>
+                {{ form.pdf|add_class:"form-control" }}
+            </div>
+            
+            <div class="mb-3">
+                <label for="id_thumbnail" class="form-label">Upload Thumbnail*</label>
+                <small class="text-muted">please ensure dimensions of image 400px × 600px</small>
+                {{ form.thumbnail|add_class:"form-control" }}
+            </div>
+            
+            <div class="row">
+                <div class="mb-3 col-12 col-md-8">
+                    <label for="id_external_url" class="form-label">External URL</label>
+                    {{ form.external_url|add_class:"form-control" }}
+                </div>
+                <div class="mb-3 col-12 col-md-4">
+                    <label for="id_url_button_name" class="form-label">External URL Button Name</label>
+                    {{ form.url_button_name|add_class:"form-control" }}
+                </div>
+                
+            </div>
+            
+            
+            
+            <button type="submit" class="btn btn-primary w-100">Submit</button>
+        </form>
+    </div>
+
+{% endblock body %}

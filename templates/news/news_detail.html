@@ -1,0 +1,84 @@
+{% extends "base/base.html" %}
+{% load static %}
+{% block body %}
+
+<div class="section container">
+    <div class="row g-4">
+        <!-- Left Section: News Details -->
+        <div class="col-lg-8">
+            <div class="news-detail">
+                <h1 class="mb-4 main-heading text-start">{{ news.title }}</h1>
+                {% if news.image %}
+                <div class="">
+                    <img src="{{ news.image.url }}" style="width: 100%;" alt="{{ news.title }}" class="img-fluid rounded mb-4 border border-2 border-dark">
+                </div>
+                {% endif %}
+                <p class="text-muted"><i class="bi bi-calendar2-week"></i> Published on {{ news.date_published|date:"F j, Y" }}</p>
+                <p class="mt-4">{{ news.description|safe }}</p>
+            </div>
+        </div>
+        
+        <!-- Right Section: Scrolling News -->
+        <div class="col-lg-4 d-none d-md-block">
+            <div class="p-3 bgprimary" style=" border-radius: 8px;">
+                <h5 class="mb-3 main-heading-font">More News</h5>
+                <div class="scrolling-news" style="max-height: 400px; overflow-y: hidden; position: relative;">
+                    {% for item in news_items %}
+                        <div class="d-flex mb-3 align-items-start">
+                            {% if item.image %}
+                                <img src="{{ item.image.url }}" alt="{{ item.title }}" class="me-3" style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px;">
+                            {% endif %}
+                            <div>
+                                <h6 class="mb-1">
+                                    <a href="{% url 'news_detail' item.slug %}" class="text-dark text-decoration-none">{{ item.title }}</a>
+                                </h6>
+                                <p class="text-muted small mb-0"><i class="bi bi-calendar2-week"></i> {{ item.date_published|date:"F j, Y" }}</p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- JavaScript for scrolling news -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const scrollingNews = document.querySelector(".scrolling-news");
+        let scrollPosition = 0;
+        let scrollInterval;
+
+        function scrollNews() {
+            scrollPosition += 1;
+            scrollingNews.scrollTop = scrollPosition;
+
+            if (scrollPosition >= scrollingNews.scrollHeight - scrollingNews.clientHeight) {
+                scrollPosition = 0; // Reset scroll position
+            }
+        }
+
+        // Start auto-scrolling
+        function startScrolling() {
+            scrollInterval = setInterval(scrollNews, 50); // Adjust speed by changing the interval
+        }
+
+        // Stop auto-scrolling
+        function stopScrolling() {
+            clearInterval(scrollInterval);
+        }
+
+        // Initialize scrolling on page load
+        startScrolling();
+
+        // Add hover event listeners to pause and resume scrolling
+        scrollingNews.addEventListener("mouseenter", stopScrolling); // Stop scrolling on hover
+        scrollingNews.addEventListener("mouseleave", startScrolling); // Resume scrolling on mouse leave
+    });
+</script>
+
+
+
+
+{% endblock %}

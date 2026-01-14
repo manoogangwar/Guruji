@@ -1,0 +1,36 @@
+
+{% load static %}
+
+<div class="event-section position-relative">
+    
+    <div class="section container">
+       <h3 class="main-heading mb-2">Haidakhandi Upcoming Events</h3>
+       <p class="mb-4 text-center text-muted">Don't miss out on our Upcoming Events! Join us to connect, learn, and grow together in the spirit of community and spirituality.</p>
+       <div class="row " style="row-gap:10px">         
+            {% for event in events %}
+              <div class="col-12 col-md-6">
+                <div class="d-flex gap-4" >
+                  <div class="event-date">
+                    <div  class='fs-2 d-flex event-date'>{{event.date_short|safe}}</div>
+                  </div>
+                  <div class="upcoming-event"> 
+                    <div>
+                      <h6>{{event.event_name}}</h6>
+                      <small><i class="bi bi-calendar3"></i> {{event.event_date}}</small><br>
+                      <a href="{% url 'join_event' event.event_slug %}">Register Now</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {% empty %}
+              <p class="text-center">No Upcomming Events</p>
+            {% endfor %}  
+  
+      </div>
+      
+      {% if events %}
+        <div class='text-center mt-4'><a href="{% url 'event_list' %}" > View All Events</a></div>
+      {% endif %}
+        
+    </div>
+  </div>

@@ -1,0 +1,187 @@
+{% extends "base/base.html" %}
+{% load widget_tweaks %}
+
+
+{% block head %}
+<style>
+
+.event-inner{
+    width: 100vw;
+    background: linear-gradient(to right, rgba(0, 0, 0, 0.919),rgba(0, 0, 0, 0.65), rgba(56, 56, 56, 0)),  url('{{event.pdf.url}}') repeat;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+  
+  }
+
+</style>
+    
+{% endblock head %}
+    
+
+{% block body %}
+<section class="event-main">
+    <div class="event-inner py-5 d-flex">
+        <div class="container d-md-flex gap-5 align-items-center flex-md-wrap">
+            <!-- First div with fixed width of 260px -->
+            <h1 class="event-title text-white fs-2 d-blok d-md-none  mb-4">{{event.event_name}}</h1>
+            <!-- <div class="event-thumbnail bg-white rounded-4 " ></div> -->
+             <div class="mb-3 mb-md-1">
+                 <img src="{{event.thumbnail.url}}" class="event-thumbnail bg-white rounded-4">
+             </div>
+            <!-- Second div with auto width -->
+            <div style="flex: 1;">
+                <h1 class="event-title text-white fs-2 d-none d-md-block">{{event.event_name}}</h1>
+                <p class="event-description text-white">
+                    {{event.short_description|safe}}
+                </p>
+                <div class="event-tags event-tag-container">{{event.tags|default:''}}</div>
+                
+                {% if event.external_url %}
+                <div class="mt-4"><a class=" py-2 px-4 text-white event-external-link"  href="{{event.external_url}}" target="_blank">{{event.url_button_name}}</a></div>
+                {% endif %}
+                    
+                
+            </div>
+        </div>
+    </div>
+    
+    
+    
+    <div class="section container">
+        
+        {% if messages %}
+            
+            {% for message in messages %}
+              <div class="alert alert-success" role="alert">
+                {{message|safe}}
+              </div>
+            {% endfor %}
+                
+        {% endif %}
+            
+            
+        <div class="equal-width-container gap-4">
+            <!-- Description Section -->
+             
+             {% if event.description %}
+             <div class="flex-fills px-2">
+                <h3>Description</h3>
+                <p class="text-justify">{{event.description|safe}}</p> 
+            </div>
+             {% endif %}
+            
+            <!-- Form Section -->
+            
+            {% if event.add_form %}
+            <div class="flex-fills px-2 ">
+                <form method='POST' id="event-register-form">    
+                    <h5 class=" mb-2">{{event.form_title}}</h5>
+                    {% csrf_token %}
+        
+                    <div>
+                        <div class="label">{{ form.name.label }}</div>
+                        {{ form.name|add_class:"form-control" }}
+                        {% for error in form.name.errors %}<small class="text-danger">{{ error }}</small>{% endfor %}
+                    </div>
+                    <div>
+                        <div class="label">{{ form.telephone.label }}</div>
+                        {{ form.telephone|add_class:"form-control" }}
+                        {% for error in form.telephone.errors %}<small class="text-danger">{{ error }}</small>{% endfor %}
+                    </div>
+                    <div>
+                        <div class="label">{{ form.email.label }}</div>
+                        {{ form.email|add_class:"form-control" }}
+                        {% for error in form.email.errors %}<small class="text-danger">{{ error }}</small>{% endfor %}
+                    </div>
+        
+                    {% if event.participants_option %}    
+                    <div>
+                        <div class="label">{{ form.number_of_guests.label }}</div>
+                        {{ form.number_of_guests|add_class:"form-control" }}
+                        {% for error in form.number_of_guests.errors %}<small class="text-danger">{{ error }}</small>{% endfor %}
+                    </div>
+                    {% endif %}
+        
+                    {% if event.arrival_date %}    
+                    <div>
+                        <div class="label">{{ form.date_of_arrival.label }}</div>
+                        {{ form.date_of_arrival|add_class:"form-control" }}
+                        {% for error in form.date_of_arrival.errors %}<small class="text-danger">{{ error }}</small>{% endfor %}
+                    </div>
+                    {% endif %}
+                    
+                    {% if event.departure_date %}   
+                    <div>
+                        <div class="label">{{ form.date_of_departure.label }}</div>
+                        {{ form.date_of_departure|add_class:"form-control" }}
+                        {% for error in form.date_of_departure.errors %}<small class="text-danger">{{ error }}</small>{% endfor %}
+                    </div>
+                    {% endif %}
+                    
+                    {% if event.accomodation_option %}
+                    <div class="form-check form-switch">
+                        {{ form.accommodation_needed|add_class:"form-check-input" }}
+                        <label class="custom-control-label" for="{{ form.sms_notifications.id_for_label }}">Accommodation needed</label>
+                        {% for error in form.accommodation_needed.errors %}<small class="text-danger">{{ error }}</small>{% endfor %}
+                    </div> 
+                    {% endif %}
+                    <button type="submit" class="btn btn-primary float-end mt-3">{{event.form_submit_button}}</button>
+                </form>
+            </div>
+            {% endif %}
+                
+        </div>
+    </div>
+</section>
+
+
+
+{% endblock body %}
+
+{% block script %}
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const form = document.getElementById("event-register-form");
+        const submitButton = form.querySelector("button[type='submit']");
+    
+        form.addEventListener("submit", function (event) {
+            // Disable the button
+            submitButton.disabled = true;
+    
+            // Add spinner and update button text
+            submitButton.innerHTML = `
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Sending...
+            `;
+        });
+    });
+</script>
+
+<script> // Event Tags display
+    // Select the element containing the tags
+    const tagsElement = document.querySelector('.event-tags');
+
+    // Extract the tags, split by comma, and trim whitespace
+    const tags = tagsElement.textContent.split(',').map(tag => tag.trim());
+    
+    // Select or create a container for individual tags
+    const tagContainer = document.querySelector('.event-tag-container');
+    tagContainer.innerHTML = ''; // Clear existing content if any
+
+    // Wrap each tag in a styled span and append to the container
+    tags.forEach(tag => {
+        if(tag.length > 0){
+            console.log('ahs',tag.length)
+            const tagSpan = document.createElement('span');
+            tagSpan.className = 'event-tag';
+            tagSpan.textContent = tag;
+            tagContainer.appendChild(tagSpan);
+        }
+        
+    });
+
+</script>
+
+{% endblock script %}
+    

@@ -1,0 +1,105 @@
+{% load static %}
+
+<div class="professional-search-section" style="background-color: transparent;">
+    <div class="section container">
+         <h1 class="main-heading mb-2">Explore Professionals</h1>
+         <p class="text-muted text-center mb-4">Discover trusted professionals in your community. Quickly connect with specialists tailored to your needs.</p>
+         <!--professionals-->
+         <div class="professionals d-none d-md-flex justify-content-xl-center gap-xl-5" >
+           
+            <div class="">
+                <a href="{% url 'search' %}?p=doctor, dr, dr., mbbs, md"><img height="90px" src="{% static 'img/icons/doctor.svg' %}" alt=""  ></a>
+                <p >DOCTORS</p>
+            </div>  
+            <div class="">
+                <a href="{% url 'search' %}?p=educators, prof, teacher, dr, dr., doctor"><img height="90px" src="{% static 'img/icons/teacher.svg' %}" alt=""  ></a>
+                <p >EDUCATORS</p>
+            </div> 
+            <div class="">
+                <a href="{% url 'search' %}?p=lawyer, advocate, judge, magistrate"><img height="90px" src="{% static 'img/icons/lawyer.svg' %}" alt="" ></a>
+                <p >LAWYERS</p>
+            </div> 
+            <div>
+                <a href="{% url 'search' %}?p=veterans"><img height="90px" src="{% static 'img/icons/VETERANS.svg' %}" alt="" ></a>
+                <p >VETERANS</p>
+            </div> 
+            <div>
+                <a href="{% url 'search' %}?p=writer"><img height="90px" src="{% static 'img/icons/writer.svg' %}" alt="" ></a>
+                <p >WRITER</p>
+            </div> 
+            <div>
+                <a href="{% url 'search' %}?p=astrologers"><img height="90px" src="{% static 'img/icons/astrologer.svg' %}" alt=""  ></a>
+                <p>ASTROLOGERS</p>
+            </div> 
+            <div>
+                <a href="{% url 'search' %}?p=chefs"><img height="90px" src="{% static 'img/icons/chef.svg' %}" alt=""></a>
+                <p >CHEFS</p>
+            </div> 
+            <div>
+                <a href="{% url 'search' %}?p=yogo experts"><img height="90px" src="{% static 'img/icons/YOGA EXPERTS.svg' %}" alt="" ></a>
+                <p >YOGA EXPERTS</p>
+            </div> 
+            <div>
+                <a href="{% url 'search' %}?p=singers" class="text-decoration-none text-black"><img height="90px" src="{% static 'img/icons/singer.svg' %}" alt="" ></a>
+                <p >SINGERS</p>
+            </div>      
+        </div>
+        
+        <!--Mobile View-->
+        <div class="professionals d-block d-md-none overflow-hidden " >
+            <div id="carouselCategoryControls" class="carousel slide" data-bs-interval="1500" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                  <div class="carousel-item active">
+                    <div class="row">
+                        <div class="col">
+                            <a href="{% url 'search' %}?p=doctor, dr, dr., mbbs, md"><img height="90px" src="{% static 'img/icons/doctor.svg' %}" alt=""  ></a>
+                            <p >DOCTORS</p>
+                        </div>  
+                        <div class="col">
+                                <a href="{% url 'search' %}?p=educators, prof, teacher, dr, dr., doctor"><img height="90px" src="{% static 'img/icons/teacher.svg' %}" alt=""  ></a>
+                                <p >EDUCATORS</p>
+                        </div> 
+                        <div class="col">
+                            <a href="{% url 'search' %}?p=lawyer, advocate, judge, magistrate"><img height="90px" src="{% static 'img/icons/lawyer.svg' %}" alt="" ></a>
+                            <p >LAWYERS</p>
+                        </div> 
+                    </div>
+                  </div>
+                  <div class="carousel-item">
+                    <div class="row">
+                        <div class="col">
+                            <a href="{% url 'search' %}?p=veterans"><img height="90px" src="{% static 'img/icons/VETERANS.svg' %}" alt="" ></a>
+                            <p >VETERANS</p>
+                        </div> 
+                        <div class="col"> 
+                            <a href="{% url 'search' %}?p=writer"><img height="90px" src="{% static 'img/icons/writer.svg' %}" alt="" ></a>
+                            <p >WRITER</p>
+                        </div> 
+                        <div class="col">
+                            <a href="{% url 'search' %}?p=astrologers"><img height="90px" src="{% static 'img/icons/astrologer.svg' %}" alt=""  ></a>
+                            <p>ASTROLOGERS</p>
+                        </div> 
+                    </div>
+                  </div>
+                  <div class="carousel-item">
+                    <div class="row">
+                        <div class="col">
+                            <a href="{% url 'search' %}?p=chefs"><img height="90px" src="{% static 'img/icons/chef.svg' %}" alt=""></a>
+                            <p >CHEFS</p>
+                        </div> 
+                        <div class="col">
+                            <a href="{% url 'search' %}?p=yogo experts"><img height="90px" src="{% static 'img/icons/YOGA EXPERTS.svg' %}" alt="" ></a>
+                            <p >YOGA EXPERTS</p>
+                        </div> 
+                        <div class="col">
+                            <a href="{% url 'search' %}?p=singers" class="text-decoration-none text-black"><img height="90px" src="{% static 'img/icons/singer.svg' %}" alt="" ></a>
+                            <p >SINGERS</p>
+                        </div>  
+                    </div>
+                  </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,23 @@
+ <!-- Custom In-Section Offcanvas (Mobile Only) -->
+        <div id="sidebar-mobile" class="in-section-offcanvas d-lg-none" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h5 class="offcanvas-title fw-bold">Job Manager Menu</h5>
+                <button type="button" class="btn-close" id="offcanvas-close-btn"></button>
+            </div>
+            <div class="d-flex flex-column gap-3">
+                <a class="dropdown-item py-2 {% if page == 'manage' %}active{% endif %}" href="{% url 'manage_jobs' %}"><i class="bi bi-briefcase me-2"></i> Manage Jobs</a>
+                <a class="dropdown-item py-2 {% if page == 'create' %}active{% endif %}" href="{% url 'create_job' %}"><i class="bi bi-plus-lg me-2"></i> Post a Jobs</a>
+                <a class="dropdown-item py-2 {% if page == 'register' %}active{% endif %}" href="{% url 'register_company' %}"><i class="bi bi-building me-2"></i> Register Company</a>
+            </div>
+        </div>
+        
+        <!-- Desktop Sidebar (Visible only on desktop) -->
+        <div class="px-3 border-end sidebar-desktop d-none d-lg-block">
+            <div
+                class="d-flex flex-column gap-3 sidebar-desktop-sticky"
+            >
+            <a class="dropdown-item py-2 {% if page == 'manage' %}active{% endif %}" href="{% url 'manage_jobs' %}"><i class="bi bi-briefcase me-2"></i> Manage Jobs</a>
+                <a class="dropdown-item py-2 {% if page == 'create' %}active{% endif %} " href="{% url 'create_job' %}"><i class="bi bi-plus-lg me-2"></i> Post a Jobs</a>
+                <a class="dropdown-item py-2 {% if page == 'register' %}active{% endif %}" href="{% url 'register_company' %}"><i class="bi bi-building me-2"></i> Register Company</a>
+            </div>
+        </div>

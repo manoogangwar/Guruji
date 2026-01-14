@@ -1,0 +1,60 @@
+{% load widget_tweaks %}
+<form method="post" id="volunteer_form" class="me-3">
+    {% csrf_token %}
+    <div>
+      <div class="label">{{ volunteer_form.services.label }}</div>
+      {{ volunteer_form.services|attr:'rows:4' }}
+      {% for error in volunteer_form.services.errors %}<small class="text-danger">{{ error }}</small>{% endfor %}
+    </div>
+    
+    <div>
+      <div class="label">{{ volunteer_form.spiritual_connect.label }}</div>
+        {{ volunteer_form.spiritual_connect|attr:'rows:4' }}
+      {% for error in volunteer_form.spiritual_connect.errors %}<small class="text-danger">{{ error }}</small>{% endfor %}
+    </div>
+    <div>
+      <div class="label">{{ volunteer_form.providing.label }}</div>
+      {{ volunteer_form.providing|add_class:"form-control"|attr:'rows:4' }}
+      {% for error in volunteer_form.providing.errors %}<small class="text-danger">{{ error }}</small>{% endfor %}
+  </div>
+    <div>
+      <div class="label">{{ volunteer_form.seeking.label }}</div>
+      {{ volunteer_form.seeking|add_class:"form-control"|attr:'rows:4' }}
+      {% for error in volunteer_form.seeking.errors %}<small class="text-danger">{{ error }}</small>{% endfor %}
+  </div>
+  
+  
+
+    {% comment %}
+      <div>
+        <div class="label">{{ volunteer_form.contribution_to_samaj.label }}</div>
+        {{ volunteer_form.contribution_to_samaj|attr:'rows:4' }}
+        {% for error in volunteer_form.contribution_to_samaj.errors %}<small class="text-danger">{{ error }}</small>{% endfor %}
+      </div>
+      
+       
+      
+        <div class="form-check form-switch">
+          {{ volunteer_form.wish_to_charity }}
+          <label class="custom-control-label" for="{{ volunteer_form.wish_to_charity.id_for_label }}">{{ volunteer_form.wish_to_charity.label }}</label>
+          {% for error in volunteer_form.wish_to_charity.errors %}<small class="text-danger">{{ error }}</small>{% endfor %}
+        </div>
+    
+        <div>
+            <div class="form-check form-switch">
+                {{ volunteer_form.availability|add_class:"form-check-input" }}
+                <label class="custom-control-label" for="{{ volunteer_form.availability.id_for_label }}">{{ volunteer_form.availability.label }}</label>
+                {% for error in volunteer_form.availability.errors %}<small class="text-danger">{{ error }}</small>{% endfor %}
+            </div>
+        </div>
+    {% endcomment %}
+  
+    <div class="d-flex justify-content-between align-items-center flex-wrap mt-5">
+      <div class="error-message"></div>
+      <div>
+        <button type="submit" class="btn">Save</button>
+        <a data-click="v-pills-professional-info-tab" class="btn">Previous</a>
+        <a data-click="v-pills-privacy-settings-tab" class="btn">Next</a>
+      </div>
+    </div>
+  </form>

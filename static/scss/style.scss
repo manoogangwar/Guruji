@@ -1,0 +1,76 @@
+// Variables
+$spiritual-cream: #F5F0DF;
+$devotion-red: #791815;
+$devotion-light: #B54747;
+$white: #ffffff;
+
+// Mixins
+@mixin transition($property: all, $duration: 0.3s, $timing: ease) {
+    transition: $property $duration $timing;
+}
+
+// Keyframes
+@keyframes fadeInSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes subtlePulse {
+    0%, 100% { transform: scale(1); box-shadow: 0 0 0 0px rgba(181, 71, 71, 0.4); }
+    50% { transform: scale(1.01); box-shadow: 0 0 10px 5px rgba(181, 71, 71, 0.2); }
+}
+
+// Utilities
+.animate-in-view {
+    animation: fadeInSlideUp 0.8s ease-out forwards;
+}
+
+.bg-spiritual-cream {
+    background-color: $spiritual-cream;
+}
+
+.text-devotion {
+    color: $devotion-red;
+}
+
+.btn-devotion {
+    background-color: $devotion-light;
+    color: $white;
+    @include transition;
+
+    &:hover {
+        background-color: $devotion-red;
+        box-shadow: 0 4px 15px rgba(121, 24, 21, 0.3);
+    }
+}
+
+.card-lift {
+    &:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+    }
+}
+
+.spiritual-shadow {
+     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.02);
+}
+
+.logo {
+    height: 3rem; // Adjust as needed, approx 48px
+    width: auto;
+}
+
+// Hero Section
+.hero-bg-pattern {
+    // Replaced pattern with image and dark overlay
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://haidakhandi.org/static/img/hero-bg.png');
+    background-size: cover;
+    background-position: center;
+    opacity: 1; // Ensure it's fully visible
+}

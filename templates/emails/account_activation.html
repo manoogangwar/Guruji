@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Activated</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .header img {
+            width: 150px;
+        }
+        .header h1 {
+            color: green;
+        }
+        .content {
+            margin-bottom: 20px;
+        }
+        .footer {
+            text-align: center;
+            color: #555;
+            font-size: 12px;
+        }
+        a {
+            color: #790101;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="https://haidakhandi.org/static/img/email-logo.png" alt="Haidakhandi">
+            <h1>Account Activated</h1>
+        </div>
+        <div class="content">
+            <p>Dear {{ user.first_name }},</p>
+            <p>Bhole Baba Ki Jai!</p>
+            <p>
+                Thank you for choosing to be a part of haidakhandi.org. We would like to inform you that your application has been accepted. Please feel free to browse and take an opportunity to explore the community.
+            </p>
+            <p>
+                To get started, please complete your <a href="{{ profile_url }}">profile</a>. It will help us connect you with haidakhandi network. 
+            </p>
+            <p>
+           
+            <p>
+                If you have any questions, feel free to <a href="https://haidakhandi.org/contact-us">contact us</a>.
+            </p>
+            <p>Regards,<br>
+            Devotee<br>
+            haidakhandi.org</p>
+        </div>
+        <div class="footer">
+            <p>&copy; {{ current_year }} Haidakhandi.org.</p>
+        </div>
+    </div>
+</body>
+</html>
+

@@ -1,0 +1,66 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - User Preview</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-dark bg-dark px-3">
+        <a class="navbar-brand" href="{% url 'activate_user' %}">
+            <img src="{% static 'img/icon.png' %}" alt="Logo" height="40"> 
+        </a>
+        <div class="d-flex">
+            <span class="text-white">Admin: {{user.first_name}}</span>
+        </div>
+    </nav>
+    
+    <div class="container my-5">
+        <h2 class="text-center mb-4">User Registration Preview</h2>
+        <div class="card p-4 shadow-lg">
+            <div class="row">
+                <div class="col-md-4 text-center">
+                    <img src="{{iuser.getProfilePhoto}}" class="img-fluid rounded-3" width="100%"  alt="User Profile">
+                </div>
+                <div class="col-md-8">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item"><strong>Date of Joined:</strong> {{iuser.date_joined}}</li>
+                        <li class="list-group-item"><strong>Username:</strong> {{iuser.username}}</li>
+                        <li class="list-group-item"><strong>Email:</strong> {{iuser.email}}</li>
+                        <li class="list-group-item"><strong>Phone:</strong> {{iuser.getPhone}}</li>
+                        <li class="list-group-item"><strong>Spiritual Name:</strong> {{iuser.spritual_name}}</li>
+                        <li class="list-group-item"><strong>Full Name:</strong> {{iuser.name}}</li>
+                        <li class="list-group-item"><strong>Date of Birth:</strong> {{iuser.dob}}</li>
+                        <li class="list-group-item"><strong>Gender:</strong> {{iuser.getGender}}</li>
+                        <li class="list-group-item"><strong>Occupation:</strong> {{iuser.professional_info.occupation}} {{iuser.professional_info.occupation_detail}}</li>
+                        <li class="list-group-item"><strong>Address:</strong> {{iuser.contact_info}}</li>
+                        <li class="list-group-item"><strong>Account Status:</strong> 
+                            
+                            {% if iuser.is_active %}
+                                Activated
+                            {% else %}
+                                Pending
+                            {% endif %}
+                                
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <form method="post">
+                {% csrf_token %}
+                <div class="text-center mt-4">
+                    {% if not iuser.is_active %}
+                    <button class="btn btn-success me-2" name="activate">✅ Activate User</button>
+                    {% endif %}
+                    <!-- <button class="btn btn-danger" name="reject">❌ Reject User</button> -->
+                </div>
+            </form>
+            
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

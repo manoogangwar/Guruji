@@ -1,0 +1,36 @@
+.autoSearch{
+    margin-top:20px;
+    input{
+        @include formControle;
+        
+    }
+    .suggestions{
+        position:absolute;
+        display: none;
+        padding:20px;
+        @include borderR(6px);
+        background-color:#fff;
+        width:100%;
+    }
+}
+.ss{
+    font-size:20px;
+    padding-top:30px;
+    text-align: right;
+    cursor:pointer;
+    color:$primaryColor;
+    display: block;
+}
+.modal{
+    .filter{
+        padding:20px 0;
+        font-size:20px;
+        svg{
+            margin-right:10px;
+        }
+    }
+    .autocomplete{
+        width:100%;
+        margin-bottom:20px;
+    }
+}

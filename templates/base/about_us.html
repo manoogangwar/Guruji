@@ -1,0 +1,143 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block head %}
+<style>
+    .hero-section {
+        background: url('{% static "img/about_hero.jpg" %}') no-repeat center center/cover;
+        color: white;
+        padding: 100px 20px;
+        text-align: center;
+    }
+    .values-section img, .services-section img {
+        border-radius: 10px;
+    }
+    .timeline-point {
+        background-color: #f8f9fa;
+        border: 1px solid #ddd;
+        border-radius: 50%;
+        width: 20px;
+        height: 20px;
+        margin: auto;
+    }
+    .timeline {
+        display: flex;
+        align-items: center;
+        margin: 30px 0;
+    }
+    .timeline-line {
+        height: 2px;
+        background: #6c757d;
+        flex: 1;
+    }
+</style>
+{% endblock head %}
+    
+{% block body %}
+    
+<!-- Hero Section -->
+<div class="hero-section">
+    <h1 class="display-4">Welcome to Haidakhandi.org</h1>
+    <p class="lead">Connecting the global Haidakhandi community through spirituality, service, and togetherness.</p>
+    <a href="/join" class="btn btn-light btn-lg">Join Us</a>
+</div>
+
+<div class="container py-5">
+    <!-- Our Vision and Mission -->
+    <section class="row align-items-center mb-5">
+        <div class="col-md-6">
+            <img src="{% static 'img/vision.jpg' %}" alt="Vision and Mission" class="img-fluid rounded shadow">
+        </div>
+        <div class="col-md-6">
+            <h2>Our Vision and Mission</h2>
+            <p>
+                Haidakhandi.org serves as a hub for the Haidakhandi community, helping individuals embrace Babaji's teachings of truth, simplicity, and love. 
+            </p>
+            <p>
+                Our mission is to empower connections and foster a sense of unity among those seeking spiritual enlightenment.
+            </p>
+        </div>
+    </section>
+
+    <!-- Our Services Section -->
+    <section class="services-section my-5">
+        <h2 class="text-center mb-4">Our Services</h2>
+        <div class="row g-4">
+            <div class="col-md-4 text-center">
+                <img src="{% static 'img/directory.jpg' %}" alt="Directory" class="img-fluid mb-3">
+                <h5>Haidakhandi Directory</h5>
+                <p>Search and connect with fellow Haidakhandis worldwide, fostering spiritual camaraderie.</p>
+            </div>
+            <div class="col-md-4 text-center">
+                <img src="{% static 'img/community.jpg' %}" alt="Community" class="img-fluid mb-3">
+                <h5>Community Connections</h5>
+                <p>Join a network of like-minded individuals sharing a commitment to Babaji's teachings.</p>
+            </div>
+            <div class="col-md-4 text-center">
+                <img src="{% static 'img/events.jpg' %}" alt="Events" class="img-fluid mb-3">
+                <h5>Events and Workshops</h5>
+                <p>Participate in spiritual gatherings, ceremonies, and educational sessions to deepen your journey.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Core Values Section -->
+    <section class="values-section my-5">
+        <h2 class="text-center mb-4">Our Core Values</h2>
+        <div class="row text-center">
+            <div class="col-md-4">
+                <img src="{% static 'img/truth.jpg' %}" class="img-fluid mb-3" alt="Truth">
+                <h5>Truth</h5>
+                <p>Living in harmony with universal truth and honesty.</p>
+            </div>
+            <div class="col-md-4">
+                <img src="{% static 'img/simplicity.jpg' %}" class="img-fluid mb-3" alt="Simplicity">
+                <h5>Simplicity</h5>
+                <p>Leading a life free from complexities and distractions.</p>
+            </div>
+            <div class="col-md-4">
+                <img src="{% static 'img/love.jpg' %}" class="img-fluid mb-3" alt="Love">
+                <h5>Love</h5>
+                <p>Embracing universal love for all beings and the divine.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- History Timeline Section -->
+    <section class="timeline-section my-5">
+        <h2 class="text-center mb-4">Our Journey</h2>
+        <div class="timeline">
+            <div class="timeline-point"></div>
+            <div class="timeline-line"></div>
+            <div>
+                <h5>1970s - The Beginning</h5>
+                <p>Haidakhan Babaji establishes his teachings and begins spreading the message of truth and simplicity.</p>
+            </div>
+        </div>
+        <div class="timeline">
+            <div class="timeline-point"></div>
+            <div class="timeline-line"></div>
+            <div>
+                <h5>1980s - Global Reach</h5>
+                <p>The Haidakhandi mission gains followers worldwide, creating a diverse and united community.</p>
+            </div>
+        </div>
+        <div class="timeline">
+            <div class="timeline-point"></div>
+            <div>
+                <h5>Present - A Growing Community</h5>
+                <p>Haidakhandi.org continues to connect and inspire people globally through its services.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call-to-Action Section -->
+    <section class="text-center my-5">
+        <h2>Join the Haidakhandi Family</h2>
+        <p class="mb-4">Become a part of a vibrant community dedicated to spiritual growth and service.</p>
+        <a href="/join" class="btn btn-success btn-lg">Join Now</a>
+    </section>
+</div>
+
+{% endblock body %}
+    

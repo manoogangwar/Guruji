@@ -1,0 +1,50 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block body %}
+    
+<div class="container py-5">
+    <div class="row align-items-center mb-4">
+        <div class="col-md-6">
+            <h1 class="display-5">Download</h1>
+            <p class="lead">
+                Access spiritual resources, eBooks, and guides that help deepen your connection to the teachings of Babaji.
+            </p>
+            <a href="/resources" class="btn btn-primary btn-lg mt-3">Explore Resources</a>
+        </div>
+        <div class="col-md-6">
+            <img src="https://via.placeholder.com/500x300" alt="Download Spiritual Resources" class="img-fluid rounded shadow">
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="row mt-4">
+        <h2 class="text-center mb-4">Available Downloads</h2>
+        <div class="col-md-4 text-center">
+            <img src="https://via.placeholder.com/350x200" class="img-fluid rounded mb-3" alt="eBooks">
+            <h5>eBooks</h5>
+            <p>Discover insightful eBooks that guide you through spiritual practices and teachings.</p>
+            <a href="/resources/ebooks" class="btn btn-outline-primary btn-sm">Download eBooks</a>
+        </div>
+        <div class="col-md-4 text-center">
+            <img src="https://via.placeholder.com/350x200" class="img-fluid rounded mb-3" alt="Meditation Guides">
+            <h5>Meditation Guides</h5>
+            <p>Learn meditation techniques with step-by-step guides rooted in ancient wisdom.</p>
+            <a href="/resources/guides" class="btn btn-outline-primary btn-sm">Download Guides</a>
+        </div>
+        <div class="col-md-4 text-center">
+            <img src="https://via.placeholder.com/350x200" class="img-fluid rounded mb-3" alt="Audio Resources">
+            <h5>Audio Resources</h5>
+            <p>Listen to spiritual chants and teachings to enrich your daily practices.</p>
+            <a href="/resources/audio" class="btn btn-outline-primary btn-sm">Download Audio</a>
+        </div>
+    </div>
+
+    <div class="mt-5 text-center">
+        <h3>Start Your Journey</h3>
+        <p>Browse our collection of resources and take the first step toward spiritual growth.</p>
+        <a href="/resources" class="btn btn-outline-success btn-lg">View All Resources</a>
+    </div>
+</div>
+{% endblock body %}
+    

@@ -1,0 +1,96 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block head %}
+<style>
+    body {
+     
+      align-items: center;
+      min-height: 100vh;
+      background: linear-gradient(to right, #f5f0df, #fefaf1);
+      color: rgb(0, 0, 0);
+
+    }
+    header{
+        /* visibility: hidden;
+        display: none; */
+        /* background-color: transparent; */
+    }
+    footer{
+        visibility: hidden;
+        display: none;
+    }
+    .countdown {
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+  </style>
+
+{% endblock head %}
+    
+
+{% block body %}
+    
+<div class="d-flex justify-content-center container">
+    <div class="text-center my-5" style="max-width: 600px;">
+        <h2 class="display-4 fw-bold">Exciting Services Coming Your Way!</h2>
+        <p class="lead mt-3">We're thrilled to announce the launch of a range of incredible services designed to enhance your experience and connect you with the Haidakhandi community. From insightful blogs and exclusive newsletters to opportunities like job boards, matchmaking, advisory services, and more, there's something for everyone!</p>
+        <div class="mt-4">
+          <!-- <p class="countdown" id="countdown">Launching in: -- : -- : -- : --</p> -->
+        </div>
+        <div class="mt-4">
+          <label for="email" class="form-label">Stay Updated:</label>
+          <div class="input-group mb-3">
+            <input type="email" class="form-control" id="email" placeholder="Enter your email address" required>
+            <button type="submit" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#notifyPopup">Notify Me</button>
+          </div>
+        </div>
+       
+      </div>
+</div>
+
+
+<!-- Notification Modal -->
+<div class="modal fade" id="notifyPopup" tabindex="-1" aria-labelledby="notifyPopupLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header border-0 text-center">
+          <h5 class="modal-title text-black" id="notifyPopupLabel">You're on the List!</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body text-black">
+          Thank you for signing up to be notified! You'll be the first to know when we launch our exciting new service. Stay tuned for updates in your inbox.
+        </div>
+        <div class="modal-footer border-0">
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Got it!</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock body %}
+
+
+{% block script %}
+<!-- <script>
+    // Countdown Timer
+    const launchDate = new Date("2024-01-01T00:00:00").getTime();
+    const countdownElement = document.getElementById('countdown');
+    function updateCountdown() {
+      const now = new Date().getTime();
+      const distance = launchDate - now;
+      if (distance <= 0) {
+        countdownElement.innerHTML = "We are Live!";
+        return;
+      }
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+      countdownElement.innerHTML = `Launching in: ${days}d ${hours}h ${minutes}m ${seconds}s`;
+    }
+    setInterval(updateCountdown, 1000);
+  </script>     -->
+
+{% endblock script %}
+    

@@ -1,0 +1,138 @@
+{% load widget_tweaks %}
+<form method="post" id="peronal_details_form" class="me-3" >
+    {% csrf_token %}
+    <div class=''>
+        <div class="label">{{ p_info.spritual_name.label }}</div>
+        {{ p_info.spritual_name|add_class:"form-control" }}
+        {% for error in p_info.spritual_name.errors %}<small class="text-black">{{ error }}</small>{% endfor %}
+    </div>
+
+    <div class='row'>
+        <div class='col-4 col-md-2'>
+            <div class="label">{{ p_info.name_title.label }}</div>
+            {{ p_info.name_title|add_class:"form-control" }}
+            {% for error in p_info.name_title.errors %}<small class="text-black">{{ error }}</small>{% endfor %}
+        </div>
+        <div class='col-8 col-md-10'>
+            <div class="label">{{ p_info.first_name.label }}</div>
+            {{ p_info.first_name|add_class:"form-control" }}
+            {% for error in p_info.first_name.errors %}<small class="text-black">{{ error }}</small>{% endfor %}
+        </div>
+    </div>
+    
+    <div>
+        <div class="label">{{ p_info.middle_name.label }}</div>
+        {{ p_info.middle_name|add_class:"form-control" }}
+        {% for error in p_info.middle_name.errors %}<small class="text-black">{{ error }}</small>{% endfor %}
+    </div>
+    
+    <div>
+        <div class="label">{{ p_info.last_name.label }}</div>
+        {{ p_info.last_name|add_class:"form-control" }}
+        {% for error in p_info.last_name.errors %}<small class="text-black">{{ error }}</small>{% endfor %}
+    </div>
+    
+    <div class='row'>
+        <div class='col'>
+            <div class="label">{{ p_info.dob.label }}</div>
+            {{ p_info.dob|add_class:"form-control"|attr:"type:date" }}
+            {% for error in p_info.dob.errors %}<small class="text-black">{{ error }}</small>{% endfor %}
+        </div>
+        
+        <div class='col'>
+            <div class="label">{{ p_info.gender.label }}</div>
+            {{ p_info.gender|add_class:"form-control" }}
+            {% for error in p_info.gender.errors %}<small class="text-black">{{ error }}</small>{% endfor %}
+        </div>
+    </div>
+
+    <div>
+        <p class="text-muted mt-4">Share your social media profiles to help others connect with you easily across platforms like Instagram, Facebook, LinkedIn, and Twitter</p>
+    </div>
+
+    <div>
+        <div class="label">{{ social_media.instagram_link.label }}</div>
+        <div class="input-group">
+            {{ social_media.instagram_link|add_class:"form-control" }}
+            <a class="input-group-text bg-white" href="https://instagram.com/{{ social_media.instagram_link.value }}" target="_blank"><i class="bi bi-instagram" style="color: #E1306C !important;"></i></a>    
+        </div>
+        {% for error in social_media.instagram_link.errors %}<small class="text-danger">{{ error }}</small>{% endfor %}
+    </div>
+    
+    <div>
+        <div class="label">{{ social_media.facebook_link.label }}</div>
+        <div class="input-group">
+            {{ social_media.facebook_link|add_class:"form-control" }}
+            <a class="input-group-text bg-white" href="{{social_media.facebook_link.value}}" target="_blank"><i class="bi bi-facebook" style="color: #4267B2 !important;"></i></a>
+        </div>
+        {% for error in social_media.facebook_link.errors %}<small class="text-danger">{{ error }}</small>{% endfor %}
+    </div>
+    
+    <div>
+        <div class="label">{{ social_media.linkedin_link.label }}</div>
+        <div class="input-group">
+            {{ social_media.linkedin_link|add_class:"form-control" }}
+            <a class="input-group-text bg-white" href="{{ social_media.linkedin_link.value }}" target="_blank"><i class="bi bi-linkedin" style="color: #0a66c2;"></i></a>
+        </div>
+
+        {% for error in social_media.linkedin_link.errors %}<small class="text-danger">{{ error }}</small>{% endfor %}
+    </div>
+    
+    <div>
+        <div class="label">{{ social_media.twitter_link.label }}</div>
+        <div class="input-group">
+            {{ social_media.twitter_link|add_class:"form-control" }}
+            <a class="input-group-text bg-white" href="https://x.com/{{ social_media.twitter_link.value }}" target="_blank"><i class="bi bi-twitter-x text-dark"></i></a>
+        </div>
+        {% for error in social_media.twitter_link.errors %}<small class="text-danger">{{ error }}</small>{% endfor %}
+    </div>
+    
+    <div>
+        <p class="mt-4 text-muted">Fill in the address and location details below for accurate communication.</p>
+    </div>
+   
+    <div>
+        <div class="label">{{ c_info.address.label }}</div>
+        {{ c_info.address|add_class:"form-control" }}
+        {% for error in c_info.address.errors %}<small class="text-danger">{{ error }}</small>{% endfor %}
+    </div>
+   <div class='row'>
+    <div class='col-6'>
+        <div class="label">{{ c_info.country.label }}</div>
+        {{ c_info.country|add_class:"form-control" }}
+        {% for error in c_info.country.errors %}<small class="text-danger">{{ error }}</small>{% endfor %}
+    </div>
+    <div class='col-6'>
+        <div class="label">{{ c_info.state.label }}</div>
+        {{ c_info.state|add_class:"form-control" }}
+        {% for error in c_info.state.errors %}<small class="text-danger">{{ error }}</small>{% endfor %}
+    </div>
+    
+   </div>
+    <div class='row'>
+        <div class='col-6'>
+            <div class="label">{{ c_info.city.label }}</div>
+            {{ c_info.city|add_class:"form-control" }}
+            {% for error in c_info.city.errors %}<small class="text-danger">{{ error }}</small>{% endfor %}
+        </div>
+    
+        <div class='col-6'>
+            <div class="label">{{ c_info.postal_code.label }}</div>
+            {{ c_info.postal_code|add_class:"form-control" }}
+            {% for error in c_info.postal_code.errors %}<small class="text-danger">{{ error }}</small>{% endfor %}
+        </div>
+    </div>    
+    {{c_info.latitude}}
+    {{c_info.longitude}}
+    <div>
+        <div class="label">Pin your location</div>
+        <div id="map_div" style='height: 300px;'></div>
+    </div>
+    <div class="d-flex justify-content-between align-items-center flex-wrap flex-md-nowrap">
+        <div class="error-message"></div>
+        <div class="d-flex gap-2">
+            <button type="submit" class="btn ">Save</button>
+            <a class="btn" data-click="v-pills-member-profile-tab" >Next</a>
+        </div>
+    </div>
+</form>

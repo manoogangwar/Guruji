@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Event Registration Confirmation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            border: 1px solid #ddd;
+            padding: 20px;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            border-radius: 5px 5px 0 0;
+        }
+        .footer {
+            margin-top: 20px;
+            font-size: 12px;
+            color: #888;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h2>Registration Confirmation</h2>
+        </div>
+        <p>Dear {{name}},</p>
+        <p>Thank you for registering for the event <strong>{{ event.event_name }}</strong>. We are excited to have you with us!</p>
+        <p><strong>Event Details:</strong></p>
+        <ul>
+            <li><strong>Date:</strong> {{ event.event_date }}</li>
+            <li><strong>Location:</strong> {{ event.venue }}</li>
+        </ul>
+        <p>We look forward to seeing you there. If you have any questions, feel free to contact us at <a href="mailto:info@haidakhandi.org">info@haidakhandi.org</a>.</p>
+        <p>Warm regards,</p>
+        <p>team@haidakhandi.org</p>
+        <div class="footer">
+            &copy; {{ current_year }} Haidakhandi.org.
+        </div>
+    </div>
+</body>
+</html>
