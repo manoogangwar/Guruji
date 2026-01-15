@@ -76,6 +76,7 @@ class UserRegisterView(View):
             contact = contact_form.save(commit=False)
             contact.user = user
 
+            MemberProfile.objects.create(user=user)
             address = contact_form.cleaned_data.get("address")
             if address:
                 lat, lon = get_lat_long(address)
@@ -220,7 +221,7 @@ class PasswordResetView(View):
 # ---- PROFILE PAGE ----
 
 class UserProfileView(LoginRequiredMixin, View):
-    login_url = "login"
+    login_url = "login" 
     redirect_field_name = "next"
 
     def get(self, request):
@@ -230,12 +231,14 @@ class UserProfileView(LoginRequiredMixin, View):
         contact_form = ContactInformationForm(instance=contact_info)
         professional_info, created = ProfessionalInformation.objects.get_or_create(user=request.user)
         professional_form = ProfessionalInformationForm(instance=professional_info)     
-        
+        member_profile, _ = MemberProfile.objects.get_or_create(user=request.user)
+        member_profile_form = MemberProfileForm(instance=member_profile)
 
         context = {
             "user_form": user_form,
-            "contact_form": contact_form,
+            "c_info": contact_form,
             "professional_form":professional_form,
+            "member_profile_form": member_profile_form,
         }
         return render(request, "accounts/profile.html", context)
 
@@ -246,6 +249,22 @@ class UserLogoutView(View):
             logout(request)
             request.session.flush()
         return redirect("login")
+
+
+class MemberProfileHandler(LoginRequiredMixin,View):
+    def post(self,request):
+        instance, created = MemberProfile.objects.get_or_create(user=request.user)
+        form = MemberProfileForm(request.POST,request.FILES, instance=instance)
+        
+        if form.is_valid():
+            form.save()
+            return JsonResponse({'success': True})
+        print('there is a error in form')
+        return JsonResponse(
+            {
+                'success': False, 
+                'error': form.errors.as_json()
+                }) 
 
 
 

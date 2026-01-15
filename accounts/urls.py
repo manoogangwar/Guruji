@@ -18,6 +18,8 @@ urlpatterns = [
     path("profile/personal-info/", UpdateProfileView.as_view(), name="personal-info"),
     path("profile/professional-info/", UpdateProfessionalInfoView.as_view(), name="professional-info"),
 
+    path('member_profile_handler',MemberProfileHandler.as_view(),name='member_profile_handler'),
+
     path("ajax/states/", GetStatesView.as_view(), name="get_states"),
     path("contact-request/<int:user_id>/", SendContactRequestView.as_view(), name="send_contact_request"),
 

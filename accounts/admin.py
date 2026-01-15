@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
-from .models import User, ContactInformation, ProfessionalInformation, ContactRequest
+from .models import User, ContactInformation, ProfessionalInformation, ContactRequest, MemberProfile
 from .forms import UserRegistrationForm  
 
 # Custom User admin
@@ -33,6 +33,29 @@ class CustomUserAdmin(BaseUserAdmin):
             },
         ),
     )
+
+class MemberProfileInline(admin.StackedInline):
+    model = MemberProfile
+    can_delete = False
+    verbose_name_plural = 'Member Profiles'
+    verbose_name = 'Member Profile'
+    fk_name = 'user' 
+    extra = 0  
+
+    # Define the fieldsets to arrange fields in a logical sequence
+    fieldsets = (
+        ('Basic Information', {
+            'fields': ('bio')
+        }),
+        ('Profile Picture', {
+            'fields': ('profile_picture',),
+        }),
+        ('Other Details', {
+            'fields': ('last_updated',),
+        }),
+    )
+    
+    readonly_fields = ('last_updated',) 
 
 # Simple admin for related models
 @admin.register(ContactInformation)

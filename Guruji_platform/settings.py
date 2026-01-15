@@ -41,9 +41,10 @@ INSTALLED_APPS = [
     'survey.apps.SurveyConfig',
     'django_countries',
     "accounts.apps.AccountsConfig",
-    'community_service',
+    'community_service', 
     'news',
     'ads',
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [

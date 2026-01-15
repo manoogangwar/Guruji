@@ -5,6 +5,8 @@ from .models import *
 from django.contrib.auth.forms import UserCreationForm
 from django_countries.fields import CountryField
 from django_countries.widgets import CountrySelectWidget
+from django.core.exceptions import ValidationError
+from django.core.validators import FileExtensionValidator
 
 class CustomAuthForm(AuthenticationForm):
     username = forms.CharField(
@@ -63,14 +65,36 @@ class UserUpdateForm(forms.ModelForm):
         model = User
         fields = ["username", "email", "first_name", "last_name"]
 
+
 class ProfessionalInformationForm(forms.ModelForm):
     class Meta:
         model = ProfessionalInformation
         fields = ["occupation", "education", "school", "organization"]
 
+
 class ForgotPasswordForm(forms.Form):
     email = forms.EmailField()
 
+class MemberProfileForm(forms.ModelForm):
+    profile_picture = forms.ImageField(
+        required = False,
+        validators=[FileExtensionValidator(allowed_extensions=['jpg', 'jpeg', 'png'])]
+    )
+    class Meta:
+        model = MemberProfile
+        fields = [
+            'bio','profile_picture'
+        ]
+        widgets = {
+            'bio': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Bio','style': 'height: 10rem;'}),
+            'profile_picture': forms.FileInput(attrs={'accept':'.jpg'}),
+            
+        }
+
+class ProfilePictureForm(forms.ModelForm):
+    class Meta:
+        model = MemberProfile
+        fields = ['profile_picture']
 
 
 class SearchForm(forms.Form):

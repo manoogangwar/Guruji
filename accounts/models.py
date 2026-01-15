@@ -56,6 +56,13 @@ class ProfessionalInformation(models.Model):
         return f"{self.user.username} Professional Info"
 
 
+class MemberProfile(models.Model):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='member')
+    bio = models.TextField(null=True, blank=True)
+    profile_picture = models.ImageField(upload_to='profile_picture/', height_field=None, width_field=None, max_length=None, blank=True, null=True)
+    last_updated = models.DateField(auto_now=True)
+
+
 
 class ContactRequest(models.Model):
     sender = models.ForeignKey(User, related_name="sent_requests", on_delete=models.CASCADE)
