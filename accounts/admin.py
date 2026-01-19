@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
-from .models import User, ContactInformation, ProfessionalInformation, ContactRequest, MemberProfile
+from .models import User, ContactInformation, ProfessionalInformation, ContactRequest, MemberProfile, PrivacySettings, CommunicationPreferences
 from .forms import UserRegistrationForm  
 
 # Custom User admin
@@ -34,6 +34,7 @@ class CustomUserAdmin(BaseUserAdmin):
         ),
     )
 
+# Inline MemberProfile
 class MemberProfileInline(admin.StackedInline):
     model = MemberProfile
     can_delete = False
@@ -42,10 +43,9 @@ class MemberProfileInline(admin.StackedInline):
     fk_name = 'user' 
     extra = 0  
 
-    # Define the fieldsets to arrange fields in a logical sequence
     fieldsets = (
         ('Basic Information', {
-            'fields': ('bio')
+            'fields': ('bio',)
         }),
         ('Profile Picture', {
             'fields': ('profile_picture',),
@@ -57,16 +57,68 @@ class MemberProfileInline(admin.StackedInline):
     
     readonly_fields = ('last_updated',) 
 
-# Simple admin for related models
+
+class PrivacySettingsInline(admin.StackedInline):
+    model = PrivacySettings
+    can_delete = False
+    verbose_name_plural = 'Privacy Settings'
+    verbose_name = 'Privacy Setting'
+
+    fieldsets = (
+        ('Privacy Preferences', {
+            'fields': (
+                'profile_visibility', 
+                'bio_visibility', 
+                'profile_picture_visibility', 
+                'contact_info_visibility', 
+                'visible_on_map',
+                'email_visibility',
+                'address_visibility',
+            ),
+        }),
+    )
+
+    def formfield_for_dbfield(self, db_field, **kwargs):
+        formfield = super().formfield_for_dbfield(db_field, **kwargs)
+        if db_field.name == 'profile_visibility':
+            formfield.label = "Public Profile Visibility"
+            formfield.help_text = "Toggle whether your profile is visible to others."
+        elif db_field.name == 'bio_visibility':
+            formfield.label = "Bio Visibility"
+            formfield.help_text = "Choose whether your bio should be visible to others."
+        elif db_field.name == 'profile_picture_visibility':
+            formfield.label = "Profile Picture Visibility"
+            formfield.help_text = "Control whether others can see your profile picture."
+        elif db_field.name == 'contact_info_visibility':
+            formfield.label = "Contact Information Visibility"
+            formfield.help_text = "Toggle whether your contact details are visible to others."
+        elif db_field.name == 'visible_on_map':
+            formfield.label = "Visible on Map"
+            formfield.help_text = "Allow others to locate you on the community map."
+        return formfield
+
+
+class CommunicationPreferencesInline(admin.StackedInline):
+    model = CommunicationPreferences
+    can_delete = False
+    verbose_name_plural = 'Communication Preferences'
+
+
+# Contact Information Admin
 @admin.register(ContactInformation)
 class ContactInformationAdmin(admin.ModelAdmin):
-    list_display = ("user", "phone", "country", "city")
+    list_display = ("user", "get_phone", "country", "city")
 
+    def get_phone(self, obj):
+        return obj.phone or obj.user.phone
+    get_phone.short_description = 'Phone'
+
+# Professional Information Admin
 @admin.register(ProfessionalInformation)
 class ProfessionalInformationAdmin(admin.ModelAdmin):
     list_display = ("user", "occupation", "organization")
 
-
+# Contact Request Admin
 @admin.register(ContactRequest)
 class ContactRequestAdmin(admin.ModelAdmin):
     list_display = ("sender", "receiver", "created_at")

@@ -2,298 +2,204 @@
 {% load widget_tweaks %}
 {% load static %}
 
-
-
 {% block body %}
 <div class="container mt-5 search-page">
     <div class="search-bar d-flex justify-content-start gap-3">
-        
-        <!-- Form -->
+
+        <!-- Search Form -->
         <div>
-            <form class="d-flex " action="/search" method="get">
+            <form class="d-flex" id="search-form">
                 <div class="autocomplete" id="autocomplete-js">
                     <div class="input-group">
-                        <input type="text" class="form-control t" id="user-search" name="q" placeholder="Search by Name, Surname" value="{{ form.q.value|default:'' }}"  autocomplete="off">
-                        <button type="submit" class="btn ">Search</button>
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="user-search"
+                            name="q"
+                            placeholder="Search by Name, Surname"
+                            value="{{ form.q.value|default:'' }}"
+                            autocomplete="off"
+                        >
+                        <button type="submit" class="btn">Search</button>
                     </div>
-                    <div class="suggestions" id="suggestions"></div>
+                    <ul class="suggestions" id="suggestions"></ul>
                 </div>
-                <!-- <input type="text" class="form-control me-2" name="q" id="user-search" placeholder="Search for Haidakhandi" value="{{ form.q.value|default:'' }}" autocomplete="off"> -->
             </form>
         </div>
 
-        <!-- Filter Button -->
+        <!-- Filters Dropdown -->
         <div>
             <div class="dropdown">
-                <button class="btn  dropdown-toggle" type="button" id="filtersDropdown" data-bs-toggle="dropdown" data-bs-auto-close="false" aria-expanded="false">
+                <button
+                    class="btn dropdown-toggle"
+                    type="button"
+                    data-bs-toggle="dropdown"
+                    data-bs-auto-close="false"
+                >
                     <i class="bi bi-funnel"></i>
                 </button>
-                <div class="dropdown-menu p-4 m-2 bg-light" aria-labelledby="filtersDropdown" style="min-width: 300px;transform: translateX(-50%) !important; left: 50%;" >
-                    <!-- Filters Content -->
+
+                <div class="dropdown-menu p-4 bg-light" style="min-width:300px">
                     <h6 class="fw-bold">Filters</h6>
+
                     <form action="/search" method="get">
-                        <input type="hidden" class="form-control me-2" name="q" value="{{ form.q.value|default:'' }}" autocomplete="off">
-                        <!-- Category Filter -->
-                        <div class="form-group mb-3">
-                            <label for="form-filter" class="form-label fw-bold">Category</label>
+                        <input type="hidden" name="q" value="{{ form.q.value|default:'' }}">
+
+                        <!-- Category -->
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Category</label>
                             {{ form.p|add_class:"form-control" }}
                         </div>
-                        <!-- Location Filter -->
-                        <div class="form-group mb-3">
-                            <label for="location-search" class="form-label fw-bold">Location</label>
-                            <div class="autocomplete position-relative">
-                                <input type="text" class="form-control" name="l" value="{{ form.l.value|default:'' }}" id="location-search" placeholder="Enter location" autocomplete="off">
-                                <div class="suggestions shadow-sm" id="location-suggestions"></div>
-                            </div>
+
+                        <!-- Location -->
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Location</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                name="l"
+                                id="location-search"
+                                value="{{ form.l.value|default:'' }}"
+                                placeholder="Enter location"
+                                autocomplete="off"
+                            >
                         </div>
 
-                        <!-- Apply Filters Button -->
-                        <div class="d-grid">
-                            <button type="submit" class="btn  btn-sm">Apply Filters</button>
-                        </div>
-
+                        <button type="submit" class="btn btn-sm w-100">
+                            Apply Filters
+                        </button>
                     </form>
                 </div>
             </div>
         </div>
 
-        <!-- Display Pills-->
+        <!-- Active Filters Pills -->
         <div class="d-none d-md-block">
-            <span class="pills d-flex align-items-center gap-1">
+            <span class="d-flex gap-1">
                 {% if form.l.value %}
-                    <span class="filter-pill p-2">{{form.l.value}} <a class="bi bi-x" href="/search?q={{form.q.value|default:''}}&p={{form.p.value|default:''}}"></a></span>
+                    <span class="filter-pill p-2">
+                        {{ form.l.value }}
+                        <a class="bi bi-x"
+                           href="/search?q={{ form.q.value|default:'' }}&p={{ form.p.value|default:'' }}">
+                        </a>
+                    </span>
                 {% endif %}
                 {% if form.p.value %}
-                    <span class="filter-pill p-2">{{form.p.value}} <a class="bi bi-x" href="/search?q={{form.q.value|default:''}}&l={{form.l.value|default:''}}"></a></span>
-                {% endif %}      
-            </span>    
+                    <span class="filter-pill p-2">
+                        {{ form.p.value }}
+                        <a class="bi bi-x"
+                           href="/search?q={{ form.q.value|default:'' }}&l={{ form.l.value|default:'' }}">
+                        </a>
+                    </span>
+                {% endif %}
+            </span>
         </div>
-    </div>
-
-    <div class="d-block d-md-none">
-        <span class="pills d-flex align-items-center gap-1 mt-2">
-            {% if form.l.value %}
-                <span class="filter-pill p-2">{{form.l.value}} <a class="bi bi-x" href="/search?q={{form.q.value|default:''}}&p={{form.p.value|default:''}}"></a></span>
-            {% endif %}
-            {% if form.p.value %}
-                <span class="filter-pill p-2">{{form.p.value}} <a class="bi bi-x" href="/search?q={{form.q.value|default:''}}&l={{form.l.value|default:''}}"></a></span>
-            {% endif %}      
-        </span>    
     </div>
 </div>
 
-
-
-
+<!-- RESULTS -->
 {% if users %}
-{% with users|first as first_user %}
-{% if first_user %}
-{% if first_user.similarity >= 0.5 %}
-    <div class="section container">
-        <div class="d-flex justify-content-center mb-3">
-            <h5 class="text-muted f-Rg search-card-inner-container">
-                Displaying results that closely match your search criteria.
-            </h5>
-        </div>  
-        <!--User Card-->
-        <div class=" my-0">
-            <div class="d-md-flex justify-content-center">
-                <div class="d-block d-md-flex search-card-inner-container flex-wrap justify-content-left gap-4">
-                    {% for usr in users %}
-                        {% if usr.similarity >= 0.5 %}
-                            {% include 'accounts/user_search_card.html' %}
-                        {% endif %}  
-                    {% endfor %} 
-                            
-                </div>
-
-            </div>
+<div class="container mt-4">
+    <div class="d-flex justify-content-center">
+        <div class="search-card-inner-container d-flex flex-wrap gap-4">
+            {% for usr in users %}
+                {% include "accounts/user_search_card.html" %}
+            {% endfor %}
         </div>
     </div>
-    {% endif %}
-{% endif %}
-{% endwith %}
+</div>
 {% else %}
- 
-    
     {% if user.is_authenticated %}
-     <p class="text-center text-muted my-5">Bhole Baba Ki Jai! <br> No Search Result Found</p>
+        <p class="text-center text-muted my-5">
+            Bhole Baba Ki Jai! <br>No Search Result Found
+        </p>
     {% else %}
-     <p class="text-center text-muted my-5">Bhole Baba Ki Jai! It seems you are not logged in or a member yet. <br><a class="text-center w-100" href="{% url 'register' %}">Joint Us</a></p>
-    
+        <p class="text-center text-muted my-5">
+            Bhole Baba Ki Jai! You are not logged in.<br>
+            <a href="{% url 'register' %}">Join Us</a>
+        </p>
     {% endif %}
-        
 {% endif %}
-    
 
-
-
-
-
+<!-- PAGINATION -->
 {% if users %}
-{% with users|last as last_user %}
-{% if last_user %}
-{% if last_user.similarity < 0.5 %}
-        <div class="section container">
-            <div class="d-flex justify-content-center  mb-3 ">
-                <h5 class="text-muted f-Rg search-card-inner-container">
-                    Displaying results that partially match your search criteria.
-                </h5>
-            </div> 
-            <div class=" my-0">
-                <div class="d-md-flex justify-content-center">
-                    <div class="d-block search-card-inner-container flex-wrap justify-content-left gap-4">
-                        {% for usr in users %}
-                            {% if usr.similarity < 0.5 %}
-                                {% include 'accounts/user_search_card_list.html' %}
-                            {% endif %}  
-                        {% endfor %}     
-                    </div>
-                </div>
-            </div> 
-        </div>
-        {% endif %}
-    {% endif %}
-    {% endwith %}
-{% endif %}
-    
+<div class="container my-5">
+    <nav>
+        <ul class="pagination justify-content-center">
 
+            {% if users.has_previous %}
+                <li class="page-item">
+                    <a class="page-link"
+                       href="?page={{ users.previous_page_number }}
+                       {% if request.GET.q %}&q={{ request.GET.q }}{% endif %}
+                       {% if request.GET.l %}&l={{ request.GET.l }}{% endif %}
+                       {% if request.GET.p %}&p={{ request.GET.p }}{% endif %}">
+                        &laquo;
+                    </a>
+                </li>
+            {% endif %}
 
+            {% for num in users.paginator.page_range %}
+                {% if num == users.number %}
+                    <li class="page-item active">
+                        <span class="page-link">{{ num }}</span>
+                    </li>
+                {% elif num >= users.number|add:-2 and num <= users.number|add:2 %}
+                    <li class="page-item">
+                        <a class="page-link"
+                           href="?page={{ num }}
+                           {% if request.GET.q %}&q={{ request.GET.q }}{% endif %}
+                           {% if request.GET.l %}&l={{ request.GET.l }}{% endif %}
+                           {% if request.GET.p %}&p={{ request.GET.p }}{% endif %}">
+                            {{ num }}
+                        </a>
+                    </li>
+                {% endif %}
+            {% endfor %}
 
+            {% if users.has_next %}
+                <li class="page-item">
+                    <a class="page-link"
+                       href="?page={{ users.next_page_number }}
+                       {% if request.GET.q %}&q={{ request.GET.q }}{% endif %}
+                       {% if request.GET.l %}&l={{ request.GET.l }}{% endif %}
+                       {% if request.GET.p %}&p={{ request.GET.p }}{% endif %}">
+                        &raquo;
+                    </a>
+                </li>
+            {% endif %}
 
-
-<!-- Pagination -->
-<div class="container mb-5">
-    {% if users %}
-        <div class="">
-            <nav aria-label="Page navigation">
-                <ul class="pagination justify-content-center">
-                    {% if users.has_previous %}
-                        <li class="page-item">
-                            <a class="page-link" href="?page=1{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}" aria-label="First">
-                                <span aria-hidden="true">&laquo;&laquo;</span>
-                            </a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="?page={{ users.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}" aria-label="Previous">
-                                <span aria-hidden="true">&laquo;</span>
-                            </a>
-                        </li>
-                    {% else %}
-                        <li class="page-item disabled">
-                            <a class="page-link" aria-label="First" tabindex="-1" aria-disabled="true">
-                                <span aria-hidden="true">&laquo;&laquo;</span>
-                            </a>
-                        </li>
-                        <li class="page-item disabled">
-                            <a class="page-link" aria-label="Previous" tabindex="-1" aria-disabled="true">
-                                <span aria-hidden="true">&laquo;</span>
-                            </a>
-                        </li>
-                    {% endif %}
-
-                    {% for num in users.paginator.page_range %}
-                        {% if num == users.number %}
-                            <li class="page-item active" aria-current="page">
-                                <span class="page-link">{{ num }}</span>
-                            </li>
-                        {% elif num >= users.number|add:-2 and num <= users.number|add:2 %}
-                            <li class="page-item">
-                                <a class="page-link" href="?page={{ num }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">{{ num }}</a>
-                            </li>
-                        {% endif %}
-                    {% endfor %}
-
-                    {% if users.has_next %}
-                        <li class="page-item">
-                            <a class="page-link" href="?page={{ users.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}" aria-label="Next">
-                                <span aria-hidden="true">&raquo;</span>
-                            </a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="?page={{ users.paginator.num_pages }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}" aria-label="Last">
-                                <span aria-hidden="true">&raquo;&raquo;</span>
-                            </a>
-                        </li>
-                    {% else %}
-                        <li class="page-item disabled">
-                            <a class="page-link" aria-label="Next" tabindex="-1" aria-disabled="true">
-                                <span aria-hidden="true">&raquo;</span>
-                            </a>
-                        </li>
-                        <li class="page-item disabled">
-                            <a class="page-link" aria-label="Last" tabindex="-1" aria-disabled="true">
-                                <span aria-hidden="true">&raquo;&raquo;</span>
-                            </a>
-                        </li>
-                    {% endif %}
-                </ul>
-            </nav>
-        </div>
-    {% endif %}
-
-</div>
-
-<!-- Filter Modal -->
-
-<!-- Offcanvas -->
-
-
-{% if not user.is_authenticated %}
-<div class="offcanvas offcanvas-bottom h-auto" tabindex="-1" id="registerOffcanvas" aria-labelledby="registerOffcanvasLabel">
-    <div class="offcanvas-body position-relative overflow-hidden ps-md-5">
-        <button type="button" class="btn-close position-absolute pe-4 end-0" style="z-index: 2;" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-        <h5 class="offcanvas-title mt-md-2 mb-md-2 " id="registerOffcanvasLabel" >Bhole Baba Ki Jai. <br>Please Join Haidakhandi Community</h5>
-        <div class="d-flex">
-          <div>
-            <p>Become a part of Haidakhandi and unlock these benefits:</p>
-            <ul class="ms-2">
-                <li style="font-family: 'Audible Sans';">Connect with like-minded spiritual seekers.</li>
-                <li style="font-family: 'Audible Sans';">Access exclusive spiritual content and events.</li>
-                <li style="font-family: 'Audible Sans';">Stay updated with Haidakhandi initiatives.</li>
-            </ul>
-            <p>Don't miss this opportunity to strengthen your spiritual journey with our vibrant community!</p>
-            <a href="/accounts/register" class="btn btn-register w-100 mt-2">Register Now</a>
-          </div>
-        </div>
-        <img src="{% static 'img/logoutpage-popup.png' %}" class="position-absolute end-0 bottom-0 d-none d-md-block" style="height: 250px;">
-      </div>
-   
-   
-    <!-- <div class="offcanvas-header">
-      <h5 class="offcanvas-title" id="registerOffcanvasLabel">Join Our Community</h5>
-      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-    </div>
-    <div class="offcanvas-body">
-      <p>Become a part of Haidakhandi and unlock these benefits:</p>
-      <ul>
-        <li>Connect with like-minded spiritual seekers.</li>
-        <li>Access exclusive spiritual content and events.</li>
-        <li>Stay updated with Haidakhandi initiatives.</li>
-      </ul>
-      <p>Don't miss this opportunity to strengthen your spiritual journey with our vibrant community!</p>
-      <a href="/register" class="btn btn-register w-100">Register Now</a>
-    </div> -->
+        </ul>
+    </nav>
 </div>
 {% endif %}
-
 {% endblock body %}
 
 {% block script %}
 <script src="{% static 'js/autocomplete.js' %}"></script>
 <script src="{% static 'js/autocomplete_location.js' %}"></script>
-<script>
 
-if(document.getElementById('registerOffcanvas')){
-    setInterval(()=>{
-      const offcanvasElement = document.getElementById('registerOffcanvas');
-      console.log(offcanvasElement.classList.contains("show"))
-      if(offcanvasElement.classList.contains("show") == false){
-        const offcanvas = new bootstrap.Offcanvas(offcanvasElement);
-        offcanvas.show();
-      }
+<script>
+// Prevent form reload
+document.getElementById('search-form').addEventListener('submit', function(e){
+    e.preventDefault();
+});
+
+// Optional: Prevent Enter key reload
+document.getElementById('user-search').addEventListener('keydown', function(e){
+    if(e.key === 'Enter'){
+        e.preventDefault();
+    }
+});
+
+// Offcanvas popup (unchanged)
+if (document.getElementById('registerOffcanvas')) {
+    setInterval(() => {
+        const el = document.getElementById('registerOffcanvas');
+        if (!el.classList.contains('show')) {
+            new bootstrap.Offcanvas(el).show();
+        }
     }, 10000);
 }
-  </script>
-  <script src="{% static 'js/autocomplete.js' %}"></script>
+</script>
 {% endblock script %}

@@ -223,7 +223,7 @@ body {
 
 /* Ensure .search starts hidden */
 .search {
-  opacity: 0;
+  /* opacity: 0; */
   visibility: hidden;
 }
 
@@ -2726,4 +2726,7 @@ figure.snip1200.hover p {
 }
 .offcanvas-container .apply-btn {
   float: right;
+
+
+
 }/*# sourceMappingURL=main.css.map */

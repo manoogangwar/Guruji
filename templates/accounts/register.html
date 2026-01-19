@@ -3,685 +3,161 @@
 {% load widget_tweaks %}
 
 {% block body %}
-<div class="">
-    <div class="container">
-        <h2 class="registration-title text-center mt-5">Bhole Baba Ki Jai</h2>
-        <h3 class="main-heading ">To join haidakhandi network please fill this</h3>
-        <div class="d-flex flex-row justify-content-center  gap-5">
-            <img src="{% static 'img/register_standing.png'  %}" class="img-fluid d-none d-md-block position-sticky " style="top: 70px; height: 700px;" >
+<div class="container">
+    <h2 class="registration-title text-center mt-5">Bhole Baba Ki Jai</h2>
+    <h3 class="main-heading">To join haidakhandi network please fill this</h3>
 
-             <div class="formView">
-                <div class="" >
-                    <!-- <p>Note</p> -->
-                    <div  class="alert alert-info" role="alert">
-                        <p class="f-Lt"><i class="bi bi-info"></i> Please note: All fields labeled with * are mandatory to fill out.</p>     
+    <div class="d-flex justify-content-center gap-5">
+        <img src="{% static 'img/register_standing.png' %}"
+             class="img-fluid d-none d-md-block position-sticky"
+             style="top:70px;height:700px;">
+
+        <div class="formView">
+
+            <div class="alert alert-info">
+                <i class="bi bi-info"></i> All * fields are mandatory
+            </div>
+
+            <form method="POST" enctype="multipart/form-data" id="register_form">
+                {% csrf_token %}
+
+                <hr>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>Username *</label>
+                        {{ user_form.username|add_class:"form-control" }}
                     </div>
-                    {% for message in messages %}
-                        <p class="text-danger fs-6 fw-light"><i class="bi bi-exclamation-triangle"></i> {{message}}</p>
-                    
-                    {% endfor %}
- 
-                </div>
-                    
-                <form method='POST' id="register_form" enctype='multipart/form-data'>
-                   {% csrf_token %}
-                   <div class="register-form-section-1 my-5">
-                    <!-- <p class="f-Rg">Provide Your Account Information to Create a Secure Profile.</p> -->
-                    <hr>
-                        <div class="row">
-                            <div class="col-12 col-md-6">
-                                <div class="label">{{ form.username.label }}</div>
-                                {{ form.username|add_class:"form-control" }}
-                                {% for error in form.username.errors %}<small class="text-danger">{{ error }}</small>{% endfor %}
-                            </div>
-                            <div class="col-12 col-md-6">
-                                <div class="label">{{ form.email.label }}</div>
-                                {{ form.email|add_class:"form-control" }}
-                                {% for error in form.email.errors %}<small class="text-danger">{{ error }}</small>{% endfor %}
-                            </div>
-                        </div>
-                        <div class='row'>
-                            <div class='col-4'>
-                                <div class="label">Select Country Code</div>
-                                {{ form.phone_prefix|add_class:"form-control" }}
-                                {% for error in form.phone_prefix.errors %}<small class="text-danger">{{ error }}</small>{% endfor %}
-                            </div>
-                        
-                            <div class='col-8'>
-                                <div class="label">{{form.phone_number.label}}</div>
-                                {{ form.phone_number|add_class:"form-control" }}
-                                {% for error in form.phone_number.errors %}<small class="text-danger">{{ error }}</small>{% endfor %}
-                            </div>
-                        </div> 
-                        <div class="row">
-                            <div class="col-12 col-md-6">
-                                <div class="label">Password*</div>
-                                <input type="text" value="{{form.password1.value|default:''}}" class='form-control' name="password1">
-                                <!-- {{ form.password1|add_class:"form-control" }} -->
-                                {% for error in form.password1.errors %}<small class="text-danger">{{ error }}</small>{% endfor %}
-                            </div>
-                            
-                            <div class="col-12 col-md-6">
-                                <div class="label" >Re-enter Password*</div>
-                                <input type="password" id="paste-no-event" value="{{form.password2.value|default:''}}" class='form-control' name="password2">
-                                {% for error in form.password2.errors %}<small class="text-danger">{{ error }}</small>{% endfor %}
-                            </div>
-                        </div> 
-                        <div>
-                            <div class="label">{{ form.invited_by.label }}</div>
-                            {{ form.invited_by|add_class:"form-control" }}
-                            {% for error in form.invited_by.errors %}<small class="text-danger">{{ error }}</small>{% endfor %}
-                        </div>  
-                   </div> 
-                    
-                   <div class="register-form-section-2 my-5">
-                        <!-- <p class="">Share Your Personal Details to Help Us Know You Better and Enhance Your Experience</p> -->
-                        <hr>
-                        <div>
-                            <div class="label">Spiritual Name</div>
-                            {{form.spritual_name|add_class:"form-control"}}
-                            {% for error in form.spritual_name.errors %}<small class="text-danger">{{ error }}</small>{% endfor %}
-                        </div>
-                        <div class='row'>
-                            <div class='col-2'>
-                                <div class="label">{{ form.name_title.label }}</div>
-                                {{ form.name_title|add_class:"form-control" }}
-                                {% for error in form.name_title.errors %}<small class="text-danger">{{ error }}</small>{% endfor %}
-                            </div>
-                            <div class='col-10'>
-                                <div class="label">{{ form.first_name.label }}</div>
-                                {{ form.first_name|add_class:"form-control" }}
-                                {% for error in form.first_name.errors %}<small class="text-danger">{{ error }}</small>{% endfor %}
-                            </div>
-                        </div>
-                        
-                        <div class="row">
-                            <div class="col-12 col-md-6">
-                                <div class="label">{{ form.middle_name.label }}</div>
-                                {{ form.middle_name|add_class:"form-control" }}
-                                {% for error in form.middle_name.errors %}<small class="text-danger">{{ error }}</small>{% endfor %}
-                            </div>
-                            
-                            <div class="col-12 col-md-6">
-                                <div class="label">{{ form.last_name.label }}</div>
-                                {{ form.last_name|add_class:"form-control" }}
-                                {% for error in form.last_name.errors %}<small class="text-danger">{{ error }}</small>{% endfor %}
-                            </div>
-                        </div>
-                        
-                        <div class='row'>
-                            <div class='col'>
-                                <div class="label">{{ form.dob.label }}</div>
-                                {{ form.dob|add_class:"form-control"|attr:"type:date" }}
-                                {% for error in form.dob.errors %}<small class="text-danger">{{ error }}</small>{% endfor %}
-                            </div>
-                            
-                            <div class='col'>
-                                <div class="label">{{ form.gender.label }}</div>
-                                {{ form.gender|add_class:"form-control" }}
-                                {% for error in form.gender.errors %}<small class="text-danger">{{ error }}</small>{% endfor %}
-                            </div>
-                        </div>
-                        <div>
-                            <div class="label">{{ form.profile_picture.label }}</div>
-                            {{ form.profile_picture|add_class:"form-control h-auto" }}
-                            {% for error in form.profile_picture.errors %}<small class="text-danger">{{ error }}</small>{% endfor %}
-                        </div>
-                        
-                        <div class="row">
-                            <div class="col-12 ">
-                                <div class="label">{{ form.occupation.label }}</div>
-                                {{ form.occupation|add_class:"form-control" }}
-                                {% for error in form.occupation.errors %}<small class="text-danger">{{ error }}</small>{% endfor %}
-                            </div>
-                            <div class="col-12 ">
-                                <div class="label">{{ form.occupation_detail.label }}*</div>
-                                {{ form.occupation_detail|add_class:"form-control" }}
-                                {% for error in form.occupation_detail.errors %}<small class="text-danger">{{ error }}</small>{% endfor %}
-                            </div>
-                        </div>
-                   </div>
-
-                   <div class="register-form-section-3 my-5">
-                        <!-- <p class=" mt-5">Provide Your Contact and Additional Information for Seamless Connectivity and Engagement</p> -->
-                        <hr>
-                        <div>
-                            <div class="label">{{ contact_form.address.label }}*</div>
-                                {{ contact_form.address|add_class:"form-control" }}
-                                {% for error in contact_form.address.errors %}<small class="text-danger">{{ error }}</small>{% endfor %}
-                        </div>
-                        <div class='row'>
-                            <div class='col-6'>
-                                <div class="label">{{ contact_form.city.label }}*</div>
-                                {{ contact_form.city|add_class:"form-control" }}
-                                {% for error in contact_form.city.errors %}<small class="text-danger">{{ error }}</small>{% endfor %}
-                            </div>
-                            <div class='col-6'>
-                                <div class="label">{{ contact_form.state.label }}*</div>
-                                {{ contact_form.state|add_class:"form-control" }}
-                                {% for error in contact_form.state.errors %}<small class="text-danger">{{ error }}</small>{% endfor %}
-                            </div>
-                        </div>
-                        <div class='row'>
-                            <div class='col-6'>
-                                <div class="label">{{ contact_form.country.label }}*</div>
-                                {{ contact_form.country|add_class:"form-control" }}
-                                {% for error in contact_form.country.errors %}<small class="text-danger">{{ error }}</small>{% endfor %}
-                            </div>
-                            
-                            <div class='col-6'>
-                                <!--https://api.worldpostallocations.com/pincode?postalcode=85001&countrycode=US-->
-                                <div class="label">{{ contact_form.postal_code.label }}*</div>
-                                {{ contact_form.postal_code|add_class:"form-control" }}
-                                {% for error in contact_form.postal_code.errors %}<small class="text-danger">{{ error }}</small>{% endfor %}
-                            </div>
-        
-                        </div>
-                        <div>
-                            <div class="label">{{ form.spiritual_connect.label }}</div>
-                            {{ form.spiritual_connect|add_class:"form-control h-auto" }}
-                            {% for error in form.spiritual_connect.errors %}<small class="text-danger">{{ error }}</small>{% endfor %}
-                        </div>
-
-                   </div>
-                   <div class="d-flex align-items-start ">
-                       <input type="checkbox" name="tandc" class="form-check me-3" id="id_tandc" required>
-                      <p> I certify that above provided information is correct and there is no mistake. I know that all further communication will be done on above provided details</p> 
-                   </div>
-
-                   <div class="col-12 mt-2">
-                        <p class="text-center fw-light">Alredy a memeber? <a href="{% url 'login' %}">login</a></p>
-                        <button class="btn login-btn" type="submit">PROCEED</button>
+                    <div class="col-md-6">
+                        <label>Email *</label>
+                        {{ user_form.email|add_class:"form-control" }}
                     </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
- <!-- Modal for Preview and Editing -->
- <div class="modal fade" id="cropModal" tabindex="-1" aria-labelledby="cropModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="cropModalLabel">Edit Profile Picture</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body text-center">
-                <div class="preview-container">
-                    <img id="image-preview" src="#" alt="Preview" class="img-fluid">
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button class="btn btn-primary" id="upload-button">Save</button>
-            </div>
+
+                <!-- PHONE -->
+                <div class="row mt-3">
+                    <div class="col-4">
+                        <label>Country Code *</label>
+                        <select name="phone_prefix" class="form-control" required>
+                            <option value="+91">+91</option>
+                            <option value="+1">+1</option>
+                            <option value="+44">+44</option>
+                        </select>
+                    </div>
+                    <div class="col-8">
+                        <label>Phone Number *</label>
+                        {{ user_form.phone|add_class:"form-control" }}
+                    </div>
+                </div>
+
+                <!-- PASSWORD -->
+                <div class="row mt-3">
+                    <div class="col-md-6">
+                        <label>Password *</label>
+                        {{ user_form.password1|add_class:"form-control" }}
+                    </div>
+                    <div class="col-md-6">
+                        <label>Confirm Password *</label>
+                        {{ user_form.password2|add_class:"form-control" }}
+                    </div>
+                </div>
+
+                <hr class="my-4">
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>First Name *</label>
+                        {{ form.first_name|add_class:"form-control" }}
+                    </div>
+                    <div class="col-md-6">
+                        <label>Last Name</label>
+                        {{ form.last_name|add_class:"form-control" }}
+                    </div>
+                </div>
+
+                <div class="row mt-3">
+                    <div class="col-md-6">
+                        <label>Date of Birth *</label>
+                        {{ contact_form.dob|add_class:"form-control"|attr:"type:date" }}
+                    </div>
+                    <div class="col-md-6">
+                        <label>Gender *</label>
+                        {{ contact_form.gender|add_class:"form-control" }}
+                    </div>
+                </div>
+
+                <!-- PROFILE -->
+                <div class="mt-3">
+                    <label>Profile Picture</label>
+                    {{ profile_form.profile_picture|add_class:"form-control h-auto" }}
+                </div>
+
+                <div class="mt-3">
+                    <label>Bio</label>
+                    {{ profile_form.bio|add_class:"form-control" }}
+                </div>
+
+                <hr class="my-4">
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>Occupation *</label>
+                        {{ professional_form.occupation|add_class:"form-control" }}
+                    </div>
+                    <div class="col-md-6">
+                        <label>Education</label>
+                        {{ professional_form.education|add_class:"form-control" }}
+                    </div>
+                </div>
+
+                <div class="mt-3">
+                    <label>Organization</label>
+                    {{ professional_form.organization|add_class:"form-control" }}
+                </div>
+
+                <hr class="my-4">
+
+                <div>
+                    <label>Address *</label>
+                    {{ contact_form.address|add_class:"form-control" }}
+                </div>
+
+                <div class="row mt-3">
+                    <div class="col-md-4">
+                        <label>City *</label>
+                        {{ contact_form.city|add_class:"form-control" }}
+                    </div>
+                    <div class="col-md-4">
+                        <label>State *</label>
+                        {{ contact_form.state|add_class:"form-control" }}
+                    </div>
+                    <div class="col-md-4">
+                        <label>Postal Code *</label>
+                        {{ contact_form.postal_code|add_class:"form-control" }}
+                    </div>
+                </div>
+
+                <div class="mt-3">
+                    <label>Country *</label>
+                    {{ contact_form.country|add_class:"form-control" }}
+                </div>
+
+                <!-- T&C -->
+                <div class="form-check mt-4">
+                    <input class="form-check-input" type="checkbox" required>
+                    <label class="form-check-label">
+                        I confirm all information is correct
+                    </label>
+                </div>
+
+                <button class="btn login-btn mt-4 w-100" type="submit">
+                    PROCEED
+                </button>
+
+                <p class="text-center mt-3">
+                    Already a member? <a href="{% url 'login' %}">Login</a>
+                </p>
+            </form>
         </div>
     </div>
 </div>
-
-<div class="modal fade" id="tccontent" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-fullscreen-xxl-down">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel"></h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <div>
-            <h1>Terms and Conditions</h1>
-
-                <p>Welcome to Haidakhandi.org. These terms and conditions outline the rules and regulations for the use of our website. By accessing this website, we assume you accept these terms and conditions. Do not continue to use Haidakhandi.org if you do not agree to all of the terms and conditions stated on this page.</p>
-
-                <h2>1. Use of the Website</h2>
-                <ul>
-                    <li>Haidakhandi.org provides information about events, member services, and community resources. The website and its content are for personal use only.</li>
-                    <li>You agree to use this site responsibly and not to engage in any activities that may disrupt the site or harm other users.</li>
-                </ul>
-
-                <h2>2. Intellectual Property</h2>
-                <ul>
-                    <li>The content, logos, and images displayed on Haidakhandi.org are the property of Haidakhandi.org and/or its content creators. You may not reproduce, distribute, or otherwise use this content without permission.</li>
-                </ul>
-
-                <h2>3. Account Registration and Security</h2>
-                <ul>
-                    <li>When creating an account, you agree to provide accurate information and update it as necessary.</li>
-                    <li>You are responsible for maintaining the confidentiality of your account and for all activities that occur under your account.</li>
-                </ul>
-
-                <h2>4. Privacy Policy</h2>
-                <p>Your use of Haidakhandi.org is subject to our <a href="/privacy-policy">Privacy Policy</a>. Please review our Privacy Policy, which also governs the site and informs users of our data collection practices.</p>
-
-                <h2>5. Limitation of Liability</h2>
-                <ul>
-                    <li>Haidakhandi.org will not be liable for any damages arising out of or in connection with the use of this website.</li>
-                    <li>All information on the website is provided "as is" without warranty of any kind.</li>
-                </ul>
-
-                <h2>6. Third-Party Links</h2>
-                <p>Haidakhandi.org may include links to third-party websites for additional resources. We do not control or endorse these sites and are not responsible for their content or privacy policies.</p>
-
-                <h2>7. Termination</h2>
-                <p>We reserve the right to terminate or suspend access to our site for users who violate these terms and conditions.</p>
-
-                <h2>8. Changes to Terms and Conditions</h2>
-                <p>We may update these terms from time to time. You are advised to review this page periodically for any changes. Continued use of the site after changes will be deemed as acceptance of the modified terms.</p>
-
-                <h2>9. Governing Law</h2>
-                <p>These terms and conditions are governed by and construed in accordance with the laws of [Country/State], and you submit to the exclusive jurisdiction of the courts located in [Country/State] for the resolution of any disputes.</p>
-
-                <h2>10. Contact Information</h2>
-                <p>If you have any questions about these Terms and Conditions, please contact us at <a href="mailto:support@haidakhandi.org">support@haidakhandi.org</a>.</p>
-
-                <p>Last updated: [Date]</p>
-
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        </div>
-      </div>
-    </div>
-</div>
-{% endblock body %}
-
-{% block script %}
-<script>
- // JavaScript for form register validation
-document.addEventListener("DOMContentLoaded", function () {
-    const registerForm = document.getElementById("register_form");
-    // Utility functions for validation
-    function showError(element, message) {
-        element.classList.add("is-invalid");
-        let errorNode = document.createElement("small");
-        errorNode.classList.add("text-danger");
-        errorNode.innerText = message;
-        element.parentNode.appendChild(errorNode);
-    }
-
-    function clearError(element) {
-        element.classList.remove("is-invalid");
-        let errorNode = element.parentNode.querySelector(".text-danger");
-        if (errorNode) {
-            errorNode.remove();
-        }
-    }
-
-    // AJAX validation for username, email, and phone number
-    async function checkAvailability(field, value, endpoint) {
-        let response = await fetch(`/accounts/api/${endpoint}/?${field}=${value}`);
-        let data = await response.json();
-        return data.exists;
-    }
-
-
-    // Field validation functions
-    async function validateUsername() {
-        const usernameInput = registerForm.username;
-        const username = usernameInput.value.trim();
-        clearError(usernameInput);
-    
-        // Username is required
-        if (username === "") {
-            showError(usernameInput, "Username is required.");
-            return false;
-        }
-    
-       
-        const usernameRegex = /^[\w.@+-]+$/;
-    
-        // Check if username matches regex pattern
-        if (!usernameRegex.test(username)) {
-            showError(usernameInput, "Username can only contain letters, numbers, and @/./+/-/_ characters.");
-            return false;
-        }
-    
-        // Check if username already exists
-        isExists = await checkAvailability("username", username, "check-username")
-        if (isExists) {
-                showError(usernameInput, "Username already exists.");
-                return false;
-            }
-        return true;
-    }
-    
-
-    async function validateEmail() {
-        const emailInput = registerForm.email;
-        const email = emailInput.value.trim();
-        clearError(emailInput);
-        
-        if (email === "") {
-            showError(emailInput, "Email is required.");
-            return false;
-        }
-
-        const emailRegex = /^[\w.%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/i;
-        if (!emailRegex.test(email)) {
-            showError(emailInput, "Invalid email format.");
-            return false;
-        }
-
-        // Check if email already exists
-        isExists = await checkAvailability("email", email, "check-email")
-        if (isExists) {
-                showError(emailInput, "Email already exists.");
-                return false
-            }
-        
-        return true;
-    }
-
-    async function validatePhone() {
-        const phoneInput = registerForm.phone_number;
-        const phone = phoneInput.value.trim();
-        clearError(phoneInput);
-        
-        if (phone === "") {
-            showError(phoneInput, "Phone number is required.");
-            return false;
-        }
-
-        const phoneRegex = /^[0-9]{5,15}$/;
-        if (!phoneRegex.test(phone)) {
-            showError(phoneInput, "Invalid phone number format.");
-            return false;
-        }
-
-        // Check if phone number already exists
-        isExists = await checkAvailability("phone", phone, "check-phone")
-        if(isExists){
-            showError(phoneInput, "Phone number already exists.");
-                return false;
-        }
-        
-        return true;
-    }
-
-    function validateTermAndCondition(){
-        clearError(registerForm.tandc);
-        if(registerForm.tandc.checked){
-            return true
-        }
-        return false
-        showError(registerForm.tandc, "you must accept the terms and condtions to proceed further.");
-    }
-
-    function validatePassword() {
-        const passwordInput = registerForm.password1;
-        const password = passwordInput.value.trim();
-        clearError(passwordInput);
-
-        if (password === "") {
-            showError(passwordInput, "Password is required.");
-            return false;
-        }
-
-        if (password.length < 6) {
-            showError(passwordInput, "Password must be at least 6 characters.");
-            return false;
-        }
-        return true;
-    }
-
-    function validateConfirmPassword() {
-        const confirmPasswordInput = registerForm.password2;
-        const passwordInput = registerForm.password1;
-        clearError(confirmPasswordInput);
-
-        if (confirmPasswordInput.value !== passwordInput.value) {
-            showError(confirmPasswordInput, "Passwords do not match.");
-            return false;
-        }
-        
-        return true;
-    }
-
-    function validateProfilePicture() {
-        const profilePictureInput = document.getElementById("id_profile_picture"); // Assuming Django form's ID format
-        const filePath = profilePictureInput.value;
-        clearError(profilePictureInput);
-        
-        if (filePath) {
-            const allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
-            if (!allowedExtensions.exec(filePath)) {
-                showError(profilePictureInput, "Only .jpg, .jpeg, and .png files are allowed.");
-                profilePictureInput.value = ""; // Clear the input
-                return false;
-            }
-            
-            // Check file size
-            const file = profilePictureInput.files[0]; // Access the selected file
-            const maxSize = 5 * 1024 * 1024; // 5MB in bytes
-            
-            if (file && file.size > maxSize) {
-                showError(profilePictureInput, "File size must be less than 5MB.");
-                profilePictureInput.value = ""; // Clear the input
-                return false;
-            }
-        }
-        
-        return true;
-    }
-    // password
-    const pasteBox = document.getElementById("paste-no-event");
-    pasteBox.onpaste = e => {
-    e.preventDefault();
-    return false;
-    };
-
-    async function ValidateRegisterForm(event) {
-    event.preventDefault();
-
-    // Run synchronous validations first
-    const isValid =
-        requiredCheck() &&
-        validateDateOfBirth() &&
-        validatePassword() &&
-        validateConfirmPassword() &&
-        validateProfilePicture();
-
-    if (!isValid) {
-        console.log("Form is not valid due to synchronous validations");
-        return false;
-    }
-
-    try {
-        // Run asynchronous validations sequentially
-        const isUsernameValid = await validateUsername();
-        if (!isUsernameValid) {
-            console.log("Username is not valid");
-            return false;
-        }
-        const isEmailValid = await validateEmail();
-        if (!isEmailValid) {
-            console.log("Email is not valid");
-            return false;
-        }
-        const isPhoneValid = await validatePhone();
-        if (!isPhoneValid) {
-            console.log("Phone number is not valid");
-            return false;
-        }
-        const submitButton = registerForm.querySelector("button[type=submit]");
-        submitButton.disabled = true;
-        submitButton.innerHTML = `
-            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-            Sending...
-        `;
-        registerForm.submit()
-        return true;
-    } catch (error) {
-        console.error("Validation error:", error);
-        return false;
-    }
-}
-
-
-
-    function requiredCheck(){
-        // Prevent form submission initially
-        event.preventDefault();
-
-        // Define required fields by their IDs
-        const requiredFields = [
-            "id_username",
-            "id_email",
-            "id_phone_prefix",
-            "id_phone_number",
-            "id_first_name",
-            "id_dob",
-            "id_gender",
-            "id_occupation",
-            "id_occupation_detail",
-            "id_profile_picture",
-            "id_address",
-            "id_city",
-            "id_state",
-            "id_country",
-            "id_postal_code",
-            
-        ];
-        
-        let formIsValid = true;
-
-        // Loop through each required field and check if it's filled
-        requiredFields.forEach(fieldId => {
-            const field = document.getElementById(fieldId);
-            clearError(field); // Clear any previous error messages
-            if (field && !field.value.trim()) { // Check if the field is empty
-                showError(field, "This field is required.");
-                formIsValid &&= false;
-                
-            }
-        });
-
-        formIsValid &&= document.querySelector('#id_tandc').checked;
-        // registerForm.password1.addEventListener("focusout", validatePassword);
-        // registerForm.password2.addEventListener("focusout", validateConfirmPassword);
-        // formIsValid = formIsValid && validateDateOfBirth() && validateProfilePicture() && validateUsername() && validateEmail() && validatePhone()
-           
-        return formIsValid
-        if (formIsValid) {
-            
-            const submitButton = registerForm.querySelector("button[type=submit]");
-            submitButton.disabled = true;
-            submitButton.innerHTML = `
-                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                Sending...
-            `;
-            // registerForm.submit();
-            console.log('form is  valid');
-        }
-        console.log('form not is  valid');
-        return false
-    }
-
-    function validateDateOfBirth() {
-        const dobInput = document.getElementById("id_dob"); // Assuming "id_dob" is the ID for the date of birth field
-        clearError(dobInput);
-
-        const dobValue = dobInput.value.trim();
-        if (dobValue === "") {
-            showError(dobInput, "Date of Birth is required.");
-            return false;
-        }
-
-        const dob = new Date(dobValue);
-        const today = new Date();
-        
-        // Calculate the user's age
-        const age = today.getFullYear() - dob.getFullYear();
-        const monthDiff = today.getMonth() - dob.getMonth();
-        const dayDiff = today.getDate() - dob.getDate();
-        
-        // Adjust age if today's month and day are before the birth date month and day
-        const adjustedAge = monthDiff > 0 || (monthDiff === 0 && dayDiff >= 0) ? age : age - 1;
-
-        if (adjustedAge < 14) {
-            showError(dobInput, "You must be at least 14 years old.");
-            return false;
-        }
-
-        return true;
-    }
-
-    // Add event listeners for focus out events
-    registerForm.dob.addEventListener('change',validateDateOfBirth);
-    registerForm.profile_picture.addEventListener("change", validateProfilePicture);
-    registerForm.querySelectorAll("button[type=submit]")[0].addEventListener("click",ValidateRegisterForm )
-    registerForm.username.addEventListener("focusout", validateUsername);
-    registerForm.email.addEventListener("focusout", validateEmail);
-    registerForm.phone_number.addEventListener("focusout", validatePhone);
-    registerForm.password1.addEventListener("focusout", validatePassword);
-    registerForm.password2.addEventListener("focusout", validateConfirmPassword);
-    //registerForm.tandc.addEventListener("change", validateTermAndCondition);
-});
-   
-</script>
-
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-     const imageInput = document.getElementById('{{ form.profile_picture.id_for_label }}');
-     const imagePreview = document.getElementById('image-preview');
-     const uploadButton = document.getElementById('upload-button');
-     const openCropModalButton = document.getElementById('open-crop-modal');
-     const cropModal = new bootstrap.Modal(document.getElementById('cropModal'));
-     const existingImageField = document.getElementById('{{ form.profile_picture.id_for_label }}'); // Form image input
-     let cropper;
- 
-     // Handle file input change
-     imageInput.addEventListener('change', (event) => {
-         const file = event.target.files[0];
- 
-         if (file) {
-             const reader = new FileReader();
-             reader.onload = (e) => {
-                 imagePreview.src = e.target.result;
-             };
-             reader.readAsDataURL(file);
-         }
-         if(file){
-             cropModal.show();
-             setTimeout(() => {
-                 if (cropper) {
-                     cropper.destroy(); // Destroy any existing cropper instance
-                 }
-                 cropper = new Cropper(imagePreview, {
-                     aspectRatio: 1, // Square crop
-                     viewMode: 1,
-                 });
-             }, 300); // D
-         }
-     });
- 
-     // Handle upload button click
-     uploadButton.addEventListener('click', () => {
-         if (cropper) {
-             const canvas = cropper.getCroppedCanvas({
-                 width: 300, // Output width
-                 height: 300, // Output height
-             });
- 
-             canvas.toBlob((blob) => {
-                 // Create a File object from the cropped Blob
-                 const croppedFile = new File([blob], "cropped-profile-picture.jpg", { type: "image/jpeg" });
- 
-                 // Append the cropped image to the existing image field
-                 const dataTransfer = new DataTransfer();
-                 dataTransfer.items.add(croppedFile);
-                 existingImageField.files = dataTransfer.files;
- 
-                 // Hide the modal
-                 cropModal.hide();
-             });
-         }
-     });
- });
- 
-</script>
-{% endblock script %}
-    
+{% endblock %}

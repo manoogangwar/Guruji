@@ -1,5 +1,6 @@
 from django.urls import path
 from .views import *
+from accounts import views as account_view
 
 
 urlpatterns = [
@@ -8,13 +9,21 @@ urlpatterns = [
     path("login/", UserLoginView.as_view(), name="login"),
     path("logout/", UserLogoutView.as_view(), name="logout"),
     path("profile/", UserProfileView.as_view(), name="profile"),
-    path("search/", SangatSearchFormView.as_view(), name="search"),
-    path('search/results/', SangatSearchResultView.as_view(), name='sangat-search-results'),
+    
+    path('search/', SearchView.as_view(), name='search'),
+    path("user-search/", user_search, name="user_search"),  # autocomplete
+    path("api/profile-completion/", profile_completion, name="profile-completion"),
+
+    path('privacy_handler',PrivaycHandler.as_view(),name='privacy_handler'),
+    path("communication-preferences/", CommunicationHandler.as_view(), name="communication_preferences",),
+
+
     path("password-reset/", PasswordResetView.as_view(), name="password_reset"),
     path("password-reset/done/",PasswordResetDoneView.as_view(), name="password_reset_done"),
     path("password-reset-confirm/<uidb64>/<token>/", PasswordResetConfirmView.as_view(), name="password_reset_confirm"),
-    path("password-reset-complete/", PasswordResetCompleteView.as_view(), name="password_reset_complete"),  
-
+    path("password-reset-complete/", PasswordResetCompleteView.as_view(), name="password_reset_complete"),
+    
+    path('@<str:username>',account_view.PublicProfileView.as_view(),name='public_profile'),
     path("profile/personal-info/", UpdateProfileView.as_view(), name="personal-info"),
     path("profile/professional-info/", UpdateProfessionalInfoView.as_view(), name="professional-info"),
 

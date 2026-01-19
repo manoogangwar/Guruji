@@ -16,6 +16,8 @@ from django.db import models
 from .forms import *
 from django.urls import reverse
 from .models import *
+from django.views import View
+from .forms import SearchForm
 from django.db.models import Q
 from django.contrib.auth.views import (
     PasswordResetDoneView,
@@ -29,8 +31,8 @@ from accounts.models import ContactInformation, ProfessionalInformation
 from django.shortcuts import get_object_or_404, redirect
 from django.db.models import Case, When, IntegerField, Q
 from django.core.paginator import Paginator
-from .forms import SearchForm
-from .utils import get_lat_long   
+from .utils import get_lat_long  
+from django.http import JsonResponse 
 
 
 User = get_user_model()
@@ -41,58 +43,67 @@ class HomeView(View):
         return render(request, "base/index.html")
 
 
+
 class UserRegisterView(View):
-    template_name = "accounts/registration.html"
+    template_name = "accounts/register.html"
     success_url = reverse_lazy("login")
 
     def get(self, request, *args, **kwargs):
-        user_form = UserRegistrationForm()
-        contact_form = ContactInformationForm()
-        return render(
-            request,
-            self.template_name,
-            {"user_form": user_form, "contact_form": contact_form},
-        )
+        context = {
+            "user_form": UserRegistrationForm(),
+            "contact_form": ContactInformationForm(),
+            "professional_form": ProfessionalInformationForm(),
+            "profile_form": MemberProfileForm(),
+        }
+        return render(request, self.template_name, context)
 
     def post(self, request, *args, **kwargs):
         user_form = UserRegistrationForm(request.POST)
         contact_form = ContactInformationForm(request.POST)
+        professional_form = ProfessionalInformationForm(request.POST)
+        profile_form = MemberProfileForm(request.POST, request.FILES)
 
-        if user_form.is_valid() and contact_form.is_valid():
-            phone = contact_form.cleaned_data.get("phone")
+        if all([user_form.is_valid(), contact_form.is_valid(), professional_form.is_valid(), profile_form.is_valid()]):
+
+            # Phone & Phone Prefix
+            phone = user_form.cleaned_data.get("phone")
+            phone_prefix = user_form.cleaned_data.get("phone_prefix")
 
             if User.objects.filter(phone=phone).exists():
-                contact_form.add_error("phone", "This phone is already registered")
-                return render(
-                    request,
-                    self.template_name,
-                    {"user_form": user_form, "contact_form": contact_form},
-                )
+                user_form.add_error("phone", "This phone is already registered")
+            else:
+                # Save user
+                user = user_form.save(commit=False)
+                user.phone = phone
+                user.phone_prefix = phone_prefix
+                user.save()
 
-            user = user_form.save(commit=False)
-            user.phone = phone
-            user.save()
+                # Save Contact Info
+                contact = contact_form.save(commit=False)
+                contact.user = user
+                contact.save()
 
-            contact = contact_form.save(commit=False)
-            contact.user = user
+                # Save Professional Info
+                professional = professional_form.save(commit=False)
+                professional.user = user
+                professional.save()
 
-            MemberProfile.objects.create(user=user)
-            address = contact_form.cleaned_data.get("address")
-            if address:
-                lat, lon = get_lat_long(address)
-                contact.latitude = lat
-                contact.longitude = lon
+                # Save Profile
+                profile = profile_form.save(commit=False)
+                profile.user = user
+                profile.save()
 
-            contact.save()
+                messages.success(request, "Account created! Please login.")
+                return redirect(self.success_url)
 
-            messages.success(request, "Account created! Please login.")
-            return redirect(self.success_url)
-
-        return render(
-            request,
-            self.template_name,
-            {"user_form": user_form, "contact_form": contact_form},
-        )
+        # Render back with errors
+        context = {
+            "user_form": user_form,
+            "contact_form": contact_form,
+            "professional_form": professional_form,
+            "profile_form": profile_form,
+        }
+        return render(request, self.template_name, context)
 
 
 class UserLoginView(LoginView):
@@ -227,20 +238,47 @@ class UserProfileView(LoginRequiredMixin, View):
     def get(self, request):
         # yahan forms banake profile.html ko bhejenge
         user_form = UserRegistrationForm(instance=request.user)
+
         contact_info, created = ContactInformation.objects.get_or_create(user=request.user)
         contact_form = ContactInformationForm(instance=contact_info)
+
         professional_info, created = ProfessionalInformation.objects.get_or_create(user=request.user)
-        professional_form = ProfessionalInformationForm(instance=professional_info)     
+        professional_form = ProfessionalInformationForm(instance=professional_info)   
+
         member_profile, _ = MemberProfile.objects.get_or_create(user=request.user)
         member_profile_form = MemberProfileForm(instance=member_profile)
+
+        privacy_instance,created = PrivacySettings.objects.get_or_create(user=request.user)
+        privacy_form = PrivacySettingsForm(instance=privacy_instance)
+
+        communication_instance,created = CommunicationPreferences.objects.get_or_create(user=request.user)
+        communication_form = CommunicationPreferencesForm(instance=communication_instance)
 
         context = {
             "user_form": user_form,
             "c_info": contact_form,
             "professional_form":professional_form,
             "member_profile_form": member_profile_form,
+            "privacy_form": privacy_form,
+            "communication_form": communication_form,
         }
         return render(request, "accounts/profile.html", context)
+
+
+class PublicProfileView(LoginRequiredMixin,View):
+    def get(self,request,username=None):
+        user = get_object_or_404(
+            User.objects.prefetch_related(
+                'member', 
+                'contact_info',  
+                'professional_info',
+                ), 
+                username=username
+        )
+        # similar_user = get_similar_users(user)
+        similar_user = None
+        
+        return render(request,'accounts/public_profile_view.html',{'usr':user,'smilar_usr':similar_user})
 
 
 class UserLogoutView(View):
@@ -266,7 +304,34 @@ class MemberProfileHandler(LoginRequiredMixin,View):
                 'error': form.errors.as_json()
                 }) 
 
+class PrivaycHandler(LoginRequiredMixin, View):
+    def post(self,request):
+        instance, created = PrivacySettings.objects.get_or_create(user=request.user)
+        form = PrivacySettingsForm(request.POST,instance=instance)
+        if form.is_valid():
+            form.save()
+            return JsonResponse({'success': True})
+        
+        return JsonResponse(
+            {
+                'success': False, 
+                'error': form.errors.as_json()
+                }) 
 
+
+class CommunicationHandler(LoginRequiredMixin,View):
+    def post(self,request):
+        instance, created = CommunicationPreferences.objects.get_or_create(user=request.user)
+        form = CommunicationPreferencesForm(request.POST, instance=instance)
+        if form.is_valid():
+            form.save()
+            return JsonResponse({'success': True})
+        print('there is a error in form')
+        return JsonResponse(
+            {
+                'success': False, 
+                'error': form.errors.as_json()
+                })  
 
 @method_decorator(csrf_exempt, name='dispatch')
 class GetStatesView(View):
@@ -297,58 +362,109 @@ class GetStatesView(View):
 
 #----- Community Search ------
 
-class SangatSearchFormView(LoginRequiredMixin, View):
-    login_url = "login"
+class SearchView(View):
+    template_name = "accounts/search.html"
+    paginate_by = 20
 
     def get(self, request):
-        return render(request, "accounts/search_form.html")
+        form = SearchForm(request.GET or None)
+        users = User.objects.none()
+
+        if form.is_valid():
+            query = form.cleaned_data.get("q")
+            location = form.cleaned_data.get("l")
+            profession = form.cleaned_data.get("p")
+            gender = form.cleaned_data.get("g")
+
+            filters = Q()
+            has_filter = False  
+
+            if query:
+                has_filter = True
+                filters &= (
+                    Q(first_name__icontains=query) |
+                    Q(last_name__icontains=query) |
+                    Q(username__icontains=query) |
+                    Q(spritual_name__icontains=query)
+                )
+
+            if profession:
+                has_filter = True
+                filters &= Q(
+                    professional_info__occupation_detail__icontains=profession
+                )
+
+            if location:
+                has_filter = True
+                filters &= (
+                    Q(contact_info__city__icontains=location) |
+                    Q(contact_info__state__icontains=location) |
+                    Q(contact_info__country__icontains=location)
+                )
+
+            if has_filter:
+                users = (
+                    User.objects
+                    .filter(filters)
+                    .select_related("professional_info", "contact_info")
+                    .order_by("id")
+                    .distinct()
+                )
+
+                if gender:
+                    users = users.filter(gender=gender)
+
+                paginator = Paginator(users, self.paginate_by)
+                page_number = request.GET.get("page")
+                users = paginator.get_page(page_number)
+
+        return render(request, self.template_name, {
+            "users": users,
+            "form": form
+        })
 
 
-class SangatSearchResultView(LoginRequiredMixin, View):
-    login_url = "login"
 
-    def get(self, request):
-        filters = Q()
+def user_search(request):
+    query = request.GET.get('q', '').strip()
 
-        country = request.GET.get("country", "").strip()
-        state = request.GET.get("state", "").strip()
-        city = request.GET.get("city", "").strip()
-        occupation = request.GET.get("occupation", "").strip()
+    if not query:
+        return JsonResponse([], safe=False)
 
-        if country:
-            filters &= Q(contact_info__country__icontains=country)
-        if state:
-            filters &= Q(contact_info__state__icontains=state)
-        if city:
-            filters &= Q(contact_info__city__icontains=city)
-        if occupation:
-            filters &= Q(professional_info__occupation__icontains=occupation)
+    users = (
+        User.objects
+        .filter(
+            Q(first_name__icontains=query) |
+            Q(last_name__icontains=query) |
+            Q(username__icontains=query)
+        )
+        .select_related('professional_info')
+        [:10]
+    )
 
-        if not filters:
-            return render(
-                request,
-                "accounts/search_results.html",
-                {
-                    "users": [],
-                    "error": "Please enter at least one search field"
-                }
-            )
+    results = []
 
-        users = User.objects.select_related(
-            "contact_info", "professional_info"
-        ).filter(filters).distinct()
+    for user in users:
+        profession = (
+            user.professional_info.occupation
+            if hasattr(user, 'professional_info')
+            else ''
+        )
 
-        if not users.exists():
-            return render(
-                request,
-                "accounts/search_results.html",
-                {
-                    "users": [],
-                    "error": "No results found"
-                }
-            )
+        results.append({
+            'id': user.username,
+            'name': f"{user.first_name} {user.last_name}".strip(),
+            'profession': profession
+        })
 
-        return render(request, "accounts/search_results.html",{"users": users})
+    return JsonResponse(results, safe=False)
+
+
+def profile_completion(request):
+    if request.user.is_authenticated:
+        return JsonResponse({"completion": 60})
+    return JsonResponse({"completion": 0})
+
 
 
 class SendContactRequestView(LoginRequiredMixin, View):
