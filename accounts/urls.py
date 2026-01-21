@@ -9,13 +9,19 @@ urlpatterns = [
     path("login/", UserLoginView.as_view(), name="login"),
     path("logout/", UserLogoutView.as_view(), name="logout"),
     path("profile/", UserProfileView.as_view(), name="profile"),
+    path("profile/update/", UpdateProfileView.as_view(), name="update_profile"),
     
     path('search/', SearchView.as_view(), name='search'),
     path("user-search/", user_search, name="user_search"),  # autocomplete
     path("api/profile-completion/", profile_completion, name="profile-completion"),
+    path('contact-us/',ContactUsView.as_view(),name='contact_us'),
 
+    path('member_profile_handler',MemberProfileHandler.as_view(),name='member_profile_handler'),
     path('privacy_handler',PrivaycHandler.as_view(),name='privacy_handler'),
-    path("communication-preferences/", CommunicationHandler.as_view(), name="communication_preferences",),
+    path('communication_handler',CommunicationHandler.as_view(),name='communication_handler'),
+    path('password_change_handler',PasswordChangeHandler.as_view(),name='password_change_handler'),
+    path('email_change_handler',EmailChangeHandler.as_view(),name='email_change_handler'),
+    path('username_change_handler',UsernameChangeHandler.as_view(),name='username_change_handler'),
 
 
     path("password-reset/", PasswordResetView.as_view(), name="password_reset"),
@@ -27,10 +33,9 @@ urlpatterns = [
     path("profile/personal-info/", UpdateProfileView.as_view(), name="personal-info"),
     path("profile/professional-info/", UpdateProfessionalInfoView.as_view(), name="professional-info"),
 
-    path('member_profile_handler',MemberProfileHandler.as_view(),name='member_profile_handler'),
 
     path("ajax/states/", GetStatesView.as_view(), name="get_states"),
     path("contact-request/<int:user_id>/", SendContactRequestView.as_view(), name="send_contact_request"),
 
-
 ]
+

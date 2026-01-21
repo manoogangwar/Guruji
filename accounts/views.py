@@ -33,6 +33,7 @@ from django.db.models import Case, When, IntegerField, Q
 from django.core.paginator import Paginator
 from .utils import get_lat_long  
 from django.http import JsonResponse 
+from django.contrib.auth.forms import PasswordChangeForm
 
 
 User = get_user_model()
@@ -126,7 +127,21 @@ class UserLoginView(LoginView):
             messages.error(request, "Invalid credentials")
             return render(request, self.template_name, {"form": self.form_class()})
 
-
+class ContactUsView(View):
+    template_name = "base/contact.html"
+    
+    def get(self, request): 
+        return render(request, self.template_name)
+        
+    # def post(self, request):
+    #     name = request.POST.get("name")
+    #     email = request.POST.get("email")
+    #     message = request.POST.get("message")
+        
+    #     ContactUs.objects.create(name=name, email=email, message=message)
+    #     messages.success(request, "Message sent successfully!")
+    #     return redirect("contact_us")
+        
 # ---- PROFILE UPDATE ----
 class UpdateProfileView(LoginRequiredMixin, View):
     success_url = reverse_lazy("profile")
@@ -238,12 +253,15 @@ class UserProfileView(LoginRequiredMixin, View):
     def get(self, request):
         # yahan forms banake profile.html ko bhejenge
         user_form = UserRegistrationForm(instance=request.user)
+        uname_change = UsernameChangeForm(user=request.user)
+        p_change_form = PasswordChangeForm(user=request.user)
+        email_change_form = EmailChangeForm(user=request.user)
 
         contact_info, created = ContactInformation.objects.get_or_create(user=request.user)
         contact_form = ContactInformationForm(instance=contact_info)
 
         professional_info, created = ProfessionalInformation.objects.get_or_create(user=request.user)
-        professional_form = ProfessionalInformationForm(instance=professional_info)   
+        professional_form = ProfessionalInformationForm(instance=professional_info) 
 
         member_profile, _ = MemberProfile.objects.get_or_create(user=request.user)
         member_profile_form = MemberProfileForm(instance=member_profile)
@@ -251,18 +269,32 @@ class UserProfileView(LoginRequiredMixin, View):
         privacy_instance,created = PrivacySettings.objects.get_or_create(user=request.user)
         privacy_form = PrivacySettingsForm(instance=privacy_instance)
 
-        communication_instance,created = CommunicationPreferences.objects.get_or_create(user=request.user)
-        communication_form = CommunicationPreferencesForm(instance=communication_instance)
+        comm_instance,created = CommunicationPreferences.objects.get_or_create(user=request.user)
+        comm_form = CommunicationPreferencesForm(instance=comm_instance)
+
+
 
         context = {
             "user_form": user_form,
             "c_info": contact_form,
             "professional_form":professional_form,
             "member_profile_form": member_profile_form,
-            "privacy_form": privacy_form,
-            "communication_form": communication_form,
+            "privacy_form":privacy_form,
+            "comm_form":comm_form,
+            'uname_change' : uname_change,
+            'password_change_form':p_change_form,
+            'email_change_form':email_change_form 
         }
         return render(request, "accounts/profile.html", context)
+
+
+
+class UserLogoutView(View):
+    def get(self, request):
+        if request.user.is_authenticated:
+            logout(request)
+            request.session.flush()
+        return redirect("login")
 
 
 class PublicProfileView(LoginRequiredMixin,View):
@@ -280,13 +312,6 @@ class PublicProfileView(LoginRequiredMixin,View):
         
         return render(request,'accounts/public_profile_view.html',{'usr':user,'smilar_usr':similar_user})
 
-
-class UserLogoutView(View):
-    def get(self, request):
-        if request.user.is_authenticated:
-            logout(request)
-            request.session.flush()
-        return redirect("login")
 
 
 class MemberProfileHandler(LoginRequiredMixin,View):
@@ -331,7 +356,50 @@ class CommunicationHandler(LoginRequiredMixin,View):
             {
                 'success': False, 
                 'error': form.errors.as_json()
-                })  
+                })   
+
+class PasswordChangeHandler(LoginRequiredMixin,View):
+    def post(self,request):
+        form = PasswordChangeForm(user=request.user,data=request.POST)
+        
+        if form.is_valid():
+            form.save()
+            return JsonResponse({'success': True})
+        print('there is a error in form',form.errors)
+        return JsonResponse(
+            {
+                'success': False, 
+                'error': form.errors.as_json()
+                }) 
+
+class UsernameChangeHandler(LoginRequiredMixin,View):
+    def post(self,request):
+        form = UsernameChangeForm(user=request.user,data=request.POST)
+        
+        if form.is_valid():
+            form.save()
+            return JsonResponse({'success': True})
+        return JsonResponse(
+            {
+                'success': False, 
+                'error': form.errors.as_json()
+                }) 
+
+class EmailChangeHandler(LoginRequiredMixin,View):
+    def post(self,request):
+        form = EmailChangeForm(user=request.user,data=request.POST)
+        
+        if form.is_valid():
+            form.save()
+            return JsonResponse({'success': True})
+        print('there is a error in form',form.errors)
+        return JsonResponse(
+            {
+                'success': False, 
+                'error': form.errors.as_json()
+                }) 
+
+
 
 @method_decorator(csrf_exempt, name='dispatch')
 class GetStatesView(View):

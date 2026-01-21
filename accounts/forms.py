@@ -3,9 +3,12 @@ from django.core.exceptions import ValidationError
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.core.validators import FileExtensionValidator
 from django_countries.widgets import CountrySelectWidget
-from .models import User, ContactInformation, ProfessionalInformation, MemberProfile, PrivacySettings, CommunicationPreferences
+from .models import *
 from .country_prefix import PHONE_NUMBER_PREFIX_CHOICES_NAME
 from django import forms
+from django_countries.fields import CountryField
+from django.core.exceptions import ValidationError
+
 
 class CustomAuthForm(AuthenticationForm):
     username = forms.CharField(
@@ -89,6 +92,12 @@ class ContactInformationForm(forms.ModelForm):
         }
 
 
+class UserUpdateForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ["username", "email", "first_name", "last_name"]
+
+
 
 class ProfessionalInformationForm(forms.ModelForm):
     class Meta:
@@ -101,23 +110,30 @@ class ProfessionalInformationForm(forms.ModelForm):
             "organization": forms.TextInput(attrs={"class": "form-control"}),
         }
 
-
+class ForgotPasswordForm(forms.Form):
+    email = forms.EmailField()
 
 class MemberProfileForm(forms.ModelForm):
     profile_picture = forms.ImageField(
-        required=False,
-        validators=[FileExtensionValidator(allowed_extensions=["jpg", "jpeg", "png"])],
-        widget=forms.FileInput(attrs={"class": "form-control", "accept": ".jpg,.jpeg,.png"})
+        required = False,
+        validators=[FileExtensionValidator(allowed_extensions=['jpg', 'jpeg', 'png'])]
     )
-
     class Meta:
         model = MemberProfile
-        fields = ["bio", "profile_picture"]
+        fields = [
+            'bio','profile_picture'
+        ]
         widgets = {
-            "bio": forms.Textarea(
-                attrs={"class": "form-control", "placeholder": "Bio", "style": "height: 10rem;"}
-            ),
+            'bio': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Bio','style': 'height: 10rem;'}),
+            'profile_picture': forms.FileInput(attrs={'accept':'.jpg'}),
+            
         }
+
+class ProfilePictureForm(forms.ModelForm):
+    class Meta:
+        model = MemberProfile
+        fields = ['profile_picture']
+
 
 class PrivacySettingsForm(forms.ModelForm):
     class Meta:
@@ -138,6 +154,67 @@ class CommunicationPreferencesForm(forms.ModelForm):
         fields = ['email_notifications', 'sms_notifications', 'marketing_emails']
 
 
+class EmailChangeForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['email']
+        widgets = {
+            'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'New Email'}),
+        }
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user')
+        super().__init__(*args, **kwargs)
+
+    def save(self,*args, **kwargs):
+        email = self.cleaned_data.get('email')
+        return User.objects.filter(pk=self.user.id).update(email=email)
+
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if User.objects.exclude(pk=self.user.pk).filter(email=email).exists():
+            raise forms.ValidationError("This email is already taken.")
+        return email
+
+class UsernameChangeForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['username']
+        widgets = {
+            'username': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'New Username'}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user')
+        super().__init__(*args, **kwargs)
+
+    def save(self,*args, **kwargs):
+        username = self.cleaned_data.get('username')
+        return User.objects.filter(pk=self.user.id).update(username=username)
+
+
+    def clean_username(self):
+        username = self.cleaned_data.get('username')
+        if User.objects.exclude(pk=self.user.pk).filter(username=username).exists():
+            raise forms.ValidationError("This username is already taken.")
+        return username
+
+
+class ForgotPasswordForm(forms.Form):
+    email = forms.EmailField(label="Email Address", widget=forms.EmailInput(attrs={'placeholder': 'Enter your registered email'}))
+    username = forms.CharField(label="Username", widget=forms.TextInput(attrs={'placeholder': 'Enter your username'}))
+    phone_number = forms.CharField(label="Phone Number", widget=forms.TextInput(attrs={'placeholder': 'Enter your phone number'}))
+
+    def clean(self):
+        cleaned_data = super().clean()
+        email = cleaned_data.get('email')
+        username = cleaned_data.get('username')
+        phone_number = cleaned_data.get('phone_number')
+
+        if not User.objects.filter(email=email, username=username, phone_number=phone_number).exists():
+            raise forms.ValidationError("No account matches the provided details.")
+        return cleaned_data
+
 
 class UserUpdateForm(forms.ModelForm):
     class Meta:
@@ -149,14 +226,6 @@ class UserUpdateForm(forms.ModelForm):
             "first_name": forms.TextInput(attrs={"class": "form-control"}),
             "last_name": forms.TextInput(attrs={"class": "form-control"}),
         }
-
-
-
-class ForgotPasswordForm(forms.Form):
-    email = forms.EmailField(
-        widget=forms.EmailInput(attrs={"class": "form-control"}),
-        required=True
-    )
 
 
 

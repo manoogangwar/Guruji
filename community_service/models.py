@@ -34,6 +34,7 @@ class NeedRequest(models.Model):
     urgency = models.CharField(max_length=10, choices=URGENCY_CHOICES, default='Medium')
     image = models.ImageField(upload_to='need_images/', blank=True, null=True)
     attachment = models.FileField(upload_to='need_attachments/', blank=True, null=True)
+    date_published = models.DateTimeField(auto_now_add=True)
 
     latitude = models.FloatField(blank=True, null=True)
     longitude = models.FloatField(blank=True, null=True)

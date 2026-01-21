@@ -1,0 +1,62 @@
+{% extends 'base/base.html' %}
+{% load widget_tweaks %}
+
+{% block body %}
+<div class="container py-4">
+    <h2 class="text-center">Create Need</h2>
+
+    <form method="post" enctype="multipart/form-data" class="mt-4">
+        {% csrf_token %}
+
+        <!-- Title -->
+        <div class="mb-3">
+            <label for="id_title" class="form-label">Need Title *</label>
+            {{ form.title|add_class:"form-control" }}
+        </div>
+
+        <!-- Description -->
+        <div class="mb-3">
+            <label for="id_description" class="form-label">Description *</label>
+            <small class="text-muted">
+                Please describe the need clearly (what, where, when, and whom to contact).
+            </small>
+            {{ form.description|add_class:"form-control" }}
+        </div>
+
+        <!-- Location -->
+        <div class="mb-3">
+            <label for="id_location" class="form-label">Location</label>
+            {{ form.location|add_class:"form-control" }}
+        </div>
+
+        <!-- Category & Urgency -->
+        <div class="row">
+            <div class="mb-3 col-md-6">
+                <label for="id_category" class="form-label">Category</label>
+                {{ form.category|add_class:"form-select" }}
+            </div>
+
+            <div class="mb-3 col-md-6">
+                <label for="id_urgency" class="form-label">Urgency</label>
+                {{ form.urgency|add_class:"form-select" }}
+            </div>
+        </div>
+
+        <!-- Image -->
+        <div class="mb-3">
+            <label for="id_image" class="form-label">Upload Image</label>
+            {{ form.image|add_class:"form-control" }}
+        </div>
+
+        <!-- Attachment -->
+        <div class="mb-3">
+            <label for="id_attachment" class="form-label">Upload Attachment</label>
+            {{ form.attachment|add_class:"form-control" }}
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100">
+            Submit Need
+        </button>
+    </form>
+</div>
+{% endblock body %}

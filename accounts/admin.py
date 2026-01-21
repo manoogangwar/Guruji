@@ -57,6 +57,20 @@ class MemberProfileInline(admin.StackedInline):
     
     readonly_fields = ('last_updated',) 
 
+# Simple admin for related models
+@admin.register(ContactInformation)
+class ContactInformationAdmin(admin.ModelAdmin):
+    list_display = ("user", "country", "city")
+
+@admin.register(ProfessionalInformation)
+class ProfessionalInformationAdmin(admin.ModelAdmin):
+    list_display = ("user", "occupation", "organization")
+
+
+@admin.register(ContactRequest)
+class ContactRequestAdmin(admin.ModelAdmin):
+    list_display = ("sender", "receiver", "created_at")
+
 
 class PrivacySettingsInline(admin.StackedInline):
     model = PrivacySettings
@@ -103,22 +117,3 @@ class CommunicationPreferencesInline(admin.StackedInline):
     can_delete = False
     verbose_name_plural = 'Communication Preferences'
 
-
-# Contact Information Admin
-@admin.register(ContactInformation)
-class ContactInformationAdmin(admin.ModelAdmin):
-    list_display = ("user", "get_phone", "country", "city")
-
-    def get_phone(self, obj):
-        return obj.phone or obj.user.phone
-    get_phone.short_description = 'Phone'
-
-# Professional Information Admin
-@admin.register(ProfessionalInformation)
-class ProfessionalInformationAdmin(admin.ModelAdmin):
-    list_display = ("user", "occupation", "organization")
-
-# Contact Request Admin
-@admin.register(ContactRequest)
-class ContactRequestAdmin(admin.ModelAdmin):
-    list_display = ("sender", "receiver", "created_at")

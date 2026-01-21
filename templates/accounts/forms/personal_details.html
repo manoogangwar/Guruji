@@ -1,7 +1,14 @@
 {% load widget_tweaks %}
 
-<form method="post">
+<form
+    method="post"
+    action="{% url 'update_profile' %}"
+    enctype="multipart/form-data"
+>
     {% csrf_token %}
+
+    <!-- identify profile update form -->
+    <input type="hidden" name="form_type" value="profile_update">
 
     <div class="row">
         <div class="col-md-6">

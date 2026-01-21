@@ -75,22 +75,11 @@ class ProfessionalInformation(models.Model):
 
 
 class MemberProfile(models.Model):
-    user = models.OneToOneField(
-        settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE,
-        related_name="member"
-    )
-
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="member")
     bio = models.TextField(blank=True, null=True)
-    profile_picture = models.ImageField(
-        upload_to="profile_picture/",
-        blank=True,
-        null=True
-    )
+    profile_picture = models.ImageField(upload_to="profile_picture/", blank=True, null=True)
     last_updated = models.DateField(auto_now=True)
 
-    def __str__(self):
-        return f"{self.user.username} Profile"
 
 
 class PrivacySettings(models.Model):

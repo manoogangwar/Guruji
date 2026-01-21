@@ -6,7 +6,7 @@ from .models import News
 class NewsListView(ListView):
     model = News
     template_name = 'news/news_list.html'
-    context_object_name = 'news_item'
+    context_object_name = 'news_items'
 
     def get_queryset(self):
         return News.objects.filter(is_listed=True)

@@ -14,7 +14,7 @@
                 </div>
                 {% endif %}
                 <p class="text-muted"><i class="bi bi-calendar2-week"></i> Published on {{ news.date_published|date:"F j, Y" }}</p>
-                <p class="mt-4">{{ news.description|safe }}</p>
+                <p class="mt-4">{{ news.content|safe }}</p>
             </div>
         </div>
         
