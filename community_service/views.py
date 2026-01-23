@@ -39,7 +39,7 @@ class NeedDetailView(LoginRequiredMixin, View):
         return render(request, "community_service/need_detail.html", {"need": need})
 
 
-class NeedListView(LoginRequiredMixin, ListView):
+class NeedListView(ListView):
     model = NeedRequest
     template_name = 'community_service/need_list.html'
     context_object_name = 'needs'
